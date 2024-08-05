@@ -24,7 +24,7 @@
                             <td>
                                 @if ($item->foto)
                                 <a href="{{ Storage::url($item->foto) }}" target="blank">
-                                    <img src="{{ Storage::url($item->foto) }}" width="50">
+                                    <img src="{{ Storage::url($item->foto) }}" width="60" class="rounded">
                                 </a>
                                 @endif
                                 {{ $item->nama }}
@@ -37,7 +37,7 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->role }}</td>
                             <td>
-                                <a href="/pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="/pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm ">Edit</a>
                             </td>
                         </tr>
                     @endforeach

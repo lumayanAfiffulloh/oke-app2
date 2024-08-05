@@ -82,8 +82,8 @@
                         <label class="form-check-label" for="verifikator">verifikator</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="approval" value="approval" {{ old('role') ?? $pegawai->role === 'approval' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="approval">approval</label>
+                        <input class="form-check-input" type="radio" name="role" id="approval " value="approval " {{ old('role') ?? $pegawai->role === 'approval ' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="approval ">approval </label>
                     </div>
                     <span class="text-danger">{{ $errors->first('role') }}</span>
                 </div>
@@ -99,7 +99,7 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">EDIT</button>
+                <button type="submit" class="btn btn-primary mt-2">SIMPAN</button>
             </form>
         </div>
     </div>
