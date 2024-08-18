@@ -3,7 +3,7 @@
 @section('content')
 <div class="card bg-white">
     <h3 class="card-header">DAFTAR</h3>
-    <div class="card-bodyeerrrrrrr">
+    <div class="card-body">
         <form method="POST"  action="{{ route('register') }}">
             @csrf
             <div class="row mb-3">
