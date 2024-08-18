@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="card bg-white">
-    <h3 class="card-header">REGISTER</h3>
-    <div class="card-body">
+    <h3 class="card-header">DAFTAR</h3>
+    <div class="card-bodyeerrrrrrr">
         <form method="POST"  action="{{ route('register') }}">
             @csrf
             <div class="row mb-3">
