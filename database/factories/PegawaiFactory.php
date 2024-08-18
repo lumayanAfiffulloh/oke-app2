@@ -18,7 +18,7 @@ class PegawaiFactory extends Factory
     {
         return [
             'nama' => $this->faker->name(),
-            'alamat' => $this->faker->address(),
+            'status' => $this->faker->randomElement(['aktif', 'non-aktif']),
             'tanggal_lahir' => $this->faker->date(),
             'jabatan' => $this->faker->jobTitle(),
             'departemen' => $this->faker->company(),

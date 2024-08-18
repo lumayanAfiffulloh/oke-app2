@@ -7,6 +7,7 @@
   <title>{{ $title ?? '' }} | {{ config('app.name', 'Laravel') }}</title>
   <link rel="shortcut icon" type="image/png" href={{ asset("modern/src/assets/images/logos/favicon.png") }}/>
   <link rel="stylesheet" href= {{ asset("modern/src/assets/css/styles.min.css") }} />
+  <link rel="icon" href="{{ asset('img/undip.png') }}">
 </head>
 
 <body>
@@ -14,12 +15,12 @@
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
     <!-- Sidebar Start -->
-    @auth
+    
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.html" class="text-nowrap logo-img">
+          <a href="/" class="text-nowrap logo-img">
             <img src={{ asset("img/logo.png")}} width="180" alt="" />
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -29,6 +30,7 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
+            @auth
             <li class="nav-small-cap">
               <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
               <span class="hide-menu">Home</span>
@@ -77,13 +79,37 @@
                 <span class="hide-menu">Data Pelaksanaan</span>
               </a>
             </li>
+            @endauth
+            @guest
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">SILAHKAN LOGIN</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('login') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user"></i>
+                </span>
+                <span class="hide-menu">LOGIN</span>
+              </a>
+            </li> 
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{ route('register') }}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-plus"></i>
+                </span>
+                <span class="hide-menu">REGISTER</span>
+              </a>
+            </li> 
+            @endguest
           </ul>
+          
         </nav>
         <!-- End Sidebar navigation -->
       </div>
       <!-- End Sidebar scroll-->
     </aside>
-    @endauth
+    
     <!--  Sidebar End -->
     <!--  Main wrapper -->
     <div class="body-wrapper">
@@ -91,22 +117,8 @@
       @auth
       <header class="app-header">
         <nav class="navbar navbar-expand-lg navbar-light">
-          
-      @endauth
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-            @guest
-                @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                    </li>
-                @endif
-
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
-            @else
+            <ul class="navbar-nav ms-auto">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               <div class="btn btn-primary">{{ Auth::user()->name }}</div>
               <li class="nav-item dropdown">
@@ -135,7 +147,6 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                       @csrf
                     </form>
-                    @endguest
                   </div>
                 </div>
               </li>
@@ -143,7 +154,10 @@
           </div>
         </nav>
       </header>
+      @endauth
       <!--  Header End -->
+
+      {{-- KONTEN START --}}
       <div class="container-fluid">
         @if (session()->has('pesan'))
           <div class="alert alert-info" role="alert">
@@ -153,6 +167,7 @@
         @include('flash::message')
         @yield('content')
       </div>
+      {{-- KONTEN END --}}
     </div>
   </div>
   <script src={{asset("modern/src/assets/libs/jquery/dist/jquery.min.js")}}></script>

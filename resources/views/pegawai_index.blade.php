@@ -9,7 +9,7 @@
                 <thead >
                     <th>No.</th>
                     <th>Nama</th>
-                    <th>Alamat</th>
+                    <th>Status</th>
                     <th style="width: 10%">Tanggal Lahir</th>
                     <th>Jabatan</th>
                     <th>Departemen</th>
@@ -30,7 +30,8 @@
                                 @endif
                                 <div>{{ $item->nama }}</div>
                             </td>
-                            <td>{{ $item->alamat }}</td>
+                            <span for="status" class="badge rounded-pill text-bg-primary"></span>
+                            <td id="status">{{ $item->status }}</td>
                             <td>{{ $item->tanggal_lahir }}</td>
                             <td>{{ $item->jabatan }}</td>
                             <td>{{ $item->departemen }}</td>
