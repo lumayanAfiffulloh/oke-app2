@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\PelaksanaanPembelajaran;
+use App\Http\Requests\StorePelaksanaanPembelajaranRequest;
+use App\Http\Requests\UpdatePelaksanaanPembelajaranRequest;
 
 class PelaksanaanPembelajaranController extends Controller
 {
@@ -11,7 +13,8 @@ class PelaksanaanPembelajaranController extends Controller
      */
     public function index()
     {
-        return view('pelaksanaan_pembelajaran_index');
+        $data['pelaksanaan_pembelajaran'] = \App\Models\PelaksanaanPembelajaran::latest()->paginate(10);
+        return view ('pelaksanaan_pembelajaran_index', $data);
     }
 
     /**
@@ -25,7 +28,7 @@ class PelaksanaanPembelajaranController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePelaksanaanPembelajaranRequest $request)
     {
         //
     }
@@ -33,7 +36,7 @@ class PelaksanaanPembelajaranController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(PelaksanaanPembelajaran $pelaksanaanPembelajaran)
     {
         //
     }
@@ -41,7 +44,7 @@ class PelaksanaanPembelajaranController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(PelaksanaanPembelajaran $pelaksanaanPembelajaran)
     {
         //
     }
@@ -49,7 +52,7 @@ class PelaksanaanPembelajaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdatePelaksanaanPembelajaranRequest $request, PelaksanaanPembelajaran $pelaksanaanPembelajaran)
     {
         //
     }
@@ -57,7 +60,7 @@ class PelaksanaanPembelajaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(PelaksanaanPembelajaran $pelaksanaanPembelajaran)
     {
         //
     }

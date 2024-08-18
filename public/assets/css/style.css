@@ -1,0 +1,25 @@
+.mycustomimg {
+    
+}
+
+.mycontainer {
+    
+}
+
+.mydropdown {
+    opacity: 0; /* Mulai dengan menu tersembunyi */
+    visibility: hidden; /* Tersembunyi secara default */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transform: translateY(-10px); /* Mulai dari posisi sedikit lebih tinggi */
+}
+
+.mydropdown.show {
+    opacity: 1; /* Tampilkan menu dengan opacity penuh */
+    visibility: visible; /* Menu menjadi terlihat */
+    transform: translateY(0); /* Kembalikan ke posisi semula */
+}
+.nav-item:hover .mydropdown {
+    opacity: 1; /* Tampilkan menu saat hover */
+    visibility: visible; /* Menu menjadi terlihat */
+    transform: translateY(0); /* Kembalikan ke posisi semula */
+}

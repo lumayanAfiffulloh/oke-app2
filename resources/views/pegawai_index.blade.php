@@ -1,33 +1,34 @@
-@extends('mylayout', ['title' => 'Data Pegawai'])
+@extends('layouts.app_modern', ['title' => 'Data Pegawai'])
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <h3>Data Pegawai</h3>
-            <a href="/pegawai/create" class="btn btn-primary">Tambah Pegawai</a>
-            <table class="table table-striped">
-                <thead>
+    <div class="card mb-4 bg-white">
+        <div class="card-body px-0 pt-0">
+            <h2 class="p-3 card-header">Data Pegawai</h2>
+            <a href="/pegawai/create" class="btn btn-primary mx-3 my-2" style="font-size: 0.9rem">Tambah Pegawai</a>
+            <hr class="my-0">
+            <table class="table table-striped mb-3" style="font-size: 0.8rem">
+                <thead >
                     <th>No.</th>
                     <th>Nama</th>
                     <th>Alamat</th>
-                    <th>Tanggal Lahir</th>
+                    <th style="width: 10%">Tanggal Lahir</th>
                     <th>Jabatan</th>
                     <th>Departemen</th>
                     <th>Pendidikan</th>
                     <th>Jenis Kelamin</th>
                     <th>Role</th>
-                    <th>AKSI</th>
+                    <th style="width: 13%">AKSI</th>
                 </thead>
                 <tbody>
-                    @foreach ($pegawai as $item)
+                    @foreach ($pegawai as $index => $item)
                         <tr>
-                            <td>{{ $loop->iteration }}</td>
+                            <td> {{ $pegawai->firstItem() + $index }} </td>
                             <td>
                                 @if ($item->foto)
                                 <a href="{{ Storage::url($item->foto) }}" target="blank">
-                                    <img src="{{ Storage::url($item->foto) }}" width="60" class="rounded">
+                                    <img src="{{ Storage::url($item->foto) }}" class="rounded-circle d-block" style="object-fit: cover; height: 40px; width: 40px;">
                                 </a>
                                 @endif
-                                {{ $item->nama }}
+                                <div>{{ $item->nama }}</div>
                             </td>
                             <td>{{ $item->alamat }}</td>
                             <td>{{ $item->tanggal_lahir }}</td>
@@ -37,13 +38,22 @@
                             <td>{{ $item->jenis_kelamin }}</td>
                             <td>{{ $item->role }}</td>
                             <td>
-                                <a href="/pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm ">Edit</a>
+                                <a href="/pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm " style="font-size: 0.8rem">Edit</a>
+                                <form action="/pegawai/{{ $item->id }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus data ini?')" style="font-size: 0.8rem">
+                                        Hapus
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            {!! $pegawai->links() !!}
+            <div class="mx-3">
+                {!! $pegawai->links() !!}
+            </div>
             
         </div>
         

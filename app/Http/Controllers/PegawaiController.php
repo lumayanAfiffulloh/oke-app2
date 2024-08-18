@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PegawaiController extends Controller
 {
@@ -37,15 +38,16 @@ class PegawaiController extends Controller
             'pendidikan' => 'required',
             'role' => 'required',
             'jenis_kelamin' => 'required',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:10000',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
         $pegawai = new \App\Models\Pegawai;
         $pegawai->fill($requestData);
-        $pegawai->foto = $request->file('foto')->store('public');
+        if ($request->hasFile('foto')) {
+            $pegawai->foto = $request->file('foto')->store('public');
+        }
         $pegawai->save();
         flash('Yeay.. Data berhasil disimpan')->success();
-        return back();
-
+        return redirect()->route('pegawai.index');
     }
 
     /**
@@ -70,7 +72,26 @@ class PegawaiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $requestData = $request->validate([
+            'nama' => 'nullable|min:3',
+            'alamat' => 'nullable',
+            'tanggal_lahir' => 'nullable|date',
+            'departemen' => 'nullable',
+            'jabatan' => 'nullable',
+            'pendidikan' => 'nullable',
+            'role' => 'nullable',
+            'jenis_kelamin' => 'required',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
+        ]);
+        $pegawai = \App\Models\Pegawai::findOrfail($id);
+        $pegawai->fill($requestData);
+        if ($request->hasFile('foto')){
+            Storage::delete($pegawai->foto);
+            $pegawai->foto = $request->file('foto')->store('public');
+        }
+        $pegawai->save();
+        flash('Yeay.. Data berhasil diubah')->success();
+        return redirect()->route('pegawai.index');
     }
 
     /**
@@ -78,6 +99,18 @@ class PegawaiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pegawai = \App\Models\Pegawai::findOrfail($id);
+
+        if ($pegawai->pelaksanaan_pembelajaran->count() >= 1){
+            flash('Data pegawai tidak bisa dihapus karena sudah mendaftarkan pembelajaran')->error();
+            return back();
+        }
+
+        if ($pegawai->foto != null && Storage::exists($pegawai->foto) ){
+            Storage::delete($pegawai->foto);
+        }
+        $pegawai->delete();
+        flash('Data berhasi dihapus')->success();
+        return back();
     }
 }

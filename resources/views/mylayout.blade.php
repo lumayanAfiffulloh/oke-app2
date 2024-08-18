@@ -7,6 +7,7 @@
         <meta name="author"content="abdul rahim"/>
         <title>{{ $title ?? '' }} | {{ env('APP_NAME') }}</title>
         <link rel="icon" href="{{ asset('img/undip.png') }}">
+        <link rel="stylesheet" href="{{ asset('assets/style.css') }}">
 
         <link
             rel="canonical"
@@ -19,11 +20,12 @@
             integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
             crossorigin="anonymous"
         />
+
         <meta name="theme-color" content="#712cf9" />
     </head>
     <body class="bg-light">
         <nav
-            class="navbar navbar-expand-lg navbar-light bg-white mb-4 shadow-md"
+            class="navbar navbar-expand-lg navbar-light bg-white mb-5 shadow-md fixed-top"
         >
             <div class="container">
                 <a class="navbar-brand" href="#">{{ env("APP_NAME") }}</a>
@@ -116,7 +118,7 @@
             </div>
         </nav>
 
-        <main class="container">
+        <main class="container" style="padding-top: 77px;">
             @if (session()->has('pesan'))
                 <div class="alert alert-info" role="alert">
                     {{ session('pesan') }}

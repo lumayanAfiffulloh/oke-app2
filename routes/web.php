@@ -1,15 +1,29 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelaksanaanPembelajaranController;
-use App\Http\Controllers\CitamController;
+use App\Http\Controllers\RencanaPembelajaranController;
+use Illuminate\Auth\Middleware\Authenticate;
 
-Route::resource('pegawai', PegawaiController::class);
-Route::resource('citam', CitamController::class);
 
-Route::get('/pelaksanaan_pembelajaran', [PelaksanaanPembelajaranController::class, 'index']);
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware([Authenticate::class])->group(function () {
+    Route::resource('pegawai', PegawaiController::class);
+    Route::resource('pelaksanaan_pembelajaran', PelaksanaanPembelajaranController::class);
+    Route::resource('rencana_pembelajaran', RencanaPembelajaranController::class);
+    Route::get('/', function () {
+        return view('welcome');
+    });
 });
+
+Route::get('logout', function () {
+    Auth::logout();
+    return redirect('login');
+
+});
+
+Auth::routes(); 
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('welcome');

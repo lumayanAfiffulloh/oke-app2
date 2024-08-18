@@ -1,19 +1,19 @@
-@extends('mylayout', ['title'=>'Edit Data Pegawai'])
+@extends('layouts.app_modern', ['title'=>'Edit Data Pegawai'])
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <h3>EDIT DATA PEGAWAI <b>{{ $pegawai->nama }}</b></h3>
-            <form action="/pegawai/{{ $pegawai->id }}" method="POST" enctype="multipart/form-data">
+    <div class="card mb-3 bg-white">
+        <div class="card-body p-0 ">
+            <h3 class="card-header p-3">EDIT DATA PEGAWAI <b>{{ $pegawai->nama }}</b></h3>
+            <form action="/pegawai/{{ $pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3">
                 @method('PUT')
                 @csrf
-                <div class="form-group mt-1 mb-3">
-                    <label for="foto">Foto Pegawai</label> {{-- FOTO --}}
-                    <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto">
-                    @if ($pegawai->foto)
-                    <a href="{{ Storage::url($pegawai->foto) }}" target="blank">
-                        <img src="{{ Storage::url($pegawai->foto) }}" width="150" class="rounded mx-start d-block mt-2">
-                    </a>
+                <div class="form-group mt-1 mb-3">                    
+                    @if($pegawai->foto)
+                    <a href="{{ Storage::url($pegawai->foto) }}" target="blank" id="fotobaru">
+                        <img src="{{ Storage::url($pegawai->foto) }}" class="rounded mx-start d-block " style="object-fit: cover; height: 150px; width: 150px;">
+                    </a>        
                     @endif
+                    <label for="foto" class="mt-2">Upload Foto Baru Pegawai</label> {{-- FOTO --}}
+                    <input type="file" class="form-control @error('foto') is-invalid @enderror" id="fotoubah" name="foto">
                     <span class="text-danger">{{ $errors->first('foto') }}</span>
                 </div>
                 <div class="form-group mt-1 mb-3">
@@ -99,7 +99,10 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">SIMPAN</button>
+                <div class="d-flex justify-content-start mt-2">
+                    <button type="submit" class="btn btn-outline-primary me-1">SIMPAN</button>
+                    <a name="" id="" class="btn btn-outline-danger" href="/pegawai">BATAL EDIT</a>
+                </div>
             </form>
         </div>
     </div>

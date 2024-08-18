@@ -1,9 +1,9 @@
-@extends('mylayout', ['title'=>'Tambah Data Pegawai'])
+@extends('layouts.app_modern', ['title'=>'Tambah Data Pegawai'])
 @section('content')
-    <div class="card">
-        <div class="card-body">
-            <h3>FORM PEGAWAI</h3>
-            <form action="/pegawai" method="POST" enctype="multipart/form-data">
+    <div class="card bg-white">
+        <div class="card-body p-0">
+            <h3 class="card-header p-3">FORM PEGAWAI</h3>
+            <form action="/pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
                 @csrf
                 <div class="form-group mt-1 mb-3">
                     <label for="foto">Foto Pegawai</label> {{-- FOTO --}}
@@ -93,7 +93,7 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">SIMPAN</button>
+                <button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
             </form>
         </div>
     </div>
