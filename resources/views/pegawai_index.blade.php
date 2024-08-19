@@ -2,7 +2,7 @@
 @section('content')
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 pt-0">
-            <h2 class="p-3 card-header">Data Pegawai</h2>
+            <div class="card-header p-3 fs-5 fw-bolder">Data Pegawai</div>
             <a href="/pegawai/create" class="btn btn-primary mx-3 my-2" style="font-size: 0.9rem">Tambah Pegawai</a>
             <hr class="my-0">
             <table class="table table-striped mb-3" style="font-size: 0.8rem">
@@ -55,7 +55,6 @@
             <div class="mx-3">
                 {!! $pegawai->links() !!}
             </div>
-            
         </div>
         
     </div>

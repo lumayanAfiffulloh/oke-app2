@@ -2,7 +2,7 @@
 @section('content')
     <div class="card mb-3 bg-white">
         <div class="card-body p-0 ">
-            <h3 class="card-header p-3">EDIT DATA PEGAWAI <b>{{ $pegawai->nama }}</b></h3>
+            <div class="card-header p-3 fs-5 fw-bolder">Edit Data Pegawai <span class="fw-bolder tw-text-blue-500">{{ $pegawai->nama }}</span></div>
             <form action="/pegawai/{{ $pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3">
                 @method('PUT')
                 @csrf
@@ -21,10 +21,17 @@
                     <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') ?? $pegawai->nama }}">
                     <span class="text-danger">{{ $errors->first('nama') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- ALAMAT --}}
-                    <label for="alamat">Alamat</label> 
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" value="{{ old('alamat') ?? $pegawai->alamat }}">
-                    <span class="text-danger">{{ $errors->first('alamat') }}</span>
+                <div class="form-group mt-1 mb-3"> {{-- Status --}}
+                    <label for="status">Status</label><br> 
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') ?? $pegawai->status === 'aktif' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="aktif">Aktif</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" {{ old('status') ?? $pegawai->status === 'non-aktif' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="non-aktif">Non-aktif</label>
+                    </div>
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
                 </div>
                 <div class="form-group mt-1 mb-3"> {{-- TANGGAL LAHIR --}}
                     <label for="tanggal_lahir">Tanggal Lahir</label>
@@ -100,8 +107,18 @@
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
                 <div class="d-flex justify-content-start mt-2">
-                    <button type="submit" class="btn btn-outline-primary me-1">SIMPAN</button>
-                    <a name="" id="" class="btn btn-outline-danger" href="/pegawai">BATAL EDIT</a>
+                    <form action="/pegawai/simpan" method="POST">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary me-1">SIMPAN</button>
+                    </form>
+                    <a name="" id="" class="btn btn-outline-warning me-1" href="/pegawai">BATAL EDIT</a>
+                    <form action="/pegawai/{{ $pegawai->id }}" method="POST" class="d-flex">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                            HAPUS DATA
+                        </button>
+                    </form>
                 </div>
             </form>
         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app_modern', ['title'=> 'Login'])
 
 @section('content')
-<div class="card bg-white">
+<div class="card bg-white" >
     <h3 class="card-header">MASUK</h3>
     <div class="card-body">
         <form method="POST" action="{{ route('login') }}">

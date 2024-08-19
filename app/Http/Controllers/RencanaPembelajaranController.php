@@ -22,7 +22,7 @@ class RencanaPembelajaranController extends Controller
      */
     public function create()
     {
-        //
+        return view ('rencana_pembelajaran_create');
     }
 
     /**
@@ -30,7 +30,23 @@ class RencanaPembelajaranController extends Controller
      */
     public function store(StoreRencanaPembelajaranRequest $request)
     {
-        //
+        $requestData = $request->validate([
+            'tahun' => 'required',
+            'klasifikasi' => 'required',
+            'kategori_klasifikasi' => 'required',
+            'kategori' => 'required',
+            'bentuk_jalur' => 'required',
+            'nama_pelatihan' => 'required',
+            'jam_pelajaran' => 'required',
+            'regional' => 'required',
+            'anggaran' => 'required',
+            'prioritas' => 'required',
+        ]);
+        $rencana_pembelajaran = new \App\Models\RencanaPembelajaran;
+        $rencana_pembelajaran->fill($requestData);
+        $rencana_pembelajaran->save();
+        flash('Yeay.. Data berhasil disimpan')->success();
+        return redirect()->route('rencana_pembelajaran.index');
     }
 
     /**

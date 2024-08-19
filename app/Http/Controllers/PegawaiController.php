@@ -31,7 +31,7 @@ class PegawaiController extends Controller
     {
         $requestData = $request->validate([
             'nama' => 'required|min:3',
-            'alamat' => 'required',
+            'status' => 'required',
             'tanggal_lahir' => 'required|date',
             'departemen' => 'required',
             'jabatan' => 'required',
@@ -110,7 +110,7 @@ class PegawaiController extends Controller
             Storage::delete($pegawai->foto);
         }
         $pegawai->delete();
-        flash('Data berhasi dihapus')->success();
-        return back();
+        flash('Data berhasi dihapus')->error();
+        return redirect()->route('pegawai.index');
     }
 }

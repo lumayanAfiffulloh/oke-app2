@@ -2,7 +2,7 @@
 @section('content')
     <div class="card bg-white">
         <div class="card-body p-0">
-            <h3 class="card-header p-3">FORM PEGAWAI</h3>
+            <div class="card-header p-3 fs-5 fw-bolder">Form Pegawai</div>
             <form action="/pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
                 @csrf
                 <div class="form-group mt-1 mb-3">
@@ -15,10 +15,17 @@
                     <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') }}">
                     <span class="text-danger">{{ $errors->first('nama') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- ALAMAT --}}
-                    <label for="alamat">Alamat</label> 
-                    <input type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" value="{{ old('alamat') }}">
-                    <span class="text-danger">{{ $errors->first('alamat') }}</span>
+                <div class="form-group mt-1 mb-3"> {{-- Status --}}
+                    <label for="status">Status</label><br> 
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') === 'aktif' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="aktif">Aktif</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" {{ old('status') === 'non-aktif' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="non-aktif">Non-aktif</label>
+                    </div>
+                    <span class="text-danger">{{ $errors->first('status') }}</span>
                 </div>
                 <div class="form-group mt-1 mb-3"> {{-- TANGGAL LAHIR --}}
                     <label for="tanggal_lahir">Tanggal Lahir</label>

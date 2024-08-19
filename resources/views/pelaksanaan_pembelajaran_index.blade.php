@@ -2,15 +2,15 @@
 @section('content')
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 pt-0">
-            <h2 class="p-3 card-header">Pelaksanaan Pembelajaran</h2>
+            <div class="card-header p-3 fs-5 fw-bolder">Pelaksanaan Pembelajaran</div>
             <hr class="my-0">
             <table class="table table-striped mb-3" style="font-size: 0.8rem">
                 <thead class="text-center">
                     <th class="border-start">No.</th>
-                    <th class="border-start">Foto Pegawai</th>
-                    <th class="border-start">Nama Pegawai</th>
-                    <th class="border-start">Nama Pelatihan</th>
-                    <th class="border-start">Tanggal Pelaksanaan</th>
+                    <th class="border-start">Tahun</th>
+                    <th class="border-start">Klasifikasi</th>
+                    <th class="border-start">Kategori Klasifikasi</th>
+                    <th class="border-start">Kategori</th>
                     <th class="border-start">Klasifikasi</th>
                 </thead>
                 <tbody>

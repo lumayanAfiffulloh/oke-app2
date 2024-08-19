@@ -12,6 +12,7 @@ class RencanaPembelajaranSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\RencanaPembelajaran::factory(25)->create();
+        \App\Models\RencanaPembelajaran::factory(10)->create();
     }
+
 }
