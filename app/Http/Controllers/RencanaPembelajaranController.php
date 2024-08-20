@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\RencanaPembelajaran;
 use App\Http\Requests\StoreRencanaPembelajaranRequest;
 use App\Http\Requests\UpdateRencanaPembelajaranRequest;
@@ -30,21 +31,10 @@ class RencanaPembelajaranController extends Controller
      */
     public function store(StoreRencanaPembelajaranRequest $request)
     {
-        $requestData = $request->validate([
-            'tahun' => 'required',
-            'klasifikasi' => 'required',
-            'kategori_klasifikasi' => 'required',
-            'kategori' => 'required',
-            'bentuk_jalur' => 'required',
-            'nama_pelatihan' => 'required',
-            'jam_pelajaran' => 'required',
-            'regional' => 'required',
-            'anggaran' => 'required',
-            'prioritas' => 'required',
-        ]);
-        $rencana_pembelajaran = new \App\Models\RencanaPembelajaran;
-        $rencana_pembelajaran->fill($requestData);
-        $rencana_pembelajaran->save();
+        $requestData = $request->validated();  // Validasi sudah dilakukan di StoreRencanaPembelajaranRequest
+        
+        RencanaPembelajaran::create($requestData);
+        
         flash('Yeay.. Data berhasil disimpan')->success();
         return redirect()->route('rencana_pembelajaran.index');
     }

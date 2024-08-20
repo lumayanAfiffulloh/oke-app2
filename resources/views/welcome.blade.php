@@ -1,5 +1,14 @@
 @extends('layouts.app_modern', ['title' => 'Welcome'])
 @section('content') 
-    
-    <h1 class="display-4 text-center">HALOO INI HALAMAN HOME</h1>
+<div class="card">
+        <div class="card-body p-0">
+            <div class="card header">
+                INI HALAMAN DASHBOARD
+            </div>
+            <ul>
+                <li>Achmad Afiffulloh</li>
+                <li>Teknologi Informasi</li>
+            </ul>
+        </div>
+    </div>
 @endsection

@@ -11,11 +11,15 @@ use Illuminate\Auth\Middleware\Authenticate;
 
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('pegawai', PegawaiController::class);
+
     Route::resource('pelaksanaan_pembelajaran', PelaksanaanPembelajaranController::class);
+
     Route::resource('rencana_pembelajaran', RencanaPembelajaranController::class);
+
     Route::get('/', function () {
         return view('welcome');
     });
+    
 });
 
 Route::get('logout', function () {

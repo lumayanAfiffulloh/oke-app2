@@ -76,7 +76,7 @@
                         <span class="hide-menu">RP Anda</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item mb-5">
                     <a class="sidebar-link" href="/rencana_pembelajaran/create" aria-expanded="false">
                         <span>
                             <i class="ti ti-clipboard-plus"></i>

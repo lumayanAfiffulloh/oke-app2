@@ -14,10 +14,8 @@
                     <th>Kategori</th>
                     <th>Bentuk Jalur</th>
                     <th>Nama Pelatihan</th>
-                    <th>Jam Pelajaran</th>
-                    <th>Regional</th>
-                    <th>Anggaran</th>
                     <th>Prioritas</th>
+                    <th>AKSI</th>
                 </thead>
                 <tbody>
                     @foreach ($rencana_pembelajaran as $index => $item)
@@ -29,14 +27,27 @@
                             <td>{{ $item->kategori }}</td>
                             <td>{{ $item->bentuk_jalur }}</td>
                             <td>{{ $item->nama_pelatihan }}</td>
-                            <td>{{ $item->jam_pelajaran }}</td>
-                            <td>{{ $item->regional }}</td>
-                            <td>{{ $item->anggaran }}</td>
                             <td>{{ $item->prioritas }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning btn-sm" style="font-size: 0.8rem">Edit</a>
+                                    <form action="/rencana_pembelajaran/{{ $item->id }}" method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin ingin menghapus data ini?')" style="font-size: 0.8rem; border-radius: 0;">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                    <a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-primary btn-sm " style="font-size: 0.8rem">Detail</a>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <div class="mx-3">
+                {!! $rencana_pembelajaran->links() !!}
+            </div>
         </div>
     </div>
 @endsection

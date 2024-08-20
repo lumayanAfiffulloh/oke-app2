@@ -11,7 +11,7 @@ class StoreRencanaPembelajaranRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class StoreRencanaPembelajaranRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tahun' => 'required',
+            'klasifikasi' => 'required',
+            'kategori_klasifikasi' => 'required',
+            'kategori' => 'required',
+            'bentuk_jalur' => 'required',
+            'nama_pelatihan' => 'required',
+            'jam_pelajaran' => 'required',
+            'regional' => 'required',
+            'anggaran' => 'required',
+            'prioritas' => 'required',
         ];
     }
 }
