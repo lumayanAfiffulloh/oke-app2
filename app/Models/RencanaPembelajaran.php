@@ -3,6 +3,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
@@ -16,8 +17,8 @@ class RencanaPembelajaran extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pelaksanaan_pembelajaran(): HasMany
+    public function pegawai(): BelongsTo
     {
-        return $this->hasMany(PelaksanaanPembelajaran::class);
+        return $this->belongsTo(Pegawai::class)->withDefault();
     }
 }

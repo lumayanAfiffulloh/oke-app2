@@ -100,7 +100,7 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
+                <button type="submit" class="btn btn-primary mb-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-500 tw-duration-200">SIMPAN</button>
             </form>
         </div>
     </div>

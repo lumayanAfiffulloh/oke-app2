@@ -19,4 +19,8 @@ class Pegawai extends Model
     {
         return $this->hasMany(PelaksanaanPembelajaran::class);
     }
+    public function rencana_pembelajaran(): HasMany
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
+    }
 }

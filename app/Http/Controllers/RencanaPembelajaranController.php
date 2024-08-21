@@ -52,7 +52,7 @@ class RencanaPembelajaranController extends Controller
      */
     public function edit(RencanaPembelajaran $rencanaPembelajaran)
     {
-        //
+        return view('rencana_pembelajaran_edit', compact('rencanaPembelajaran'));
     }
 
     /**
@@ -60,7 +60,11 @@ class RencanaPembelajaranController extends Controller
      */
     public function update(UpdateRencanaPembelajaranRequest $request, RencanaPembelajaran $rencanaPembelajaran)
     {
-        //
+        $validatedData = $request->validated();
+
+        $rencanaPembelajaran->update($validatedData);
+        flash('Data berhasil diubah!')->success();
+        return redirect()->route('rencana_pembelajaran.index');
     }
 
     /**
@@ -68,6 +72,8 @@ class RencanaPembelajaranController extends Controller
      */
     public function destroy(RencanaPembelajaran $rencanaPembelajaran)
     {
-        //
+        $rencanaPembelajaran->delete();
+        flash('Data berhasil dihapus!')->error();
+        return redirect()->route('rencana_pembelajaran.index');
     }
 }

@@ -7,7 +7,7 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group mt-1 mb-3">                    
-                    @if($pegawai->foto)
+                    @if($pegawai->foto) 
                     <a href="{{ Storage::url($pegawai->foto) }}" target="blank" id="fotobaru">
                         <img src="{{ Storage::url($pegawai->foto) }}" class="rounded mx-start d-block " style="object-fit: cover; height: 150px; width: 150px;">
                     </a>        
@@ -107,15 +107,15 @@
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
                 <div class="d-flex justify-content-start mt-2">
-                    <form action="/pegawai/simpan" method="POST">
+                    <form action="/pegawai" method="POST">
                         @csrf
-                        <button type="submit" class="btn btn-outline-primary me-1">SIMPAN</button>
+                        <button type="submit" class="btn btn-primary me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
                     </form>
-                    <a name="" id="" class="btn btn-outline-warning me-1" href="/pegawai">BATAL EDIT</a>
+                    <a name="" id="" class="btn btn-warning me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-amber-500 tw-duration-200" href="/pegawai">BATAL EDIT</a>
                     <form action="/pegawai/{{ $pegawai->id }}" method="POST" class="d-flex">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                        <button type="submit" class="btn btn-danger tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
                             HAPUS DATA
                         </button>
                     </form>

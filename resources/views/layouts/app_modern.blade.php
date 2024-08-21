@@ -28,9 +28,9 @@
 
       {{-- KONTEN --}}
       <div class="container-fluid">
-        @if (session()->has('pesan'))
+        @if (session()->has('status'))
           <div class="alert alert-info" role="alert">
-            {{ session('pesan') }}
+            {{ session('status') }}
           </div>
         @endif
         @include('flash::message')
