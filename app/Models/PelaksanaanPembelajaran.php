@@ -16,9 +16,9 @@ class PelaksanaanPembelajaran extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pegawai(): BelongsTo
+    public function dataPegawai(): BelongsTo
     {
-        return $this->belongsTo(Pegawai::class)->withDefault();
+        return $this->belongsTo(DataPegawai::class)->withDefault();
     }
     
     public function rencana_pembelajaran(): BelongsTo

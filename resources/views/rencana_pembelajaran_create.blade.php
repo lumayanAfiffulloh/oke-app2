@@ -3,14 +3,14 @@
 
 <div class="card bg-white">
     <div class="card-body p-0">
-        <div class="card-header p-3 fs-5 fw-bolder">Buat Rencana Pembelajaran</div>
+        <div class="card-header p-3 fs-5 fw-bolder ">Buat Rencana Pembelajaran</div>
         <form action="/rencana_pembelajaran" method="POST" class="px-4 py-2">
             @csrf
             {{-- TAHUN --}}
             <div class="form-group mt-1 mb-3">
                 <label for="tahun" class="fw-bolder">Tahun</label>
                 <div class="col-md-2">
-                    <input type="number" min="2024" max="2099" step="1" value="{{ old('tahun', 2024) }}" class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun">
+                    <input type="number" max="2099" step="1" value="{{ old('tahun', 2024) }}" class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun">
                 </div>
                 <span class="text-danger">{{ $errors->first('tahun') }}</span>
             </div>
@@ -139,7 +139,7 @@
                 <span class="text-danger">{{ $errors->first('prioritas') }}</span>
             </div>
 
-            <button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
+            <button type="submit" class="btn btn-primary mb-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
         </form>
     </div>
 </div>

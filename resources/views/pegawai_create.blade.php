@@ -3,7 +3,7 @@
     <div class="card bg-white">
         <div class="card-body p-0">
             <div class="card-header p-3 fs-5 fw-bolder">Form Pegawai</div>
-            <form action="/pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
+            <form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
                 @csrf
                 <div class="form-group mt-1 mb-3">
                     <label for="foto">Foto Pegawai</label> {{-- FOTO --}}
@@ -32,11 +32,11 @@
                     <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
                     <spanclass="text-danger">{{ $errors->first('tanggal_lahir') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- DEPARTEMEN --}}
-                    <label for="departemen">Departemen</label>
-                    <input type="text" class="form-control @error('departemen') is-invalid @enderror" id="departemen"
-                    name="departemen" value="{{ old('departemen') }}">
-                    <span class="text-danger">{{ $errors->first('departemen') }}</span>
+                <div class="form-group mt-1 mb-3"> {{-- UNIT KERJA --}}
+                    <label for="unit_kerja">Unit Kerja</label>
+                    <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
+                    name="unit_kerja" value="{{ old('unit_kerja') }}">
+                    <span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
                 </div>
                 <div class="form-group mt-1 mb-3"> {{-- JABATAN --}}
                     <label for="jabatan">Jabatan</label>

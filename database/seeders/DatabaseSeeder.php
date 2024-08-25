@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        \App\Models\Pegawai::factory(50)->create();
+        \App\Models\DataPegawai::factory(50)->create();
 
     }
 }

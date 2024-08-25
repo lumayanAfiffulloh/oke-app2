@@ -2,17 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class PegawaiController extends Controller
+class DataPegawaiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['pegawai'] = \App\Models\Pegawai::latest()->paginate(10);
+        if (request()->filled('q')) {
+            $data['data_pegawai'] = \App\Models\DataPegawai::where('nama', 'like', '%' . request('q') . '%')->paginate(10);
+        }elseif (request()->filled('w')) {
+            $data['data_pegawai'] = \App\Models\DataPegawai::where('unit_kerja', 'like', '%' . request('w') . '%')->paginate(10);
+        } else {
+            $data['data_pegawai'] = \App\Models\DataPegawai::latest()->paginate(10);
+        }
         return view ('pegawai_index', $data);
     }
 
@@ -21,7 +28,7 @@ class PegawaiController extends Controller
      */
     public function create()
     {
-        return view ("pegawai_create");
+        return view ('pegawai_create');
     }
 
     /**
@@ -33,19 +40,19 @@ class PegawaiController extends Controller
             'nama' => 'required|min:3',
             'status' => 'required',
             'tanggal_lahir' => 'required|date',
-            'departemen' => 'required',
+            'unit_kerja' => 'required',
             'jabatan' => 'required',
             'pendidikan' => 'required',
             'role' => 'required',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
-        $pegawai = new \App\Models\Pegawai;
-        $pegawai->fill($requestData);
+        $data_pegawai = new \App\Models\DataPegawai;
+        $data_pegawai->fill($requestData);
         if ($request->hasFile('foto')) {
-            $pegawai->foto = $request->file('foto')->store('public');
+            $data_pegawai->foto = $request->file('foto')->store('public');
         }
-        $pegawai->save();
+        $data_pegawai->save();
         flash('Yeay.. Data berhasil disimpan')->success();
         return redirect()->route('pegawai.index');
     }
@@ -63,7 +70,7 @@ class PegawaiController extends Controller
      */
     public function edit(string $id)
     {
-        $data['pegawai'] = \App\Models\Pegawai::findOrFail($id);
+        $data['data_pegawai'] = \App\Models\DataPegawai::findOrFail($id);
         return view('pegawai_edit', $data);
     }
 
@@ -76,20 +83,20 @@ class PegawaiController extends Controller
             'nama' => 'nullable|min:3',
             'alamat' => 'nullable',
             'tanggal_lahir' => 'nullable|date',
-            'departemen' => 'nullable',
+            'unit_kerja' => 'nullable',
             'jabatan' => 'nullable',
             'pendidikan' => 'nullable',
             'role' => 'nullable',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
-        $pegawai = \App\Models\Pegawai::findOrfail($id);
-        $pegawai->fill($requestData);
+        $data_pegawai = \App\Models\DataPegawai::findOrfail($id);
+        $data_pegawai->fill($requestData);
         if ($request->hasFile('foto')){
-            Storage::delete($pegawai->foto);
-            $pegawai->foto = $request->file('foto')->store('public');
+            Storage::delete($data_pegawai->foto);
+            $data_pegawai->foto = $request->file('foto')->store('public');
         }
-        $pegawai->save();
+        $data_pegawai->save();
         flash('Yeay.. Data berhasil diubah')->success();
         return redirect()->route('pegawai.index');
     }
@@ -99,18 +106,18 @@ class PegawaiController extends Controller
      */
     public function destroy(string $id)
     {
-        $pegawai = \App\Models\Pegawai::findOrfail($id);
+        $data_pegawai = \App\Models\DataPegawai::findOrfail($id);
 
-        if ($pegawai->pelaksanaan_pembelajaran->count() >= 1){
-            flash('Data pegawai tidak bisa dihapus karena sudah mendaftarkan pembelajaran')->error();
+        if ($data_pegawai->pelaksanaan_pembelajaran->count() >= 1){
+            flash('Data data_pegawai tidak bisa dihapus karena sudah mendaftarkan pembelajaran')->error();
             return back();
         }
 
-        if ($pegawai->foto != null && Storage::exists($pegawai->foto) ){
-            Storage::delete($pegawai->foto);
+        if ($data_pegawai->foto != null && Storage::exists($data_pegawai->foto) ){
+            Storage::delete($data_pegawai->foto);
         }
-        $pegawai->delete();
+        $data_pegawai->delete();
         flash('Data berhasi dihapus')->error();
-        return redirect()->route('pegawai.index');
+        return redirect()->route('data_pegawai.index');
     }
 }

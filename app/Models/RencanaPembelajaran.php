@@ -17,8 +17,8 @@ class RencanaPembelajaran extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pegawai(): BelongsTo
+    public function dataPegawai(): BelongsTo
     {
-        return $this->belongsTo(Pegawai::class)->withDefault();
+        return $this->belongsTo(DataPegawai::class)->withDefault();
     }
 }

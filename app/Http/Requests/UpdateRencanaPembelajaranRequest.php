@@ -22,8 +22,8 @@ class UpdateRencanaPembelajaranRequest extends FormRequest
     public function rules(): array
     {
         return [
-        'tahun' => 'required|integer|min:2024|max:2099',
         'klasifikasi' => 'required|string',
+        'tahun' => 'required|integer',
         'kategori_klasifikasi' => 'required|string',
         'kategori' => 'required|string',
         'bentuk_jalur' => 'required|string',
