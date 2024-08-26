@@ -19,7 +19,7 @@ class DataPegawaiFactory extends Factory
         return [
             'nama' => $this->faker->name(),
             'status' => $this->faker->randomElement(['aktif', 'non-aktif']),
-            'tanggal_lahir' => $this->faker->date(),
+            'nip' => $this->faker->randomNumber(7, true),
             'jabatan' => $this->faker->jobTitle(),
             'unit_kerja' => $this->faker->company(),
             'pendidikan' => $this->faker->randomElement(['SMA', 'S1', 'S2', 'S3']),

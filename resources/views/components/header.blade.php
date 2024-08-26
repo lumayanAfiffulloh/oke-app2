@@ -10,7 +10,7 @@
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                    <div class="btn btn-primary">{{ Auth::user()->name }}</div>
+                    <div class="badge rounded-2 text-bg-primary p-2">{{ Auth::user()->name }} <span style="color:rgb(255, 239, 93)"> ({{ Auth::user()->akses }})</span></div>
                     <li class="nav-item dropdown">
                         <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src={{ asset("modern/src/assets/images/profile/user-1.jpg") }} alt="" width="35" height="35" class="rounded-circle">

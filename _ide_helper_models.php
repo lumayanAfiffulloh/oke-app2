@@ -18,7 +18,7 @@ namespace App\Models{
  * @property int $id
  * @property string $nama
  * @property string $status
- * @property string $tanggal_lahir
+ * @property int $nip
  * @property string $jabatan
  * @property string $unit_kerja
  * @property string $pendidikan
@@ -42,9 +42,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJabatan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJenisKelamin($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNama($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNip($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai wherePendidikan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereTanggalLahir($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUnitKerja($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUpdatedAt($value)
  */

@@ -11,12 +11,21 @@ class DataPegawaiController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        $this->middleware('can:admin');
+    }
+
     public function index()
     {
+        
         if (request()->filled('q')) {
             $data['data_pegawai'] = \App\Models\DataPegawai::where('nama', 'like', '%' . request('q') . '%')->paginate(10);
         }elseif (request()->filled('w')) {
             $data['data_pegawai'] = \App\Models\DataPegawai::where('unit_kerja', 'like', '%' . request('w') . '%')->paginate(10);
+        }elseif (request()->filled('e')) {
+            $data['data_pegawai'] = \App\Models\DataPegawai::where('nip', 'like', '%' . request('e') . '%')->paginate(10);
         } else {
             $data['data_pegawai'] = \App\Models\DataPegawai::latest()->paginate(10);
         }
@@ -28,6 +37,7 @@ class DataPegawaiController extends Controller
      */
     public function create()
     {
+        
         return view ('pegawai_create');
     }
 
@@ -36,6 +46,7 @@ class DataPegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        
         $requestData = $request->validate([
             'nama' => 'required|min:3',
             'status' => 'required',
@@ -70,6 +81,7 @@ class DataPegawaiController extends Controller
      */
     public function edit(string $id)
     {
+        
         $data['data_pegawai'] = \App\Models\DataPegawai::findOrFail($id);
         return view('pegawai_edit', $data);
     }
@@ -79,6 +91,7 @@ class DataPegawaiController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        
         $requestData = $request->validate([
             'nama' => 'nullable|min:3',
             'alamat' => 'nullable',
@@ -106,6 +119,7 @@ class DataPegawaiController extends Controller
      */
     public function destroy(string $id)
     {
+        
         $data_pegawai = \App\Models\DataPegawai::findOrfail($id);
 
         if ($data_pegawai->pelaksanaan_pembelajaran->count() >= 1){

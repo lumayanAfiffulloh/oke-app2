@@ -27,6 +27,7 @@ class DataPegawai extends Model
         'columns' => [
             'data_pegawais.nama' => 1,
             'data_pegawais.unit_kerja' => 1,
+            'data_pegawais.nip' => 1,
         ],
         
         

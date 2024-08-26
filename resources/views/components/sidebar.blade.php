@@ -2,9 +2,9 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between mt-2" style="padding-left: 11px">
-            <a href="/" class="text-nowrap logo-img">
+            <div class="logo-img">
                 <img src={{ asset("img/logo.png")}} width="210" alt="" />
-            </a>
+            </div>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>
             </div>
@@ -49,10 +49,9 @@
             </li> 
             @endguest
             @auth
-
-                @if (auth()->user()->akses !== 'pegawai')
+                @can('admin')
                 {{-- PEGAWAI --}}
-                <li class="nav-small-cap">
+                <li class="nav-small-cap mt-1">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">PEGAWAI</span>
                 </li>
@@ -70,9 +69,9 @@
                             <i class="ti ti-user-plus"></i>
                         </span>
                         <span class="hide-menu">Tambah Data Pegawai</span>
-                    </a>
+                    </a>    
                 </li>
-                @endif
+                @endcan
 
                 {{-- PELAKSANAAN PEMBELAJARAN --}}
                 <li class="nav-small-cap">

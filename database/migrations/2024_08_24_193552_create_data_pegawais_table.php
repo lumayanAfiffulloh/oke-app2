@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('status');
-            $table->date('tanggal_lahir');
+            $table->integer('nip');
             $table->string('jabatan');
             $table->string('unit_kerja');
             $table->string('pendidikan');
