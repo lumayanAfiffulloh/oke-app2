@@ -22,16 +22,15 @@ class StoreRencanaPembelajaranRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tahun' => 'required',
-            'klasifikasi' => 'required',
-            'kategori_klasifikasi' => 'required',
-            'kategori' => 'required',
-            'bentuk_jalur' => 'required',
-            'nama_pelatihan' => 'required',
-            'jam_pelajaran' => 'required',
-            'regional' => 'required',
-            'anggaran' => 'required',
-            'prioritas' => 'required',
-        ];
+            'klasifikasi' => 'required|string',
+            'tahun' => 'required|integer',
+            'kategori' => 'required|string',
+            'bentuk_jalur' => 'required|string',
+            'nama_pelatihan' => 'required|string|max:255',
+            'jam_pelajaran' => 'required|integer|min:1|max:50',
+            'regional' => 'required|string',
+            'anggaran' => 'required|integer|min:0',
+            'prioritas' => 'required|string',
+            ];
     }
 }

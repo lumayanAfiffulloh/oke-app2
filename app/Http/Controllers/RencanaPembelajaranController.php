@@ -35,7 +35,7 @@ class RencanaPembelajaranController extends Controller
         
         RencanaPembelajaran::create($requestData);
         
-        flash('Yeay.. Data berhasil disimpan')->success();
+        flash('Yeay.. Data berhasil ditambah')->success();
         return redirect()->route('rencana_pembelajaran.index');
     }
 
@@ -61,7 +61,6 @@ class RencanaPembelajaranController extends Controller
     public function update(UpdateRencanaPembelajaranRequest $request, RencanaPembelajaran $rencanaPembelajaran)
     {
         $validatedData = $request->validated();
-
         $rencanaPembelajaran->update($validatedData);
         flash('Data berhasil diubah!')->success();
         return redirect()->route('rencana_pembelajaran.index');

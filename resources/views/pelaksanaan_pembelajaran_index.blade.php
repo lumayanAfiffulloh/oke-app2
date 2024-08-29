@@ -2,7 +2,7 @@
 @section('content')
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 pt-0">
-            <div class="card-header p-3 fs-5 fw-bolder">Pelaksanaan Pembelajaran</div>
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Pelaksanaan Pembelajaran</div>
             <hr class="my-0">
             <table class="table table-striped mb-3" style="font-size: 0.8rem">
                 <thead class="text-center">

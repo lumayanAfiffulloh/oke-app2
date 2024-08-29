@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-body">
         <h1 class="h1">
-            SELAMAT DATANG DI APLIKASI SINTA!
+            SELAMAT DATANG DI APLIKASI SANTI!
         </h1>
         <hr></hr>
         <div class="mt-3">

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="card bg-white">
-    <div class="card-header fs-5 fw-bolder">DAFTAR</div>
+    <div class="card-header fs-5 fw-bolder" style="background-color: #ececec;">DAFTAR</div>
     <div class="card-body">
         <form method="POST"  action="{{ route('register') }}">
             @csrf

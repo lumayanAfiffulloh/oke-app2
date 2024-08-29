@@ -26,10 +26,8 @@ namespace App\Models{
  * @property string|null $foto
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\PelaksanaanPembelajaran> $pelaksanaan_pembelajaran
- * @property-read int|null $pelaksanaan_pembelajaran_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RencanaPembelajaran> $rencana_pembelajaran
- * @property-read int|null $rencana_pembelajaran_count
+ * @property int $user_id
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\DataPegawaiFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai newQuery()
@@ -47,6 +45,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUnitKerja($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUserId($value)
  */
 	class DataPegawai extends \Eloquent {}
 }
@@ -86,7 +85,6 @@ namespace App\Models{
  * @property int $id
  * @property string $tahun
  * @property string $klasifikasi
- * @property string $kategori_klasifikasi
  * @property string $kategori
  * @property string $bentuk_jalur
  * @property string $nama_pelatihan
@@ -107,7 +105,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereJamPelajaran($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereKategori($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereKategoriKlasifikasi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereKlasifikasi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereNamaPelatihan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran wherePrioritas($value)
@@ -131,6 +128,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\DataPegawai|null $dataPegawai
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])

@@ -2,7 +2,7 @@
 @section('content')
     <div class="card mb-3 bg-white">
         <div class="card-body p-0 ">
-            <div class="card-header p-3 fs-5 fw-bolder">Edit Rencana Pembelajaran <span class="fw-bolder tw-text-blue-500">{{ $rencanaPembelajaran->id }}</span></div>
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Edit Rencana Pembelajaran <span class="fw-bolder tw-text-blue-500">{{ $rencanaPembelajaran->id }}</span></div>
             <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST" class="px-3 py-3">
                 @method('PUT')
                 @csrf
@@ -28,47 +28,19 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('klasifikasi') }}</span>
                 </div>
-                
-                {{-- KATEGORI KLASIFIKASI --}}
-                <div class="form-group mt-1 mb-3" > 
-                    <label for="kategori_klasifikasi" class="fw-bolder">Kategori Klasifikasi</label><br>
-                    <div id="category-container">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="gelar" value="gelar" {{ old('kategori_klasifikasi') ?? $rencanaPembelajaran->kategori_klasifikasi === 'gelar' ? 'checked' : '' }} disabled>
-                            <label class="form-check-label" for="gelar">Gelar</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="non-gelar" value="non-gelar" {{ old('kategori_klasifikasi') ?? $rencanaPembelajaran->kategori_klasifikasi === 'non-gelar' ? 'checked' : '' }} disabled>
-                            <label class="form-check-label" for="non-gelar">Non-Gelar</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="teknis" value="teknis" {{ old('kategori_klasifikasi') ?? $rencanaPembelajaran->kategori_klasifikasi === 'teknis' ? 'checked' : '' }} disabled>
-                            <label class="form-check-label" for="teknis">Teknis</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="fungsional" value="fungsional" {{ old('kategori_klasifikasi') ?? $rencanaPembelajaran->kategori_klasifikasi === 'fungsional' ? 'checked' : '' }} disabled>
-                            <label class="form-check-label" for="fungsional">Fungsional</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="sosial kultural" value="sosial kultural" {{ old('kategori_klasifikasi') ?? $rencanaPembelajaran->kategori_klasifikasi === 'sosial kultural' ? 'checked' : '' }} disabled>
-                            <label class="form-check-label" for="sosial kultural">Sosial Kultural</label>
-                        </div>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('kategori_klasifikasi') }}</span>
-                </div>
 
                 {{-- KATEGORI --}}
                 <div class="form-group mt-1 mb-3"> 
-                    <label for="kategori" class="fw-bolder">Kategori</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori" id="klasikal" value="klasikal" {{ old('kategori') ?? $rencanaPembelajaran->kategori === 'klasikal' ? 'checked' : '' }} >
-                        <label class="form-check-label" for="klasikal">Klasikal</label>
+                    <label for="kategori" class="fw-bolder">Kategori</label>
+                    <div class="col-md-6">
+                        <select class="form-select" id="kategori" name="kategori">
+                            <option value="" selected disabled id="pilih">-- Pilih Kategori --</option>
+                            <option value="pendidikan" {{ old('kategori') ?? $rencanaPembelajaran->kategori === 'pendidikan' ? 'selected' : '' }} id="kategori-pendidikan">Pendidikan</option>
+                            <option value="klasikal" {{ old('kategori') ?? $rencanaPembelajaran->kategori === 'klasikal' ? 'selected' : '' }} id="kategori-klasikal">Klasikal</option>
+                            <option value="non-klasikal" {{ old('kategori') ?? $rencanaPembelajaran->kategori === 'non-klasikal' ? 'selected' : '' }} id="kategori-non-klasikal">Non-Klasikal</option>
+                        </select>
+                        <span class="text-danger">{{ $errors->first('kategori') }}</span>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori" id="non-klasikal" value="non-klasikal" {{ old('kategori') ?? $rencanaPembelajaran->kategori === 'non-klasikal' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="non-klasikal">Non-Klasikal</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('kategori') }}</span>
                 </div>
 
                 {{-- BENTUK JALUR --}}
@@ -141,9 +113,11 @@
 
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-3">
-                    <button type="submit" class="btn btn-primary me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
+                    <form>
+                        <button type="submit" class="btn btn-primary me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
+                    </form>
                     <a name="" id="" class="btn btn-warning me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" href="/rencana_pembelajaran">BATAL EDIT</a>
-                    <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST" class="d-flex">
+                    <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST">
                         @csrf
                         @method('delete')
                         <button type="submit" class="btn btn-danger tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
@@ -158,43 +132,33 @@
 
 @endsection
 
-{{-- SCRIPT UNTUK MEMUNCULKAN KATEGORI KLASIFIKASI --}}
+{{-- SCRIPT UNTUK MEMUNCULKAN KATEGORI --}}
 <script>
     function updateCategoryOptions() {
-        // Get selected classification
-        const selectedClassification = document.querySelector('input[name="klasifikasi"]:checked')?.value;
-
-        // Get all category radio buttons
-        const categoryRadios = document.querySelectorAll('input[name="kategori_klasifikasi"]');
-
-        // Show category container once a classification is selected
-        const categoryContainer = document.getElementById('category-container');
-        categoryContainer.style.display = 'block';
+        // Disable all category options by default
+        document.getElementById('kategori-pendidikan').style.display = 'none';
+        document.getElementById('kategori-klasikal').style.display = 'none';
+        document.getElementById('kategori-non-klasikal').style.display = 'none';
         
-        if (selectedClassification) {
-            categoryContainer.style.display = 'block';
+        // Get the selected classification
+        const selectedKlasifikasi = document.querySelector('input[name="klasifikasi"]:checked').value;
+        const kategoriSelect = document.getElementById('kategori');
 
-            // Define category options based on classification
-            const educationCategories = ['gelar', 'non-gelar'];
-            const trainingCategories = ['teknis', 'fungsional', 'sosial kultural'];
-            
-            // Update visibility and enabled status of category options
-            categoryRadios.forEach(radio => {
-                const value = radio.value;
-                if (selectedClassification === 'pendidikan') {
-                    radio.disabled = !educationCategories.includes(value);
-                } else if (selectedClassification === 'pelatihan') {
-                    radio.disabled = !trainingCategories.includes(value);
-                }
-                radio.parentElement.style.display = radio.disabled ? 'none' : 'inline-block';
-            });
-        } else {
-            categoryRadios.forEach(radio => {
-                radio.disabled = true;
-            });
+        // Enable the appropriate category options
+        if (selectedKlasifikasi === 'pendidikan') {
+            document.getElementById('kategori-pendidikan').style.display = 'block';
+            if (kategoriSelect.value !== 'pendidikan') {
+            kategoriSelect.value = ''; // Deselect current option
+            }
+        } else if (selectedKlasifikasi === 'pelatihan') {
+            document.getElementById('kategori-klasikal').style.display = 'block';
+            document.getElementById('kategori-non-klasikal').style.display = 'block';
+            if (kategoriSelect.value !== 'klasikal' && kategoriSelect.value !== 'non-klasikal') {
+            kategoriSelect.value = ''; // Deselect current option
+            }
         }
     }
 
-    // Call updateCategoryOptions on page load if there's an already selected classification
-    document.addEventListener('DOMContentLoaded', updateCategoryOptions);
+    // Run the function on page load to handle old input
+    window.onload = updateCategoryOptions;
 </script>

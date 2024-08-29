@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,7 @@ class DataPegawaiFactory extends Factory
             'unit_kerja' => $this->faker->company(),
             'pendidikan' => $this->faker->randomElement(['SMA', 'S1', 'S2', 'S3']),
             'jenis_kelamin'=> $this->faker->randomElement(['laki-laki', 'perempuan']),
+            'user_id' => User::factory() 
         ];
     }
 }

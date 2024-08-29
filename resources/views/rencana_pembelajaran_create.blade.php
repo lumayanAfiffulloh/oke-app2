@@ -3,7 +3,7 @@
 
 <div class="card bg-white">
     <div class="card-body p-0">
-        <div class="card-header p-3 fs-5 fw-bolder ">Buat Rencana Pembelajaran</div>
+        <div class="card-header p-3 fs-5 fw-bolder " style="background-color: #ececec;">Buat Rencana Pembelajaran</div>
         <form action="/rencana_pembelajaran" method="POST" class="px-4 py-2">
             @csrf
             {{-- TAHUN --}}
@@ -29,46 +29,38 @@
                 <span class="text-danger">{{ $errors->first('klasifikasi') }}</span>
             </div>
 
-            {{-- KATEGORI KLASIFIKASI --}}
-            <div class="form-group mt-1 mb-3" > 
-                <label for="kategori_klasifikasi" class="fw-bolder">Kategori Klasifikasi</label><br>
-                <div id="category-container">
+            {{-- KATEGORI --}}
+            {{-- <div class="form-group mt-1 mb-3"> 
+                <label for="kategori" class="fw-bolder">Kategori</label>
+                <div class="category-container">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="gelar" value="gelar" {{ old('kategori_klasifikasi') === 'gelar' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="gelar">Gelar</label>
+                        <input class="form-check-input" type="radio" name="kategori" id="kategori-pendidikan" value="pendidikan" {{ old('kategori') === 'pendidikan' ? 'checked' : '' }} disabled>
+                        <label class="form-check-label" for="kategori-pendidikan">Pendidikan</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="non-gelar" value="non-gelar" {{ old('kategori_klasifikasi') === 'non-gelar' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="non-gelar">Non-Gelar</label>
+                        <input class="form-check-input" type="radio" name="kategori" id="kategori-klasikal" value="klasikal" {{ old('kategori') === 'klasikal' ? 'checked' : '' }} disabled>
+                        <label class="form-check-label" for="kategori-klasikal">Klasikal</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="teknis" value="teknis" {{ old('kategori_klasifikasi') === 'teknis' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="teknis">Teknis</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="fungsional" value="fungsional" {{ old('kategori_klasifikasi') === 'fungsional' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="fungsional">Fungsional</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori_klasifikasi" id="sosial kultural" value="sosial kultural" {{ old('kategori_klasifikasi') === 'sosial kultural' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="sosial kultural">Sosial Kultural</label>
+                        <input class="form-check-input" type="radio" name="kategori" id="kategori-non-klasikal" value="non-klasikal" {{ old('kategori') === 'non-klasikal' ? 'checked' : '' }} disabled>
+                        <label class="form-check-label" for="kategori-non-klasikal">Non-Klasikal</label>
                     </div>
                 </div>
-                <span class="text-danger">{{ $errors->first('kategori_klasifikasi') }}</span>
-            </div>
+                <span class="text-danger">{{ $errors->first('kategori') }}</span>
+            </div> --}}
 
             {{-- KATEGORI --}}
             <div class="form-group mt-1 mb-3"> 
-                <label for="kategori" class="fw-bolder">Kategori</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="kategori" id="klasikal" value="klasikal" {{ old('kategori') === 'klasikal' ? 'checked' : '' }} >
-                    <label class="form-check-label" for="klasikal">Klasikal</label>
+                <label for="kategori" class="fw-bolder">Kategori</label>
+                <div class="col-md-6">
+                    <select class="form-select" id="kategori" name="kategori">
+                        <option value="" selected disabled id="pilih">-- Pilih Kategori --</option>
+                        <option value="pendidikan" {{ old('kategori') === 'pendidikan' ? 'selected' : '' }} id="kategori-pendidikan">Pendidikan</option>
+                        <option value="klasikal" {{ old('kategori') === 'klasikal' ? 'selected' : '' }} id="kategori-klasikal">Klasikal</option>
+                        <option value="non-klasikal" {{ old('kategori') === 'non-klasikal' ? 'selected' : '' }} id="kategori-non-klasikal">Non-Klasikal</option>
+                    </select>
+                    <span class="text-danger">{{ $errors->first('kategori') }}</span>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="kategori" id="non-klasikal" value="non-klasikal" {{ old('kategori') === 'non-klasikal' ? 'checked' : '' }}>
-                    <label class="form-check-label" for="non-klasikal">Non-Klasikal</label>
-                </div>
-                <span class="text-danger">{{ $errors->first('kategori') }}</span>
             </div>
 
             {{-- BENTUK JALUR --}}
@@ -145,43 +137,29 @@
 </div>
 @endsection
 
-{{-- SCRIPT UNTUK MEMUNCULKAN KATEGORI KLASIFIKASI --}}
+{{-- SCRIPT UNTUK MEMUNCULKAN KLASIFIKASI --}}
 <script>
     function updateCategoryOptions() {
-        // Get selected classification
-        const selectedClassification = document.querySelector('input[name="klasifikasi"]:checked')?.value;
-
-        // Get all category radio buttons
-        const categoryRadios = document.querySelectorAll('input[name="kategori_klasifikasi"]');
-
-        // Show category container once a classification is selected
-        const categoryContainer = document.getElementById('category-container');
-        categoryContainer.style.display = 'block';
+        // Disable all category options by default
+        document.getElementById('kategori-pendidikan').style.display = 'none';
+        document.getElementById('kategori-klasikal').style.display = 'none';
+        document.getElementById('kategori-non-klasikal').style.display = 'none';
         
-        if (selectedClassification) {
-            categoryContainer.style.display = 'block';
+        // Get the selected classification
+        const selectedKlasifikasi = document.querySelector('input[name="klasifikasi"]:checked').value;
 
-            // Define category options based on classification
-            const educationCategories = ['gelar', 'non-gelar'];
-            const trainingCategories = ['teknis', 'fungsional', 'sosial kultural'];
-            
-            // Update visibility and enabled status of category options
-            categoryRadios.forEach(radio => {
-                const value = radio.value;
-                if (selectedClassification === 'pendidikan') {
-                    radio.disabled = !educationCategories.includes(value);
-                } else if (selectedClassification === 'pelatihan') {
-                    radio.disabled = !trainingCategories.includes(value);
-                }
-                radio.parentElement.style.display = radio.disabled ? 'none' : 'inline-block';
-            });
-        } else {
-            categoryRadios.forEach(radio => {
-                radio.disabled = true;
-            });
+        // Enable the appropriate category options
+        if (selectedKlasifikasi === 'pendidikan') {
+            document.getElementById('kategori-pendidikan').style.display = 'block';
+            document.getElementById('pilih').selected = true;
+        } else if (selectedKlasifikasi === 'pelatihan') {
+            document.getElementById('kategori-klasikal').style.display = 'block';
+            document.getElementById('kategori-non-klasikal').style.display = 'block';
+            document.getElementById('pilih').selected = true;
         }
     }
 
-    // Call updateCategoryOptions on page load if there's an already selected classification
-    document.addEventListener('DOMContentLoaded', updateCategoryOptions);
+    // Run the function on page load to handle old input
+    window.onload = updateCategoryOptions;
 </script>
+

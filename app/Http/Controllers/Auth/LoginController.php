@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use App\Models\DataPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -40,6 +43,47 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
+    protected function sendFailedLoginResponse()
+    {
+        throw ValidationException::withMessages([
+            'login' => [trans('auth.failed')],
+        ]);
+    }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'login' => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+
+    protected function username()
+    {
+        $login = request()->input('login');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email': 'name';
+        request()->merge([$field=>$login]);
+        return $field;
+
+
+        // // Cek apakah input adalah email
+        // if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
+        //     return 'email';
+        // }
+
+        // // Jika input bukan email, asumsikan itu adalah nip
+        // $pegawai = DataPegawai::where('nip', $login)->first();
+
+        // if ($pegawai && $pegawai->user) {
+        //     // Temukan user yang terkait dengan pegawai tersebut melalui user_id
+        //     request()->merge(['email' => $pegawai->user->email]);
+        //     return 'email';
+        // }
+
+        // // Jika nip tidak ditemukan, kembalikan 'email' untuk validasi gagal
+        // return 'email';
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -47,10 +91,6 @@ class LoginController extends Controller
      */
     public function authenticated(Request $request, $user): RedirectResponse
     {   
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
         
         if ($user->akses == 'pegawai') {
             return redirect()->route('pegawai.beranda');
@@ -67,12 +107,15 @@ class LoginController extends Controller
 
     protected function sendLoginResponse(Request $request)
     {
+        $this->validateLogin($request);
+        
+
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
 
         // Set flash message
-        session()->flash('status', 'Selamat datang di aplikasi SINTA!');
+        session()->flash('status', 'Selamat datang di aplikasi SANTI!');
 
         return $this->authenticated($request, $this->guard()->user())
             ?: redirect()->intended($this->redirectPath());

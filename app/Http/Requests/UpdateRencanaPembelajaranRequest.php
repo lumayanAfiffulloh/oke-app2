@@ -24,7 +24,6 @@ class UpdateRencanaPembelajaranRequest extends FormRequest
         return [
         'klasifikasi' => 'required|string',
         'tahun' => 'required|integer',
-        'kategori_klasifikasi' => 'required|string',
         'kategori' => 'required|string',
         'bentuk_jalur' => 'required|string',
         'nama_pelatihan' => 'required|string|max:255',

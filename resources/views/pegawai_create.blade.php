@@ -2,7 +2,7 @@
 @section('content')
     <div class="card bg-white">
         <div class="card-body p-0">
-            <div class="card-header p-3 fs-5 fw-bolder">Form Pegawai</div>
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Form Pegawai</div>
             <form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
                 @csrf
                 <div class="form-group mt-1 mb-3">

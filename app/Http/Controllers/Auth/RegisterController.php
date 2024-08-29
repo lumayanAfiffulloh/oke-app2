@@ -78,7 +78,7 @@ class RegisterController extends Controller
         $this->clearRegisterAttempts($request);
 
         // Set flash message
-        session()->flash('status', 'Selamat datang di aplikasi SINTA, ' . $user->name . '!');
+        session()->flash('status', 'Selamat datang di aplikasi SANTI!' . $user->name . '!');
 
         // Redirect to the intended location
         return redirect($this->redirectPath());

@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->year('tahun');
             $table->enum('klasifikasi',['pelatihan', 'pendidikan']);
-            $table->enum('kategori_klasifikasi', ['gelar', 'non-gelar', 'teknis', 'fungsional', 'sosial kultural']);
-            $table->enum('kategori', ['klasikal', 'non-klasikal']);
+            $table->string('kategori');
             $table->string('bentuk_jalur');
             $table->string('nama_pelatihan');
             $table->integer('jam_pelajaran');
             $table->enum('regional', ['nasional', 'internasional']);
             $table->integer('anggaran');
             $table->enum('prioritas', ['rendah', 'sedang', 'tinggi']);
+            $table->timestamps();
         });
     }
 

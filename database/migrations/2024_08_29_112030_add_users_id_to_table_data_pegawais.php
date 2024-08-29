@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('rencana_pembelajarans', function (Blueprint $table) {
-            $table->timestamps();
+        Schema::table('data_pegawais', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('rencana_pembelajarans', function (Blueprint $table) {
-            $table->dropColumn(['created_at', 'updated_at']);
+        Schema::table('data_pegawais', function (Blueprint $table) {
+            $table->dropColumn('user_id');
+            $table->dropForeign(['user_id']);
         });
     }
 };

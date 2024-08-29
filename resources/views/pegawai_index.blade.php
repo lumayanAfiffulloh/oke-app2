@@ -2,49 +2,50 @@
 @section('content')
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 pt-0">
-            <div class="card-header p-3 fs-5 fw-bolder">Data Pegawai</div>
-            <button class="position-relative">
-                <a href="/data_pegawai/create" class="btn btn-primary mx-3 my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-500 tw-duration-200" style="font-size: 0.9rem">
-                    <span>
-                        <i class="ti ti-user-plus"></i>
-                    </span>
-                    <span>Tambah Pegawai</span>
-                </a>
-            </button>
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
+            <div class="row mx-1 mt-2 mb-2 justify-content-end align-items-center">
+                <button class="col ps-0 text-start ms-2">
+                    <a href="/data_pegawai/create" class="btn btn-primary  my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-500 tw-duration-200" style="font-size: 0.9rem">
+                        <span>
+                            <i class="ti ti-user-plus me-1"></i> 
+                        </span>
+                        <span>Tambah Pegawai</span>
+                    </a>
+                </button>
+                <div class="col-md-3 p-0">
+                    <form action="">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="q" placeholder="Cari berdasarkan Nama" value="{{ request('q') }}">
+                            <button type="submit" class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                <i class="ti ti-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 mx-2 p-0">
+                    <form action="">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="w" placeholder="Cari berdasarkan Unit Kerja" value="{{ request('w') }}">
+                            <button type="submit" class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                <i class="ti ti-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-3 ps-0">
+                    <form action="">
+                        <div class="input-group">
+                            <input class="form-control" type="text" name="e" placeholder="Cari berdasarkan NIP" value="{{ request('e') }}">
+                            <button type="submit" class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                <i class="ti ti-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <hr class="my-0">
             <div class="table-responsive">
-                <div class="row ms-3 mt-2 mb-0">
-                    <div class="col-md-4 p-0">
-                        <form action="">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="q" placeholder="Cari berdasarkan Nama" value="{{ request('q') }}">
-                                <button type="submit" class="btn btn-primary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
-                                    <i class="ti ti-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-4 ">
-                        <form action="">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="w" placeholder="Cari berdasarkan Unit Kerja" value="{{ request('w') }}">
-                                <button type="submit" class="btn btn-primary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
-                                    <i class="ti ti-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-3 ps-0">
-                        <form action="">
-                            <div class="input-group">
-                                <input class="form-control" type="text" name="e" placeholder="Cari berdasarkan NIP" value="{{ request('e') }}">
-                                <button type="submit" class="btn btn-primary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
-                                    <i class="ti ti-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                {{-- TABEL --}}
                 <table class="table table-striped mb-3" style="font-size: 0.8rem">
                     <thead >
                         <th class="pt-3">No.</th>

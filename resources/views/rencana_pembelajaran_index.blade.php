@@ -2,9 +2,14 @@
 @section('content')
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 pt-0">
-            <div class="card-header p-3 fs-5 fw-bolder">Rencana Pembelajaran <span class="fw-bolder tw-text-blue-600">{{ Auth::user()->name }}</span></div>
-            <button class="position-relative">
-                <a href="/rencana_pembelajaran/create" class="btn btn-primary mx-3 my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200" style="font-size: 0.9rem">Tambah Rencana Pembelajaran</a>
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Rencana Pembelajaran <span class="fw-bolder tw-text-blue-600">{{ Auth::user()->name }}</span></div>
+            <button class="position-relative my-2">
+                <a href="/rencana_pembelajaran/create" class="btn btn-primary mx-3 my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200" style="font-size: 0.9rem">
+                    <span class="me-1">
+                        <i class="ti ti-clipboard-plus"></i>
+                    </span>
+                    <span>Tambah Rencana Pembelajaran</span>
+                </a>
             </button>
             <hr class="my-0">
             <div class="table-responsive">
@@ -13,7 +18,6 @@
                         <th>No.</th>
                         <th>Tahun</th>
                         <th>Klasifikasi</th>
-                        <th>Kategori Klasifikasi</th>
                         <th>Kategori</th>
                         <th>Bentuk Jalur</th>
                         <th>Nama Pelatihan</th>
@@ -25,11 +29,10 @@
                             <tr>
                                 <td> {{ $rencana_pembelajaran->firstItem() + $index }} </td>
                                 <td>{{ $item->tahun }}</td>
-                                <td>{{ $item->klasifikasi }}</td>
-                                <td style="width: 10%">{{ $item->kategori_klasifikasi }}</td>
-                                <td>{{ $item->kategori }}</td>
-                                <td>{{ $item->bentuk_jalur }}</td>
-                                <td>{{ $item->nama_pelatihan }}</td>
+                                <td>{{ ucwords($item->klasifikasi) }}</td>
+                                <td>{{ ucwords($item->kategori) }}</td>
+                                <td>{{ ucwords($item->bentuk_jalur) }}</td>
+                                <td>{{ ucwords($item->nama_pelatihan) }}</td>
                                 <td>
                                     @if ($item->prioritas === 'rendah')
                                         <span class="badge rounded-pill bg-success" style="font-size: 0.8rem">Rendah</span>
@@ -70,7 +73,7 @@
                                                             <li class="list-group-item">
                                                                 <h2 class="fs-5 d-inline">
                                                                     <span style="display:inline-block; width:150px;">Klasifikasi</span>
-                                                                    <span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->klasifikasi) }} (<span class="tw-text-lime-500">{{ ucwords($item->kategori_klasifikasi)}}</span>)</span>
+                                                                    <span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->klasifikasi) }} </span>
                                                                 </h2>
                                                             </li>
                                                             <li class="list-group-item">

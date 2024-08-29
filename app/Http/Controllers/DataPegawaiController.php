@@ -64,8 +64,8 @@ class DataPegawaiController extends Controller
             $data_pegawai->foto = $request->file('foto')->store('public');
         }
         $data_pegawai->save();
-        flash('Yeay.. Data berhasil disimpan')->success();
-        return redirect()->route('pegawai.index');
+        flash('Yeay.. Data berhasil disimpan!')->success();
+        return redirect()->route('data_pegawai.index');
     }
 
     /**
@@ -110,8 +110,8 @@ class DataPegawaiController extends Controller
             $data_pegawai->foto = $request->file('foto')->store('public');
         }
         $data_pegawai->save();
-        flash('Yeay.. Data berhasil diubah')->success();
-        return redirect()->route('pegawai.index');
+        flash('Yeay.. Data berhasil diubah!')->success();
+        return redirect()->route('data_pegawai.index');
     }
 
     /**
@@ -122,16 +122,16 @@ class DataPegawaiController extends Controller
         
         $data_pegawai = \App\Models\DataPegawai::findOrfail($id);
 
-        if ($data_pegawai->pelaksanaan_pembelajaran->count() >= 1){
-            flash('Data data_pegawai tidak bisa dihapus karena sudah mendaftarkan pembelajaran')->error();
-            return back();
-        }
+        // if ($data_pegawai->pelaksanaan_pembelajaran->count() >= 1){
+        //     flash('Data data_pegawai tidak bisa dihapus karena sudah mendaftarkan pembelajaran')->error();
+        //     return back();
+        // }
 
         if ($data_pegawai->foto != null && Storage::exists($data_pegawai->foto) ){
             Storage::delete($data_pegawai->foto);
         }
         $data_pegawai->delete();
-        flash('Data berhasi dihapus')->error();
+        flash('Data berhasi dihapus!')->error();
         return redirect()->route('data_pegawai.index');
     }
 }

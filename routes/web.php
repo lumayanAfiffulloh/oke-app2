@@ -6,10 +6,8 @@ use App\Http\Controllers\BerandaKetuaKelompokController;
 use App\Http\Controllers\BerandaPegawaiController;
 use App\Http\Controllers\BerandaVerifikatorController;
 use App\Http\Controllers\DataPegawaiController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelaksanaanPembelajaranController;
 use App\Http\Controllers\RencanaPembelajaranController;
 use Illuminate\Auth\Middleware\Authenticate;
@@ -56,7 +54,6 @@ Route::get('logout', function () {
     return redirect('login');
 
 });
-
 
 
 Auth::routes(); 
