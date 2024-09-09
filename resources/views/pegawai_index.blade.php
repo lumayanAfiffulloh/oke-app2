@@ -1,7 +1,12 @@
 @extends('layouts.app_modern', ['title' => 'Data Pegawai'])
 @section('content')
+    <style>
+        input::placeholder {
+            font-size: 13px; /* Atur ukuran font di sini */
+        }
+    </style>
     <div class="card mb-4 bg-white">
-        <div class="card-body px-0 pt-0">
+        <div class="card-body px-0 py-0 ">
             <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
             <div class="row mx-1 mt-2 mb-2 justify-content-end align-items-center">
                 <button class="col ps-0 text-start ms-2">
@@ -52,8 +57,8 @@
                         <th class="pt-3">Nama</th>
                         <th class="pt-3">NIP</th>
                         <th class="pt-3">Status</th>
-                        <th class="pt-3">Jabatan</th>
                         <th class="pt-3">Unit Kerja</th>
+                        <th class="pt-3">Jabatan</th>
                         <th class="pt-3">Pendidikan</th>
                         <th class="pt-3">Jenis Kelamin</th>
                         <th class="pt-3" style="width: 13%">AKSI</th>
@@ -78,8 +83,8 @@
                                         <span class="badge rounded-pill bg-danger" style="font-size: 0.8rem">Non-Aktif</span>
                                     @endif
                                 </td>
-                                <td>{{ $item->jabatan }}</td>
                                 <td>{{ $item->unit_kerja }}</td>
+                                <td>{{ $item->jabatan }}</td>
                                 <td>{{ $item->pendidikan }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
                                 <td>
@@ -98,7 +103,7 @@
                 </table>
             </div>
         </div>
-        <div class="mx-3">
+        <div class="mx-3 mb-3">
             {!! $data_pegawai->links() !!}
         </div>
     </div>

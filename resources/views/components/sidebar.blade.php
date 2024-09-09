@@ -14,23 +14,6 @@
             <ul id="sidebarnav">
             {{-- HALAMAN LOGIN --}}
             @guest
-            <li class="nav-small-cap mt-1">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">Home</span>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link tw-ease-in-out tw-delay-10 active:tw-translate-x-2 hover:tw-translate-x-2 tw-duration-200" href="/" aria-expanded="false">
-                    <span>
-                        <i class="ti ti-layout-dashboard"></i>
-                    </span>
-                    <span class="hide-menu">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-small-cap">
-                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                <span class="hide-menu">SILAHKAN LOGIN</span>
-            </li>
             <li class="sidebar-item">
                 <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="{{ route('login') }}" aria-expanded="false">
                     <span>
@@ -39,19 +22,24 @@
                     <span class="hide-menu">LOGIN</span>
                 </a>
             </li> 
-            <li class="sidebar-item">
-                <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="{{ route('register') }}" aria-expanded="false">
-                    <span>
-                        <i class="ti ti-user-plus"></i>
-                    </span>
-                    <span class="hide-menu">REGISTER</span>
-                </a>
-            </li> 
             @endguest
             @auth
+                {{-- PROFIL --}}
+                <li class="nav-small-cap mt-1">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Dashboard</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/profil" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-user"></i>
+                        </span>
+                        <span class="hide-menu">Profil Anda</span>
+                    </a>
+                </li>
                 @can('admin')
                 {{-- PEGAWAI --}}
-                <li class="nav-small-cap mt-1">
+                <li class="nav-small-cap mt-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">PEGAWAI</span>
                 </li>
@@ -74,7 +62,7 @@
                 @endcan
 
                 {{-- PELAKSANAAN PEMBELAJARAN --}}
-                <li class="nav-small-cap">
+                <li class="nav-small-cap mt-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Pelaksanaan Pembelajaran</span>
                 </li>
@@ -88,7 +76,7 @@
                 </li>
 
                 {{-- RENCANA PEMBELAJARAN --}}
-                <li class="nav-small-cap">
+                <li class="nav-small-cap mt-2">
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">Rencana Pembelajaran (RP)</span>
                 </li>

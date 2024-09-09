@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\DataPegawai;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -58,30 +59,48 @@ class LoginController extends Controller
         ]);
     }
 
-    protected function username()
+    public function login(Request $request)
     {
-        $login = request()->input('login');
-        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email': 'name';
-        request()->merge([$field=>$login]);
-        return $field;
+        // Validasi input
+        $this->validateLogin($request);
 
+        // Tentukan apakah input adalah email atau NIP
+        $login = $request->input('login');
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nip';
 
-        // // Cek apakah input adalah email
-        // if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
-        //     return 'email';
-        // }
+        // Jika login menggunakan NIP, cari di tabel pegawai
+        if ($field === 'nip') {
+            $pegawai = \App\Models\DataPegawai::where('nip', $login)->first();
 
-        // // Jika input bukan email, asumsikan itu adalah nip
-        // $pegawai = DataPegawai::where('nip', $login)->first();
+            if (!$pegawai) {
+                return back()->withErrors([
+                    'login' => 'NIP tidak ditemukan.',
+                ]);
+            }
 
-        // if ($pegawai && $pegawai->user) {
-        //     // Temukan user yang terkait dengan pegawai tersebut melalui user_id
-        //     request()->merge(['email' => $pegawai->user->email]);
-        //     return 'email';
-        // }
+            // Ambil email atau username dari tabel users
+            $user = $pegawai->user; // Mengambil data user terkait
+            // Cek apakah user terkait ada
+            if (!$user) {
+                return back()->withErrors([
+                    'login' => 'User terkait dengan NIP tidak ditemukan.',
+                ]);
+            }
+        // Buat kredensial untuk autentikasi
+        $credentials = ['email' => $user->email, 'password' => $request->input('password')];
+        } else {
+            // Jika menggunakan email, langsung gunakan data dari request
+            $credentials = ['email' => $request->input('login'), 'password' => $request->input('password')];
+        } 
 
-        // // Jika nip tidak ditemukan, kembalikan 'email' untuk validasi gagal
-        // return 'email';
+        // Autentikasi pengguna
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('profil');
+        }
+
+        return back()->withErrors([
+            'login' => 'Login gagal. Silakan periksa NIP/Email dan password.',
+        ]);
     }
 
     /**
@@ -89,27 +108,26 @@ class LoginController extends Controller
      *
      * @return RedirectResponse
      */
-    public function authenticated(Request $request, $user): RedirectResponse
-    {   
+    // public function authenticated($user): RedirectResponse
+    // {   
         
-        if ($user->akses == 'pegawai') {
-            return redirect()->route('pegawai.beranda');
-        }else if ($user->akses == 'ketua_kelompok') {
-            return redirect()->route('ketua_kelompok.beranda');
-        }else if ($user->akses == 'verifikator') {
-            return redirect()->route('verifikator.beranda');
-        }else if ($user->akses == 'approval') {
-            return redirect()->route('approval.beranda');
-        }else if ($user->akses == 'admin') {
-            return redirect()->route('admin.beranda');
-        };
-    }
+    //     if ($user->akses == 'pegawai') {
+    //         return redirect()->route('pegawai.beranda');
+    //     }else if ($user->akses == 'ketua_kelompok') {
+    //         return redirect()->route('ketua_kelompok.beranda');
+    //     }else if ($user->akses == 'verifikator') {
+    //         return redirect()->route('verifikator.beranda');
+    //     }else if ($user->akses == 'approval') {
+    //         return redirect()->route('approval.beranda');
+    //     }else if ($user->akses == 'admin') {
+    //         return redirect()->route('admin.beranda');
+    //     };
+    // }
 
     protected function sendLoginResponse(Request $request)
     {
         $this->validateLogin($request);
         
-
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);

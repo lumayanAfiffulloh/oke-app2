@@ -8,7 +8,7 @@
             @csrf
             
             <div class="row mb-3">
-                <label for="login" class="col-md-4 col-form-label text-md-end">Masukkan Email / NIK</label>
+                <label for="login" class="col-md-4 col-form-label text-md-end">Masukkan Email / NIP</label>
 
                 <div class="col-md-6">
                     <input id="login" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}">

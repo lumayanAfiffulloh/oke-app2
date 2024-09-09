@@ -17,15 +17,16 @@ class DataPegawaiFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create(); 
         return [
-            'nama' => $this->faker->name(),
-            'status' => $this->faker->randomElement(['aktif', 'non-aktif']),
+            'nama' => $user->name,
             'nip' => $this->faker->randomNumber(7, true),
+            'status' => $this->faker->randomElement(['aktif', 'non-aktif']),
             'jabatan' => $this->faker->jobTitle(),
             'unit_kerja' => $this->faker->company(),
             'pendidikan' => $this->faker->randomElement(['SMA', 'S1', 'S2', 'S3']),
             'jenis_kelamin'=> $this->faker->randomElement(['laki-laki', 'perempuan']),
-            'user_id' => User::factory() 
+            'user_id' => $user->id 
         ];
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DataPegawaiController extends Controller
@@ -19,15 +21,23 @@ class DataPegawaiController extends Controller
 
     public function index()
     {
-        
+        $query = \App\Models\DataPegawai::query();
+
         if (request()->filled('q')) {
-            $data['data_pegawai'] = \App\Models\DataPegawai::where('nama', 'like', '%' . request('q') . '%')->paginate(10);
+            $query->where('nama', 'like', '%' . request('q') . '%')->paginate(10);
         }elseif (request()->filled('w')) {
-            $data['data_pegawai'] = \App\Models\DataPegawai::where('unit_kerja', 'like', '%' . request('w') . '%')->paginate(10);
+            $query->where('unit_kerja', 'like', '%' . request('w') . '%')->paginate(10);
         }elseif (request()->filled('e')) {
-            $data['data_pegawai'] = \App\Models\DataPegawai::where('nip', 'like', '%' . request('e') . '%')->paginate(10);
-        } else {
-            $data['data_pegawai'] = \App\Models\DataPegawai::latest()->paginate(10);
+            $query->whereHas('user', function ($query) {
+            $query->where('nip', 'like', '%' . request('e') . '%');});
+        } 
+            
+        $data['data_pegawai'] = $query->latest()->paginate(10);
+
+        // Cek jika tidak ada data yang ditemukan
+        if ($data['data_pegawai']->isEmpty()) {
+            // Setel pesan flash untuk tidak ada data ditemukan
+            flash('Data yang Anda cari tidak ada.')->error();
         }
         return view ('pegawai_index', $data);
     }
@@ -49,16 +59,30 @@ class DataPegawaiController extends Controller
         
         $requestData = $request->validate([
             'nama' => 'required|min:3',
+            'nip' => 'required|integer|unique:data_pegawais,nip',
             'status' => 'required',
-            'tanggal_lahir' => 'required|date',
             'unit_kerja' => 'required',
             'jabatan' => 'required',
             'pendidikan' => 'required',
-            'role' => 'required',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
+
+        // Validasi untuk tabel users
+        $userData = $request->validate([
+        'email' => 'required|email|unique:users,email', // Email harus unik di tabel users
+        'akses' => 'required|string', // Pastikan akses diisi dan berupa string
+        ]);
+        
+        $user = User::create([
+            'name' => $request->nama,
+            'akses' => $userData['akses'], // Username diisi dengan akses pegawai
+            'email' => $userData['email'], // Pastikan di form pegawai ada field email
+            'password' => Hash::make('password'), // Default password
+        ]);
         $data_pegawai = new \App\Models\DataPegawai;
+        $data_pegawai->user_id = $user->id;
+
         $data_pegawai->fill($requestData);
         if ($request->hasFile('foto')) {
             $data_pegawai->foto = $request->file('foto')->store('public');
@@ -94,12 +118,11 @@ class DataPegawaiController extends Controller
         
         $requestData = $request->validate([
             'nama' => 'nullable|min:3',
-            'alamat' => 'nullable',
-            'tanggal_lahir' => 'nullable|date',
+            'nip' => 'nullable',
+            'status' => 'required',
             'unit_kerja' => 'nullable',
             'jabatan' => 'nullable',
             'pendidikan' => 'nullable',
-            'role' => 'nullable',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);

@@ -42,7 +42,9 @@ Route::middleware([Authenticate::class])->group(function () {
 
     Route::resource('rencana_pembelajaran', RencanaPembelajaranController::class);
 
-    
+    Route::get('/profil', function () {
+        return view('profil');
+    });
 });
 
 Route::get('/', function () {

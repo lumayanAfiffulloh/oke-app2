@@ -25,7 +25,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'akses'=> $this->faker->randomElement(['pegawai', 'ketua_kelompok', 'verifikator', 'approval', 'admin']),
+            'akses'=> fake()->randomElement(['pegawai', 'ketua_kelompok', 'verifikator', 'approval', 'admin']),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
