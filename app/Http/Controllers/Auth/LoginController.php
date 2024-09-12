@@ -56,6 +56,8 @@ class LoginController extends Controller
         $request->validate([
             'login' => 'required|string',
             'password' => 'required|string',
+        ], [
+        'login.required' => 'Email / NIP wajib diisi.'
         ]);
     }
 
@@ -86,17 +88,18 @@ class LoginController extends Controller
                     'login' => 'User terkait dengan NIP tidak ditemukan.',
                 ]);
             }
-        // Buat kredensial untuk autentikasi
-        $credentials = ['email' => $user->email, 'password' => $request->input('password')];
+            // Buat kredensial untuk autentikasi
+            $credentials = ['email' => $user->email, 'password' => $request->input('password')];
         } else {
             // Jika menggunakan email, langsung gunakan data dari request
             $credentials = ['email' => $request->input('login'), 'password' => $request->input('password')];
         } 
 
         // Autentikasi pengguna
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('profil');
-        }
+    if (Auth::attempt($credentials)) {
+        // Gunakan sendLoginResponse() agar flash message muncul
+        return $this->sendLoginResponse($request);
+    }
 
         return back()->withErrors([
             'login' => 'Login gagal. Silakan periksa NIP/Email dan password.',
@@ -108,21 +111,7 @@ class LoginController extends Controller
      *
      * @return RedirectResponse
      */
-    // public function authenticated($user): RedirectResponse
-    // {   
-        
-    //     if ($user->akses == 'pegawai') {
-    //         return redirect()->route('pegawai.beranda');
-    //     }else if ($user->akses == 'ketua_kelompok') {
-    //         return redirect()->route('ketua_kelompok.beranda');
-    //     }else if ($user->akses == 'verifikator') {
-    //         return redirect()->route('verifikator.beranda');
-    //     }else if ($user->akses == 'approval') {
-    //         return redirect()->route('approval.beranda');
-    //     }else if ($user->akses == 'admin') {
-    //         return redirect()->route('admin.beranda');
-    //     };
-    // }
+
 
     protected function sendLoginResponse(Request $request)
     {
@@ -135,7 +124,15 @@ class LoginController extends Controller
         // Set flash message
         session()->flash('status', 'Selamat datang di aplikasi SANTI!');
 
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended($this->redirectPath());
+        // Redirect ke halaman /profil setelah login
+        return redirect()->intended('/profil');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Logout user
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+        return redirect('/login'); // Redirect to login page after logout
     }
 }

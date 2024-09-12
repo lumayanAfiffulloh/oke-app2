@@ -9,10 +9,8 @@
             
             <div class="row mb-3">
                 <label for="login" class="col-md-4 col-form-label text-md-end">Masukkan Email / NIP</label>
-
                 <div class="col-md-6">
                     <input id="login" class="form-control @error('login') is-invalid @enderror" name="login" value="{{ old('login') }}">
-
                     @if ($errors->has('login'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('login') }}</strong>
@@ -23,7 +21,6 @@
 
             <div class="row mb-3">
                 <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-                
                 <div class="col-md-6">
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
                     

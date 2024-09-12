@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataPegawai;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\DataPelatihan;
+use App\Http\Requests\StoreDataPelatihanRequest;
+use App\Http\Requests\UpdateDataPelatihanRequest;
 
-class ProfilController extends Controller
+class DataPelatihanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view ('pelatihan_index');
     }
 
     /**
@@ -27,7 +27,7 @@ class ProfilController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDataPelatihanRequest $request)
     {
         //
     }
@@ -35,18 +35,15 @@ class ProfilController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(DataPelatihan $dataPelatihan)
     {
-        // Mengambil data pengguna yang login
-        $user = Auth::user();
-        // Mengirim data pengguna ke view
-        return view('profil', compact('user'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DataPegawai $dataPegawai)
+    public function edit(DataPelatihan $dataPelatihan)
     {
         //
     }
@@ -54,7 +51,7 @@ class ProfilController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DataPegawai $dataPegawai)
+    public function update(UpdateDataPelatihanRequest $request, DataPelatihan $dataPelatihan)
     {
         //
     }
@@ -62,7 +59,7 @@ class ProfilController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DataPegawai $dataPegawai)
+    public function destroy(DataPelatihan $dataPelatihan)
     {
         //
     }

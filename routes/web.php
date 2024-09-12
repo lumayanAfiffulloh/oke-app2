@@ -1,37 +1,13 @@
 <?php
 
-use App\Http\Controllers\BerandaAdminController;
-use App\Http\Controllers\BerandaApprovalController;
-use App\Http\Controllers\BerandaKetuaKelompokController;
-use App\Http\Controllers\BerandaPegawaiController;
-use App\Http\Controllers\BerandaVerifikatorController;
 use App\Http\Controllers\DataPegawaiController;
+use App\Http\Controllers\DataPelatihanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelaksanaanPembelajaranController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\RencanaPembelajaranController;
 use Illuminate\Auth\Middleware\Authenticate;
-
-Route::prefix('pegawai')->middleware(['auth', 'pegawai-access'])->group(function () {  
-    Route::get('beranda', [BerandaPegawaiController::class, 'index'])->name('pegawai.beranda');
-});
-
-Route::prefix('ketua_kelompok')->middleware(['auth', 'ketua_kelompok-access'])->group(function () {  
-    Route::get('beranda', [BerandaKetuaKelompokController::class, 'index'])->name('ketua_kelompok.beranda');
-});
-
-Route::prefix('verifikator')->middleware(['auth', 'verifikator-access'])->group(function () {  
-    Route::get('beranda', [BerandaVerifikatorController::class, 'index'])->name('verifikator.beranda');
-});
-
-Route::prefix('approval')->middleware(['auth', 'approval-access'])->group(function () {  
-    Route::get('beranda', [BerandaApprovalController::class, 'index'])->name('approval.beranda');
-});
-
-Route::prefix('admin')->middleware(['auth', 'admin-access'])->group(function () {  
-    Route::get('beranda', [BerandaAdminController::class, 'index'])->name('admin.beranda');
-});
-
 
 
 Route::middleware([Authenticate::class])->group(function () {
@@ -42,20 +18,24 @@ Route::middleware([Authenticate::class])->group(function () {
 
     Route::resource('rencana_pembelajaran', RencanaPembelajaranController::class);
 
-    Route::get('/profil', function () {
-        return view('profil');
-    });
+    Route::resource('data_pelatihan', DataPelatihanController::class);
+
+    Route::resource('profil', ProfilController::class);
+    
+    Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
 });
 
 Route::get('/', function () {
+    // Jika pengguna sudah login, arahkan ke /profil
+    if (Auth::check()) {
+        return redirect('profil');
+    }
     return view('welcome');
 });
 
 Route::get('logout', function () {
     Auth::logout();
     return redirect('login');
-
 });
-
 
 Auth::routes(); 

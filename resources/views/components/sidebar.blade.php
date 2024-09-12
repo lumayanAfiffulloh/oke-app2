@@ -46,7 +46,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pegawai" aria-expanded="false">
                         <span>
-                            <i class="ti ti-user"></i>
+                            <i class="ti ti-users"></i>
                         </span>
                         <span class="hide-menu">Data Pegawai</span>
                     </a>
@@ -58,6 +58,20 @@
                         </span>
                         <span class="hide-menu">Tambah Data Pegawai</span>
                     </a>    
+                </li>
+
+                {{-- DATA PELATIHAN --}}
+                <li class="nav-small-cap mt-2">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">PELATIHAN</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pelatihan" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-file-stack"></i>
+                        </span>
+                        <span class="hide-menu">Data Pelatihan</span>
+                    </a>
                 </li>
                 @endcan
 

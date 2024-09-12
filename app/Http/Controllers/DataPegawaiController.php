@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,7 +55,7 @@ class DataPegawaiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, string $id)
     {
         
         $requestData = $request->validate([
@@ -70,7 +71,7 @@ class DataPegawaiController extends Controller
 
         // Validasi untuk tabel users
         $userData = $request->validate([
-        'email' => 'required|email|unique:users,email', // Email harus unik di tabel users
+        'email' => 'required|email|unique:users,email' . $id, // Email harus unik di tabel users
         'akses' => 'required|string', // Pastikan akses diisi dan berupa string
         ]);
         
@@ -107,6 +108,10 @@ class DataPegawaiController extends Controller
     {
         
         $data['data_pegawai'] = \App\Models\DataPegawai::findOrFail($id);
+
+        // Ambil data user yang terkait dengan data pegawai
+        $data['user'] = $data['data_pegawai']->user;
+    
         return view('pegawai_edit', $data);
     }
 
@@ -115,24 +120,48 @@ class DataPegawaiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        
+        // Ambil data pegawai berdasarkan ID
+        $data_pegawai = \App\Models\DataPegawai::findOrFail($id);
+
+         // Ambil user terkait berdasarkan user_id
+        $user = \App\Models\User::findOrFail($data_pegawai->user_id);
+
+        // Validasi input
         $requestData = $request->validate([
             'nama' => 'nullable|min:3',
-            'nip' => 'nullable',
-            'status' => 'required',
+            'nip' => [
+                'nullable',
+                'integer',
+                Rule::unique('data_pegawais', 'nip')->ignore($data_pegawai->id),
+            ],
+            'status' => 'nullable',
             'unit_kerja' => 'nullable',
             'jabatan' => 'nullable',
             'pendidikan' => 'nullable',
-            'jenis_kelamin' => 'required',
+            'jenis_kelamin' => 'nullable',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
-        $data_pegawai = \App\Models\DataPegawai::findOrfail($id);
+
+        // Validasi input untuk tabel users
+        $userData = $request->validate([
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+            'akses' => 'nullable|string',
+        ]);
+
         $data_pegawai->fill($requestData);
         if ($request->hasFile('foto')){
             Storage::delete($data_pegawai->foto);
             $data_pegawai->foto = $request->file('foto')->store('public');
         }
         $data_pegawai->save();
+
+        $user->fill($userData);
+        $user->save();
+
         flash('Yeay.. Data berhasil diubah!')->success();
         return redirect()->route('data_pegawai.index');
     }

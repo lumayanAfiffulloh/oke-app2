@@ -5,27 +5,36 @@
             <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Form Pegawai</div>
             <form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
                 @csrf
+                {{-- FOTO --}}
                 <div class="form-group mt-1 mb-3">
-                    <label for="foto">Foto Pegawai</label> {{-- FOTO --}}
+                    <label for="foto">Foto Pegawai</label> 
                     <input type="file" class="form-control @error('foto') is-invalid @enderror" id="foto" name="foto">
                     <span class="text-danger">{{ $errors->first('foto') }}</span>
                 </div>
+
+                {{-- NAMA PEGAWAI --}}
                 <div class="form-group mt-1 mb-3">
-                    <label for="nama">Nama Pegawai</label> {{-- NAMA PEGAWAI --}}
+                    <label for="nama">Nama Pegawai</label> 
                     <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') }}">
                     <span class="text-danger">{{ $errors->first('nama') }}</span>
                 </div>
+
+                {{-- NIP --}}
                 <div class="form-group mt-1 mb-3">
-                    <label for="nip">NIP</label> {{-- NIP --}}
+                    <label for="nip">NIP</label> 
                     <input type="text" class="form-control @error('nip') is-invalid @enderror" id="nip" name="nip" value="{{ old('nip') }}">
                     <span class="text-danger">{{ $errors->first('nip') }}</span>
                 </div>
+
+                {{-- EMAIL --}}
                 <div class="form-group mt-1 mb-3">
-                    <label for="email">Email</label> {{-- Email --}}
+                    <label for="email">Email</label> 
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
                     <span class="text-danger">{{ $errors->first('email') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- Status --}}
+
+                {{-- STATUS --}}
+                <div class="form-group mt-1 mb-3"> 
                     <label for="status">Status</label><br> 
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') === 'aktif' ? 'checked' : '' }}>
@@ -37,25 +46,25 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('status') }}</span>
                 </div>
-                {{-- TANGGAL LAHIR --}}
-                {{-- <div class="form-group mt-1 mb-3"> 
-                    <label for="tanggal_lahir">Tanggal Lahir</label>
-                    <input type="date" class="form-control @error('tanggal_lahir') is-invalid @enderror" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
-                    <spanclass="text-danger">{{ $errors->first('tanggal_lahir') }}</span>
-                </div> --}}
-                <div class="form-group mt-1 mb-3"> {{-- UNIT KERJA --}}
+                
+                {{-- UNIT KERJA --}}
+                <div class="form-group mt-1 mb-3"> 
                     <label for="unit_kerja">Unit Kerja</label>
                     <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
                     name="unit_kerja" value="{{ old('unit_kerja') }}">
                     <span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- JABATAN --}}
+
+                {{-- JABATAN --}}
+                <div class="form-group mt-1 mb-3"> 
                     <label for="jabatan">Jabatan</label>
                     <input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
                     name="jabatan" value="{{ old('jabatan') }}">
                     <span class="text-danger">{{ $errors->first('jabatan') }}</span>
                 </div>
-                <div class="form-group mt-1 mb-3"> {{-- PENDIDIKAN --}}
+
+                {{-- PENDIDIKAN --}}
+                <div class="form-group mt-1 mb-3"> 
                     <label for="pendidikan">Pendidikan Terakhir</label><br>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="pendidikan" id="SMA" value="SMA" {{ old('pendidikan') === 'SMA' ? 'checked' : '' }}>
@@ -75,32 +84,9 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('pendidikan') }}</span>
                 </div>
-                {{-- ROLE --}}
-                {{-- <div class="form-group mt-1 mb-3">
-                    <label for="role">Daftar Sebagai</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="user" value="user" {{ old('role') === 'user' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="user">user</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="ketua kelompok" value="ketua kelompok" {{ old('role') === 'ketua kelompok' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="ketua kelompok">ketua kelompok</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="admin" value="admin" {{ old('role') === 'admin' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="admin">admin</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="verifikator" value="verifikator" {{ old('role') === 'verifikator' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="verifikator">verifikator</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="role" id="approval" value="approval" {{ old('role') === 'approval' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="approval">approval</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('role') }}</span>
-                </div> --}}
-                <div class="form-group mt-1 mb-3"> {{-- JENIS KELAMIN --}}
+                
+                {{-- JENIS KELAMIN --}}
+                <div class="form-group mt-1 mb-3"> 
                     <label for="jenis_kelamin">Jenis Kelamin</label><br>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki_laki" value="laki-laki" {{ old('jenis_kelamin') === 'laki-laki' ? 'checked' : '' }}>
@@ -113,7 +99,7 @@
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
 
-                {{-- Akses --}}
+                {{-- AKSES --}}
                 <div class="form-group mt-1 mb-3"> 
                     <label for="akses">Akses</label><br>
                     <div class="form-check form-check-inline">

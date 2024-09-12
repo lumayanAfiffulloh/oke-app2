@@ -5,6 +5,7 @@
             font-size: 13px; /* Atur ukuran font di sini */
         }
     </style>
+
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 py-0 ">
             <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
@@ -52,16 +53,16 @@
             <div class="table-responsive">
                 {{-- TABEL --}}
                 <table class="table table-striped mb-3" style="font-size: 0.8rem">
-                    <thead >
-                        <th class="pt-3">No.</th>
-                        <th class="pt-3">Nama</th>
-                        <th class="pt-3">NIP</th>
-                        <th class="pt-3">Status</th>
-                        <th class="pt-3">Unit Kerja</th>
-                        <th class="pt-3">Jabatan</th>
-                        <th class="pt-3">Pendidikan</th>
-                        <th class="pt-3">Jenis Kelamin</th>
-                        <th class="pt-3" style="width: 13%">AKSI</th>
+                    <thead>
+                        <th class="px-3">No.</th>
+                        <th class="px-3">Nama</th>
+                        <th class="px-3">NIP</th>
+                        <th class="px-3" style="width: 10%;">Email</th>
+                        <th class="px-3">Status</th>
+                        <th class="px-3">Unit Kerja</th>
+                        <th class="px-3">Jabatan</th>
+                        <th class="px-3">Jenis Kelamin</th>
+                        <th class="px-3" style="width: 20%">AKSI</th>
                     </thead>
                     <tbody>
                         @foreach ($data_pegawai as $index => $item)
@@ -76,6 +77,7 @@
                                     <div>{{ $item->nama }}</div>
                                 </td>
                                 <td>{{ $item->nip }}</td>
+                                <td>{{ $item->user->email }}</td>
                                 <td>
                                     @if ($item->status === 'aktif')
                                         <span class="badge rounded-pill bg-success" style="font-size: 0.8rem">Aktif</span>
@@ -85,7 +87,6 @@
                                 </td>
                                 <td>{{ $item->unit_kerja }}</td>
                                 <td>{{ $item->jabatan }}</td>
-                                <td>{{ $item->pendidikan }}</td>
                                 <td>{{ $item->jenis_kelamin }}</td>
                                 <td>
                                     <a href="/data_pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw--translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" style="font-size: 0.8rem">Edit</a>

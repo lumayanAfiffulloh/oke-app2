@@ -28,7 +28,7 @@
 
       {{-- KONTEN --}}
       <div class="container-fluid">
-        @if (session()->has('status'))
+        @if (session('status'))
           <div class="alert alert-info" role="alert">
             {{ session('status') }}
           </div>
