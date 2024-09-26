@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\PelaksanaanPembelajaran;
+use App\Models\Kelompok;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class PelaksanaanPembelajaranPolicy
+class KelompokPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class PelaksanaanPembelajaranPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, PelaksanaanPembelajaran $pelaksanaanPembelajaran): bool
+    public function view(User $user, Kelompok $kelompok): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class PelaksanaanPembelajaranPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, PelaksanaanPembelajaran $pelaksanaanPembelajaran): bool
+    public function update(User $user, Kelompok $kelompok): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class PelaksanaanPembelajaranPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, PelaksanaanPembelajaran $pelaksanaanPembelajaran): bool
+    public function delete(User $user, Kelompok $kelompok): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class PelaksanaanPembelajaranPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, PelaksanaanPembelajaran $pelaksanaanPembelajaran): bool
+    public function restore(User $user, Kelompok $kelompok): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class PelaksanaanPembelajaranPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, PelaksanaanPembelajaran $pelaksanaanPembelajaran): bool
+    public function forceDelete(User $user, Kelompok $kelompok): bool
     {
         //
     }

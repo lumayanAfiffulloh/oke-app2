@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pelaksanaan_pembelajarans', function (Blueprint $table) {
-            $table->date('tanggal_pelaksanaan')->after('rencana_pembelajaran_id');
+        Schema::table('rencana_pembelajarans', function (Blueprint $table) {
+            $table->foreignId('data_pegawai_id');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pelaksanaan_pembelajarans', function (Blueprint $table) {
-            $table->dropColumn('tanggal_pelaksanaan');
+        Schema::table('rencana_pembelajarans', function (Blueprint $table) {
+            $table->dropColumn('data_pegawai_id');
         });
     }
 };

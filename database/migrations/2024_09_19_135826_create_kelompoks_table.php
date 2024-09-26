@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pelaksanaan_pembelajarans', function (Blueprint $table) {
+        Schema::create('kelompoks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_id');
-            $table->foreignId('rencana_pembelajaran_id');
-            // di sini ada tanggal_pelaksanaan
-            $table->enum('status_pembelajaran',['direncanakan', 'berjalan', 'selesai']);
             $table->timestamps();
         });
     }
@@ -26,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelaksanaan_pembelajarans');
+        Schema::dropIfExists('kelompoks');
     }
 };

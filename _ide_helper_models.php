@@ -17,8 +17,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $nama
- * @property string $status
  * @property int $nip
+ * @property string $status
  * @property string $jabatan
  * @property string $unit_kerja
  * @property string $pendidikan
@@ -27,6 +27,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $user_id
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RencanaPembelajaran> $rencanaPembelajaran
+ * @property-read int|null $rencana_pembelajaran_count
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\DataPegawaiFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai newModelQuery()
@@ -54,28 +56,24 @@ namespace App\Models{
 /**
  * 
  *
- * @property int $id
- * @property int $pegawai_id
- * @property int $rencana_pembelajaran_id
- * @property string $tanggal_pelaksanaan
- * @property string $status_pembelajaran
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\DataPegawai|null $dataPegawai
- * @property-read \App\Models\RencanaPembelajaran|null $rencana_pembelajaran
- * @method static \Database\Factories\PelaksanaanPembelajaranFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran query()
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran wherePegawaiId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereRencanaPembelajaranId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereStatusPembelajaran($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereTanggalPelaksanaan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PelaksanaanPembelajaran whereUpdatedAt($value)
+ * @method static \Database\Factories\DataPelatihanFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan query()
  */
-	class PelaksanaanPembelajaran extends \Eloquent {}
+	class DataPelatihan extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @method static \Database\Factories\KelompokFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok query()
+ */
+	class Kelompok extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -94,6 +92,7 @@ namespace App\Models{
  * @property string $prioritas
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $data_pegawai_id
  * @property-read \App\Models\DataPegawai|null $dataPegawai
  * @method static \Database\Factories\RencanaPembelajaranFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran newModelQuery()
@@ -102,6 +101,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereAnggaran($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereBentukJalur($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereDataPegawaiId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereJamPelajaran($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereKategori($value)

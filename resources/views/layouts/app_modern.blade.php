@@ -27,7 +27,7 @@
       @endauth
 
       {{-- KONTEN --}}
-      <div class="container-fluid">
+      <div class="container-fluid ">
         @if (session('status'))
           <div class="alert alert-info" role="alert">
             {{ session('status') }}
@@ -40,6 +40,7 @@
   </div>
   <script src={{asset("modern/src/assets/libs/jquery/dist/jquery.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}></script>
+  @stack('scripts')
   <script src={{asset("modern/src/assets/js/sidebarmenu.js")}}></script>
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>

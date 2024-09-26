@@ -106,6 +106,32 @@
                     <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
                 </div>
 
+                {{-- AKSES --}}
+                <div class="form-group mt-1 mb-3"> 
+                    <label for="akses">Akses</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') === 'pegawai' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="pegawai">Pegawai</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="akses" id="ketua_kelompok" value="ketua_kelompok" {{ old('akses') ?? $user->akses === 'ketua_kelompok' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="akses" id="approval" value="approval" {{ old('akses') ?? $user->akses === 'approval' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="approval">Approval</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="akses" id="verifikator" value="verifikator" {{ old('akses') ?? $user->akses === 'verifikator' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="verifikator">Verifikator</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="akses" id="admin" value="admin" {{ old('akses') ?? $user->akses === 'admin' ? 'checked' : '' }}>
+                        <label class="form-check-label" for="admin">Admin</label>
+                    </div>
+                    <span class="text-danger">{{ $errors->first('akses') }}</span>
+                </div>
+
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-2">
                     <form>

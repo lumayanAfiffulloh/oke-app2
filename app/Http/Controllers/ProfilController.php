@@ -8,62 +8,76 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfilController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 */
+	public function index()
+	{
+		//
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 */
+	public function create()
+	{
+			//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 */
+	public function store(Request $request)
+	{
+			//
+	}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show()
-    {
-        // Mengambil data pengguna yang login
-        $user = Auth::user();
-        // Mengirim data pengguna ke view
-        return view('profil', compact('user'));
-    }
+	/**
+	 * Display the specified resource.
+	 */
+	public function show()
+	{
+		// Ambil user yang sedang login
+		$user = Auth::user();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DataPegawai $dataPegawai)
-    {
-        //
-    }
+		// Ambil data pegawai terkait user
+		$dataPegawai = $user->dataPegawai;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DataPegawai $dataPegawai)
-    {
-        //
-    }
+		// Ambil pelatihan yang terkait dengan pegawai dan grupkan berdasarkan tahun
+    if ($dataPegawai) {
+			$rencanaPembelajaran = $dataPegawai->rencanaPembelajaran()
+					->selectRaw('tahun, SUM(jam_pelajaran) as total_jam_pelajaran')
+					->groupBy('tahun')
+					->orderBy('tahun', 'asc')
+					->get();
+		} else {
+				$rencanaPembelajaran = null;
+		}
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DataPegawai $dataPegawai)
-    {
-        //
-    }
+		return view('profil', compact('user', 'dataPegawai', 'rencanaPembelajaran'));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit(DataPegawai $dataPegawai)
+	{
+			//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 */
+	public function update(Request $request, DataPegawai $dataPegawai)
+	{
+			//
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 */
+	public function destroy(DataPegawai $dataPegawai)
+	{
+			//
+	}
 }

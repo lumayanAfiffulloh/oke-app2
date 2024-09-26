@@ -2,10 +2,8 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class DataPegawai extends Model
@@ -43,12 +41,17 @@ class DataPegawai extends Model
     protected $guarded=[];
 
     /**
-     * Get all of the pelaksanaan_pembelajaran for the Pegawai
+     * Get all of the for the Pegawai
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function rencanaPembelajaran()
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
     }
 }

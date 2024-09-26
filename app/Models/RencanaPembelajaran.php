@@ -13,7 +13,6 @@ class RencanaPembelajaran extends Model
     protected $guarded=[];
 
     /**
-     * Get all of the pelaksanaan_pembelajaran for the Pegawai
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
