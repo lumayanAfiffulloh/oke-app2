@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Hash;
+use App\Models\User;
 use App\Models\DataPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProfilController extends Controller
 {
@@ -76,8 +79,38 @@ class ProfilController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(DataPegawai $dataPegawai)
+	public function changePassword()
 	{
-			//
+		return view('password_edit');
+	}
+
+	public function processPassword(Request $request)
+	{
+		$request->validate([
+			'password_sekarang' => 'required',
+			'password_baru' => 'required',
+			'konfirmasi_password' => 'required',
+		]);
+
+		$user= Auth::user();
+
+		if(!Hash::check($request->password_sekarang, $user->password)){
+			return back()->withErrors([
+				'password_sekarang' => 'Password tidak sesuai',
+			]);
+		}
+
+		if($request->password_baru != $request->konfirmasi_password){
+			return back()->withErrors([
+				'konfirmasi_password' => 'Konfirmasi password tidak cocok dengan password baru.',
+			]);
+		}
+		
+		User::whereId(Auth::user()->id)->update([
+			'password' => Hash::make($request->password_baru)
+		]);
+
+		flash('Yeay.. Password berhasil diubah!')->success();
+    return redirect()->route('profil');
 	}
 }

@@ -20,7 +20,7 @@
 						<div class="col-4 text-center">
 							@if ($dataPegawai->foto)
 							<a href="{{ Storage::url($dataPegawai->foto) }}" target="blank">
-								<img src="{{ Storage::url($dataPegawai->foto) }}" class="d-flex justify-content-center rounded-3" style="object-fit: cover; height: 190px; width: 150px;">
+								<img src="{{ Storage::url($dataPegawai->foto) }}" class="d-flex justify-content-center rounded-3 border border-3 border-dark-subtle" style="object-fit: cover; height: 190px; width: 150px;">
 							</a>
 							@else
 							<div class="card tw-bg-slate-400 mb-1">
@@ -29,10 +29,7 @@
 								</div>
 							</div>
 							@endif
-							<a href="{{ route('data_pegawai.edit', $dataPegawai->id) }}" class="btn btn-primary btn-sm my-1">
-								Edit Profil
-							</a>
-							<a class="btn btn-warning btn-sm">
+							<a href="/ganti_password" class="btn btn-warning btn-sm my-1">
 								Ganti Password
 							</a>
 						</div>

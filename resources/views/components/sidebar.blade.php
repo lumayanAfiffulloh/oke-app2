@@ -1,3 +1,4 @@
+@auth
 <aside class="left-sidebar">
   <!-- Sidebar scroll-->
   <div>
@@ -13,23 +14,12 @@
     <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
       <ul id="sidebarnav">
       {{-- HALAMAN LOGIN --}}
-      @guest
-      <li class="sidebar-item">
-        <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="{{ route('login') }}" aria-expanded="false">
-          <span>
-            <i class="ti ti-user"></i>
-          </span>
-          <span class="hide-menu">LOGIN</span>
-        </a>
-      </li> 
-      @endguest
-      @auth
         {{-- PROFIL --}}
         <li class="nav-small-cap mt-1">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Dashboard</span>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item {{ Request::is('ganti_password') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/profil" aria-expanded="false">
             <span>
               <i class="ti ti-user-circle"></i>
@@ -51,7 +41,7 @@
             <span class="hide-menu">Kelola Data Pegawai</span>
           </a>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item {{ Request::is('kelompok*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/kelompok" aria-expanded="false">
             <span>
               <i class="ti ti-users"></i>
@@ -65,7 +55,7 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">PELATIHAN</span>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item {{ Request::is('data_pelatihan*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pelatihan" aria-expanded="false">
             <span>
               <i class="ti ti-file-stack"></i>
@@ -81,7 +71,7 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Rencana Pembelajaran (RPP)</span>
         </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item {{ Request::is('rencana_pembelajaran*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/rencana_pembelajaran" aria-expanded="false">
             <span>
               <i class="ti ti-bookmarks "></i>
@@ -89,10 +79,10 @@
             <span class="hide-menu">RPP Anda</span>
           </a>
         </li>
-        @endauth
-
+        
         
       </ul>
     </nav>
   </div>
 </aside>
+@endauth

@@ -30,26 +30,6 @@
             </div>
 
             {{-- KATEGORI --}}
-            {{-- <div class="form-group mt-1 mb-3"> 
-                <label for="kategori" class="fw-bolder">Kategori</label>
-                <div class="category-container">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori" id="kategori-pendidikan" value="pendidikan" {{ old('kategori') === 'pendidikan' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="kategori-pendidikan">Pendidikan</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori" id="kategori-klasikal" value="klasikal" {{ old('kategori') === 'klasikal' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="kategori-klasikal">Klasikal</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="kategori" id="kategori-non-klasikal" value="non-klasikal" {{ old('kategori') === 'non-klasikal' ? 'checked' : '' }} disabled>
-                        <label class="form-check-label" for="kategori-non-klasikal">Non-Klasikal</label>
-                    </div>
-                </div>
-                <span class="text-danger">{{ $errors->first('kategori') }}</span>
-            </div> --}}
-
-            {{-- KATEGORI --}}
             <div class="form-group mt-1 mb-3"> 
                 <label for="kategori" class="fw-bolder">Kategori</label>
                 <div class="col-md-6">

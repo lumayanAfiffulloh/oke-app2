@@ -55,15 +55,17 @@ class DataPegawaiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, string $id)
+    public function store(Request $request)
     {
         
         $requestData = $request->validate([
             'nama' => 'required|min:3',
             'nip' => 'required|integer|unique:data_pegawais,nip',
+            'email' => 'required|email|unique:users,email,',
+            'akses' => 'required|string',
             'status' => 'required',
-            'unit_kerja' => 'required',
             'jabatan' => 'required',
+            'unit_kerja' => 'required',
             'pendidikan' => 'required',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
@@ -71,8 +73,8 @@ class DataPegawaiController extends Controller
 
         // Validasi untuk tabel users
         $userData = $request->validate([
-        'email' => 'required|email|unique:users,email' . $id, // Email harus unik di tabel users
-        'akses' => 'required|string', // Pastikan akses diisi dan berupa string
+            'email' => 'required|email|unique:users,email,',// Email harus unik di tabel users
+            'akses' => 'required|string', // Pastikan akses diisi dan berupa string
         ]);
         
         $user = User::create([

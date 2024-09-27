@@ -12,7 +12,7 @@
                     @if($data_pegawai->foto) 
                     <a href="{{ Storage::url($data_pegawai->foto) }}" target="blank" id="fotobaru">
                         <img src="{{ Storage::url($data_pegawai->foto) }}" class="rounded mx-start d-block " style="object-fit: cover; height: 150px; width: 150px;">
-                    </a>        
+                    </a>
                     @endif
                     <label for="foto" class="mt-2">Upload Foto Baru Pegawai</label> 
                     <input type="file" class="form-control @error('foto') is-invalid @enderror" id="fotoubah" name="foto">
@@ -110,7 +110,7 @@
                 <div class="form-group mt-1 mb-3"> 
                     <label for="akses">Akses</label><br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') === 'pegawai' ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') ?? $user->akses === 'pegawai' ? 'checked' : '' }}>
                         <label class="form-check-label" for="pegawai">Pegawai</label>
                     </div>
                     <div class="form-check form-check-inline">
