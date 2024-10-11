@@ -1,5 +1,5 @@
-@extends('layouts.app')
-
+@extends('auth.layout')
+@section('title', 'Konfirmasi Email | ' . config('app.name')) <!-- Set page title -->
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

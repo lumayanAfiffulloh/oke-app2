@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SANTI | {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="shortcut icon" type="image/png" href={{ asset("modern/src/assets/images/logos/favicon.png") }}/>
     <link rel="stylesheet" href= {{ asset("modern/src/assets/css/styles.min.css") }} />
     <link rel="icon" href="{{ asset('img/undip.png') }}">
@@ -25,7 +25,7 @@
                     <span class="display-5 text-primary fw-bolder">SANTI</span><hr class="border-primary" style="border-width : 2px">
                     <p class="fs-4 mt-1">SANTI, atau Sistem Informasi Perencanaan Pengembangan Kompetensi, dikembangkan oleh BPSDM Undip untuk memfasilitasi perencanaan, pemantauan, dan evaluasi pengembangan kompetensi pegawai di Universitas Diponegoro.</p>
                     <div class="mt-2">
-                        <a href="/login" class="btn btn-primary fs-4 me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">Login</a>
+                        <a href="/login" class="btn btn-primary fs-4 me-1">Login</a>
                     </div>
                 </div>
             </div>

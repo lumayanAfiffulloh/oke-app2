@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
 use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         Gate::define('admin', function(User $user) {
-            return $user->akses === 'admin';
+            // Mengecek apakah 'admin' ada dalam string akses
+            return Str::contains($user->akses, 'admin');
         });
     }
 }

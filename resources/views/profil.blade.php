@@ -20,21 +20,21 @@
 						<div class="col-4 text-center">
 							@if ($dataPegawai->foto)
 							<a href="{{ Storage::url($dataPegawai->foto) }}" target="blank">
-								<img src="{{ Storage::url($dataPegawai->foto) }}" class="d-flex justify-content-center rounded-3 border border-3 border-dark-subtle" style="object-fit: cover; height: 190px; width: 150px;">
+								<img src="{{ Storage::url($dataPegawai->foto) }}" class="d-flex justify-content-center rounded-3 border border-2 border-dark mb-2" style="object-fit: cover; height: 190px; width: 150px;">
 							</a>
 							@else
-							<div class="card tw-bg-slate-400 mb-1">
+							<div class="card tw-bg-slate-400 mb-2">
 								<div class="card-body text-center text-white fs-3" style="height: 190px;">
 									Tidak ada foto tercantum
 								</div>
 							</div>
 							@endif
-							<a href="/ganti_password" class="btn btn-warning btn-sm my-1">
+							<a href="/ganti_password" class="btn btn-warning btn-sm rounded-2 my-1">
 								Ganti Password
 							</a>
 						</div>
 						<div class="col-8">
-							<p class="fw-bolder badge bg-dark bg-opacity-50 mb-2 py-2">Rencana Pembelajaran</p> <hr>
+							<p class="fw-bolder fs-4 border border-2 border-dark border-opacity-25 rounded mb-2 py-2 ps-3" style="max-width: 70%">Rencana Pembelajaran</p> <hr>
 							<div class="table-responsive">
 								<table class="table table-striped text-center">
 									<thead>

@@ -114,13 +114,13 @@
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-3">
                     <form>
-                        <button type="submit" class="btn btn-primary me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
+                        <button type="submit" class="btn btn-primary me-1">SIMPAN</button>
                     </form>
-                    <a name="" id="" class="btn btn-warning me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" href="/rencana_pembelajaran">BATAL EDIT</a>
+                    <a name="" id="" class="btn btn-warning me-1" href="/rencana_pembelajaran">BATAL EDIT</a>
                     <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
                             HAPUS DATA
                         </button>
                     </form>

@@ -44,7 +44,8 @@
                 <div class="form-group mt-1 mb-3"> 
                     <label for="status">Status</label><br> 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') ?? $data_pegawai->status === 'aktif' ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') ?? $data_pegawai->status === 'aktif' ? 'checked' : '' }} @checked(old('aktif', $data_pegawai->status))
+                        >
                         <label class="form-check-label" for="aktif">Aktif</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -135,13 +136,13 @@
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-2">
                     <form>
-                        <button type="submit" class="btn btn-primary me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200">SIMPAN</button>
+                        <button type="submit" class="btn btn-primary me-1">SIMPAN</button>
                     </form>
-                    <a name="" id="" class="btn btn-warning me-1 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" href="/data_pegawai">BATAL EDIT</a>
+                    <a href="/data_pegawai" class="btn btn-warning me-1">BATAL EDIT</a>
                     <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" class="d-flex">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
                             HAPUS DATA
                         </button>
                     </form>

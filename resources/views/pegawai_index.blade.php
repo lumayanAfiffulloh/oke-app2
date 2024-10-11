@@ -13,7 +13,7 @@
             <div class="row mx-1 mt-2 mb-2 justify-content-end align-items-center">
                 <button class="col ps-0 text-start ms-2">
                     <a href="/data_pegawai/create"
-                        class="btn btn-primary  my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-500 tw-duration-200"
+                        class="btn btn-outline-primary my-2"
                         style="font-size: 0.9rem">
                         <span>
                             <i class="ti ti-user-plus me-1"></i>
@@ -27,7 +27,7 @@
                             <input class="form-control" type="text" name="q" placeholder="Cari berdasarkan Nama"
                                 value="{{ request('q') }}">
                             <button type="submit"
-                                class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                class="btn btn-primary">
                                 <i class="ti ti-search"></i>
                             </button>
                         </div>
@@ -39,7 +39,7 @@
                             <input class="form-control" type="text" name="w"
                                 placeholder="Cari berdasarkan Unit Kerja" value="{{ request('w') }}">
                             <button type="submit"
-                                class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                class="btn btn-primary">
                                 <i class="ti ti-search"></i>
                             </button>
                         </div>
@@ -51,7 +51,7 @@
                             <input class="form-control" type="text" name="e" placeholder="Cari berdasarkan NIP"
                                 value="{{ request('e') }}">
                             <button type="submit"
-                                class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200">
+                                class="btn btn-primary">
                                 <i class="ti ti-search"></i>
                             </button>
                         </div>
@@ -109,13 +109,13 @@
                                 <td class="px-2">{{ $item->pendidikan }}</td>
                                 <td class="px-2">
                                     <a href="/data_pegawai/{{ $item->id }}/edit"
-                                        class="btn btn-warning btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw--translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200"
+                                        class="btn btn-warning btn-sm"
                                         style="font-size: 0.8rem">Edit</a>
                                     <form action="/data_pegawai/{{ $item->id }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('delete')
                                         <button type="submit"
-                                            class="btn btn-danger btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw--translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200"
+                                            class="btn btn-danger btn-sm"
                                             style="font-size: 0.8rem"
                                             onclick="return confirm('Anda yakin ingin menghapus data ini?')"
                                             style="font-size: 0.8rem">

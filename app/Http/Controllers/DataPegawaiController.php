@@ -48,7 +48,6 @@ class DataPegawaiController extends Controller
      */
     public function create()
     {
-        
         return view ('pegawai_create');
     }
 
@@ -61,32 +60,36 @@ class DataPegawaiController extends Controller
         $requestData = $request->validate([
             'nama' => 'required|min:3',
             'nip' => 'required|integer|unique:data_pegawais,nip',
-            'email' => 'required|email|unique:users,email,',
-            'akses' => 'required|string',
             'status' => 'required',
             'jabatan' => 'required',
             'unit_kerja' => 'required',
             'pendidikan' => 'required',
             'jenis_kelamin' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
-        ]);
-
-        // Validasi untuk tabel users
-        $userData = $request->validate([
-            'email' => 'required|email|unique:users,email,',// Email harus unik di tabel users
+            // Validasi untuk tabel users
+            'email' => 'required|email|unique:users,email', // Email harus unik di tabel users
             'akses' => 'required|string', // Pastikan akses diisi dan berupa string
         ]);
         
         $user = User::create([
             'name' => $request->nama,
-            'akses' => $userData['akses'], // Username diisi dengan akses pegawai
-            'email' => $userData['email'], // Pastikan di form pegawai ada field email
+            'akses' => $requestData['akses'], // Username diisi dengan akses pegawai
+            'email' => $requestData['email'], // Pastikan di form pegawai ada field email
             'password' => Hash::make('password'), // Default password
         ]);
+
         $data_pegawai = new \App\Models\DataPegawai;
         $data_pegawai->user_id = $user->id;
 
-        $data_pegawai->fill($requestData);
+        // Hanya isi data yang relevan dari $requestData
+        $data_pegawai->nama = $requestData['nama'];
+        $data_pegawai->nip = $requestData['nip'];
+        $data_pegawai->status = $requestData['status'];
+        $data_pegawai->jabatan = $requestData['jabatan'];
+        $data_pegawai->unit_kerja = $requestData['unit_kerja'];
+        $data_pegawai->pendidikan = $requestData['pendidikan'];
+        $data_pegawai->jenis_kelamin = $requestData['jenis_kelamin'];
+
         if ($request->hasFile('foto')) {
             $data_pegawai->foto = $request->file('foto')->store('public');
         }

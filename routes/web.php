@@ -19,6 +19,7 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::resource('data_pelatihan', DataPelatihanController::class);
 
     Route::resource('kelompok', KelompokController::class);
+    Route::post('/kelompok/reset', [KelompokController::class, 'reset']);
     
     Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
     

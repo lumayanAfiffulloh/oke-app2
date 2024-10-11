@@ -27,6 +27,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $user_id
+ * @property int $kelompok_id
+ * @property-read \App\Models\Kelompok|null $kelompok
+ * @property-read \App\Models\Kelompok|null $ketuaKelompok
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RencanaPembelajaran> $rencanaPembelajaran
  * @property-read int|null $rencana_pembelajaran_count
  * @property-read \App\Models\User $user
@@ -41,6 +44,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJabatan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJenisKelamin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereKelompokId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNama($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNip($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai wherePendidikan($value)
@@ -68,10 +72,21 @@ namespace App\Models{
 /**
  * 
  *
+ * @property int $id
+ * @property int $ketua_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DataPegawai> $anggota
+ * @property-read int|null $anggota_count
+ * @property-read \App\Models\DataPegawai|null $ketua
  * @method static \Database\Factories\KelompokFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereKetuaId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereUpdatedAt($value)
  */
 	class Kelompok extends \Eloquent {}
 }
@@ -145,6 +160,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
+	class User extends \Eloquent {}
 }
 

@@ -45,6 +45,20 @@
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-</body>
 
+  {{-- SELECT 2 --}}
+  <link href={{ asset("select2/dist/css/select2.min.css") }} rel="stylesheet" />
+  <script src={{ asset("select2/dist/js/select2.min.js") }}></script>
+
+  <script>
+    $(".placeholder-single").select2({
+      placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
+      allowClear: true
+    });
+    $(".placeholder-multiple").select2({
+      placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
+    });
+  </script>
+
+</body>
 </html>

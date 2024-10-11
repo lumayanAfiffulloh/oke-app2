@@ -7,7 +7,7 @@
 			</div>
 			<button class="position-relative my-2">
 				<a href="/rencana_pembelajaran/create"
-					class="btn btn-primary mx-3 my-2 tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-105 hover:tw-bg-blue-500 tw-duration-200"
+					class="btn btn-outline-primary mx-3 my-2"
 					style="font-size: 0.9rem">
 					<span class="me-1">
 							<i class="ti ti-clipboard-plus"></i>
@@ -53,7 +53,7 @@
 								<td>
 									<div class="btn-group" role="group">
 										<button
-											class="btn btn-primary btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-blue-600 tw-duration-200"
+											class="btn btn-primary btn-sm"
 											style="font-size: 0.8rem" data-bs-toggle="modal"
 											data-bs-target="#detailModal{{ $item->id }}">Detail
 										</button>
@@ -70,7 +70,7 @@
 																<span class="tw-text-blue-600 fw-bolder">{{ Auth::user()->name }}</span>
 															</h1>
 															<button type="button"
-																class="btn-close tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-125 tw-duration-200"
+																class="btn-close"
 																data-bs-dismiss="modal" aria-label="Close"></button>
 														</div>
 														<div class="modal-body border border-2 mx-3 rounded-2">
@@ -142,19 +142,19 @@
 															</ol>
 														</div>
 														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-sky-500 tw-duration-200" data-bs-dismiss="modal">Close</button>
-															<a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" style="font-size: 0.8rem">Edit</a>
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+															<a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning" style="font-size: 0.8rem">Edit</a>
 														</div>
 													</div>
 												</div>
 											</div>
-										<a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-orange-400 tw-duration-200" style="font-size: 0.8rem">Edit</a>
+										<a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning btn-sm" style="font-size: 0.8rem">Edit</a>
 													
 										<form action="/rencana_pembelajaran/{{ $item->id }}" method="POST">
 											@csrf
 											@method('delete')
 											<button type="submit"
-												class="btn btn-danger btn-sm tw-transition tw-ease-in-out tw-delay-10 hover:tw-translate-y-0 hover:tw-scale-110 hover:tw-bg-red-500 tw-duration-200 rounded-end-1" onclick="return confirm('Anda yakin ingin menghapus data ini?')" style="font-size: 0.8rem; border-radius: 0">
+												class="btn btn-danger btn-sm rounded-end-1" onclick="return confirm('Anda yakin ingin menghapus data ini?')" style="font-size: 0.8rem; border-radius: 0">
 												Hapus
 											</button>
 										</form>

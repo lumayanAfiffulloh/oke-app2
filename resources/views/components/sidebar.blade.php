@@ -27,6 +27,7 @@
               <span class="hide-menu">Profil Anda</span>
           </a>
         </li>
+
         @can('admin')
         {{-- PEGAWAI --}}
         <li class="nav-small-cap mt-2">
