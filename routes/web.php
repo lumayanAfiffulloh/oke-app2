@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DataPegawaiController;
 use App\Http\Controllers\DataPelatihanController;
+use App\Http\Controllers\EditAksesController;
 use App\Http\Controllers\KelompokController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -13,12 +14,16 @@ use Illuminate\Auth\Middleware\Authenticate;
 Route::middleware([Authenticate::class])->group(function () {
     
     Route::resource('data_pegawai', DataPegawaiController::class);
+    Route::post('/data_pegawai/import', [DataPegawaiController::class, 'importExcelData']);
 
     Route::resource('rencana_pembelajaran', RencanaPembelajaranController::class);
+    
+    Route::resource('edit_akses', EditAksesController::class);
 
     Route::resource('data_pelatihan', DataPelatihanController::class);
 
     Route::resource('kelompok', KelompokController::class);
+    
     Route::post('/kelompok/reset', [KelompokController::class, 'reset']);
     
     Route::get('/profil', [ProfilController::class, 'show'])->name('profil');

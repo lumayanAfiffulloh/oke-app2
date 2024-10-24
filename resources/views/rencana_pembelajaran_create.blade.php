@@ -3,7 +3,11 @@
 
 <div class="card bg-white">
     <div class="card-body p-0">
-        <div class="card-header p-3 fs-5 fw-bolder " style="background-color: #ececec;">Buat Rencana Pembelajaran</div>
+        <div class="card-header p-3 fs-5 fw-bolder " style="background-color: #ececec;">
+            <span class="me-2">
+                <a href="/rencana_pembelajaran" class="ti ti-arrow-left fw-bolder ms-2"></a>
+            </span>
+            Buat Rencana Pembelajaran</div>
         <form action="/rencana_pembelajaran" method="POST" class="px-4 py-2">
             @csrf
             {{-- TAHUN --}}

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Imports\DataPegawaiImport;
 use App\Models\User;
+use App\Models\DataPegawai;
+use Excel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -15,14 +18,9 @@ class DataPegawaiController extends Controller
      * Display a listing of the resource.
      */
 
-    public function __construct()
-    {
-        $this->middleware('can:admin');
-    }
-
     public function index()
     {
-        $query = \App\Models\DataPegawai::query();
+        $query = DataPegawai::query();
 
         if (request()->filled('q')) {
             $query->where('nama', 'like', '%' . request('q') . '%')->paginate(10);
@@ -126,10 +124,10 @@ class DataPegawaiController extends Controller
     public function update(Request $request, string $id)
     {
         // Ambil data pegawai berdasarkan ID
-        $data_pegawai = \App\Models\DataPegawai::findOrFail($id);
+        $data_pegawai = DataPegawai::findOrFail($id);
 
          // Ambil user terkait berdasarkan user_id
-        $user = \App\Models\User::findOrFail($data_pegawai->user_id);
+        $user = User::findOrFail($data_pegawai->user_id);
 
         // Validasi input
         $requestData = $request->validate([
@@ -182,8 +180,28 @@ class DataPegawaiController extends Controller
         if ($data_pegawai->foto != null && Storage::exists($data_pegawai->foto) ){
             Storage::delete($data_pegawai->foto);
         }
+
+        $user = $data_pegawai->user;
+
         $data_pegawai->delete();
+
+        if ($user) {
+            $user->delete(); 
+        }
+
         flash('Data berhasi dihapus!')->error();
         return redirect()->route('data_pegawai.index');
+    }
+
+    public function importExcelData(Request $request)
+    {
+        $request->validate([
+            'importDataPegawai' => ['required', 'file']
+        ]);
+
+        Excel::import(new DataPegawaiImport, $request->file('importDataPegawai'));
+        flash('Yeay.. Data berhasil diimport!')->success();
+        return redirect()->route('data_pegawai.index');
+
     }
 }

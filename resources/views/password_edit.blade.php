@@ -2,9 +2,13 @@
 @section('content')
   <div class="card mb-3 bg-white">
     <div class="card-body p-0 ">
-      <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Edit Password</div>
+      <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+        <span class="me-2">
+          <a href="/profil" class="ti ti-arrow-left fw-bolder ms-2"></a>
+        </span>
+        Edit Password</div>
       <div class="card-body py-3">
-      <form method="POST" action="ganti_password">
+      <form method="POST" action="ganti_password" id="editFormID">
         @csrf
         <div class="mb-3">
           <label for="password_sekarang" class="form-label">Password Sekarang</label>
@@ -33,9 +37,28 @@
             </span>
           @endif
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="editAlert">Submit</button>
       </form>
       </div>
     </div>
   </div>
+
+  <script>
+    document.getElementById('editAlert').onclick = function(event){
+    event.preventDefault();
+    Swal.fire({
+        title: "Konfirmasi Data",
+        text: "Pastikan Data yang Anda Edit Sudah Benar",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Simpan",
+        cancelButtonText: "Batal"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Submit form atau aksi lain setelah konfirmasi
+        document.getElementById('editFormID').submit(); // Sesuaikan ID form
+      }
+    });
+    }
+</script>
 @endsection

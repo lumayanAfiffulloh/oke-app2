@@ -2,8 +2,15 @@
 @section('content')
     <div class="card mb-3 bg-white">
         <div class="card-body p-0 ">
-            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Edit Data Pegawai <span class="fw-bolder tw-text-blue-500">{{ $data_pegawai->nama }}</span></div>
-            <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3">
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+                <span class="me-2">
+                    <a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2"></a>
+                </span>
+                Edit Data Pegawai
+                <span class="fw-bolder tw-text-blue-500">
+                    {{ $data_pegawai->nama }}
+                </span></div>
+            <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3" id="editFormID">
                 @method('PUT')
                 @csrf
 
@@ -49,7 +56,7 @@
                         <label class="form-check-label" for="aktif">Aktif</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" {{ old('status') ?? $data_pegawai->status === 'non-aktif' ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" @checked(old('non-aktif', $data_pegawai->status))>
                         <label class="form-check-label" for="non-aktif">Non-aktif</label>
                     </div>
                     <span class="text-danger">{{ $errors->first('status') }}</span>
@@ -136,13 +143,13 @@
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-2">
                     <form>
-                        <button type="submit" class="btn btn-primary me-1">SIMPAN</button>
+                        <button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
                     </form>
                     <a href="/data_pegawai" class="btn btn-warning me-1">BATAL EDIT</a>
-                    <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" class="d-flex">
+                    <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" class="d-flex" id="deleteFormID">
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Anda yakin ingin menghapus data ini?')">
+                        <button type="submit" class="btn btn-danger" id="deleteAlert">
                             HAPUS DATA
                         </button>
                     </form>
@@ -150,4 +157,48 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('editAlert').onclick = function(event){
+        event.preventDefault();
+        Swal.fire({
+            title: "Konfirmasi Data",
+            text: "Pastikan Data yang Anda Edit Sudah Benar",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form atau aksi lain setelah konfirmasi
+                document.getElementById('editFormID').submit(); // Sesuaikan ID form
+            }
+        });
+        }
+    </script>
+    <script>
+        document.getElementById('deleteAlert').onclick = function(event){
+        event.preventDefault();
+        Swal.fire({
+            title: "Apakah Anda Yakin?",
+            text: "Data Akan Dihapus Permanen dari Basis Data!",
+            icon: "warning",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+            Swal.fire({
+                title: "Berhasil!",
+                text: "Data Berhasil Dihapus",
+                icon: "error"
+            }).then(() => {
+                // Submit form atau aksi lain setelah konfirmasi
+                document.getElementById('deleteFormID').submit(); // Sesuaikan ID form
+            });
+            }
+        });
+        }
+    </script>
 @endsection

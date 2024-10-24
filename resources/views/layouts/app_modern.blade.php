@@ -59,6 +59,5 @@
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
     });
   </script>
-
 </body>
 </html>

@@ -142,7 +142,7 @@
 															</ol>
 														</div>
 														<div class="modal-footer">
-															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+															<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 															<a href="/rencana_pembelajaran/{{ $item->id }}/edit" class="btn btn-warning" style="font-size: 0.8rem">Edit</a>
 														</div>
 													</div>

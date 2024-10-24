@@ -2,8 +2,12 @@
 @section('content')
     <div class="card bg-white">
         <div class="card-body p-0">
-            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Form Pegawai</div>
-            <form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2">
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+                <span class="me-2">
+                    <a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2"></a>
+                </span>
+                Form Pegawai</div>
+            <form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2" id="createFormID">
                 @csrf
                 {{-- FOTO --}}
                 <div class="form-group mt-1 mb-3">
@@ -124,8 +128,25 @@
                     </div>
                     <span class="text-danger">{{ $errors->first('akses') }}</span>
                 </div>
-                <button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
+                <button type="submit" class="btn btn-primary mb-2" id="createAlert">SIMPAN</button>
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('createAlert').onclick = function(event){
+        event.preventDefault();
+        Swal.fire({
+            title: "Konfirmasi Data",
+            text: "Pastikan Data yang Anda Isikan Sudah Benar",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            cancelButtonText: "Batal"
+        }).then(() => {
+                // Submit form atau aksi lain setelah konfirmasi
+                document.getElementById('createFormID').submit(); // Sesuaikan ID form
+            });
+            }
+    </script>
 @endsection

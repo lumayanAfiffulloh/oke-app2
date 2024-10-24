@@ -11,7 +11,7 @@
         <div class="card-body px-0 py-0 ">
             <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
             <div class="row mx-1 mt-2 mb-2 justify-content-end align-items-center">
-                <button class="col ps-0 text-start ms-2">
+                <button class="col px-0 text-start ms-2">
                     <a href="/data_pegawai/create"
                         class="btn btn-outline-primary my-2"
                         style="font-size: 0.9rem">
@@ -21,10 +21,55 @@
                         <span>Tambah Pegawai</span>
                     </a>
                 </button>
+
+                {{-- IMPORT EXCEL --}}
+                <button class="col px-0 text-start ms-2" type="button">
+                    <a href="#" class="btn btn-outline-success my-2" style="font-size: 0.9rem" data-bs-toggle="modal" data-bs-target="#excelModal">
+                        <span>
+                            <i class="ti ti-table-import me-1"></i>
+                        </span>
+                        <span>Import Excel</span>
+                    </a>
+                </button>
+                {{-- MODAL IMPORT EXCEL --}}
+                <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title tw-text-[20px] fw-bold">
+                                    Import Data Pegawai dari Excel
+                                </h1>
+                                <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="data_pegawai/import" method="POST" enctype="multipart/form-data">
+                                <div class="modal-body border border-2 mx-3 rounded-2">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="importExcel" class="form-label">Unggah File Excel (Sesuai Template)</label>
+                                        <input type="file" class="form-control" name="importDataPegawai" id="importExcel">
+                                    </div>
+                                    <div class="mt-2">
+                                        <p class="fw-bolder">Unduh Template Excel : <span>
+                                            <a href="https://drive.google.com/uc?export=download&id=1xzdyANHS0m9t_yqTV6SI_1v8Fgrsq4wU" class="btn btn-link px-1 pt-1">Klik di Sini!</a>
+                                        </span></p>
+                                        
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-warning">Import</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="col-md-3 p-0">
                     <form action="">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="q" placeholder="Cari berdasarkan Nama"
+                            <input class="form-control" type="text" name="q" placeholder="Cari Nama"
                                 value="{{ request('q') }}">
                             <button type="submit"
                                 class="btn btn-primary">
@@ -37,7 +82,7 @@
                     <form action="">
                         <div class="input-group">
                             <input class="form-control" type="text" name="w"
-                                placeholder="Cari berdasarkan Unit Kerja" value="{{ request('w') }}">
+                                placeholder="Cari Unit Kerja" value="{{ request('w') }}">
                             <button type="submit"
                                 class="btn btn-primary">
                                 <i class="ti ti-search"></i>
@@ -45,10 +90,10 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3 ps-0">
+                <div class="col-md-2 ps-0">
                     <form action="">
                         <div class="input-group">
-                            <input class="form-control" type="text" name="e" placeholder="Cari berdasarkan NIP"
+                            <input class="form-control" type="text" name="e" placeholder="Cari NIP"
                                 value="{{ request('e') }}">
                             <button type="submit"
                                 class="btn btn-primary">
@@ -92,7 +137,7 @@
 												<i class="ti ti-gender-female" style="font-size: 15px; color: #ff70e7"></i>
 											@endif
 										</span>
-									{{ $item->nama }}</div>
+									{{ $item->nama }} <span>({{ $item->kelompok_id }})</span></div>
                                 </td>
                                 <td class="px-2">{{ $item->nip }}</td>
                                 <td class="px-2">{{ $item->user->email }}</td>
@@ -111,14 +156,13 @@
                                     <a href="/data_pegawai/{{ $item->id }}/edit"
                                         class="btn btn-warning btn-sm"
                                         style="font-size: 0.8rem">Edit</a>
-                                    <form action="/data_pegawai/{{ $item->id }}" method="POST" class="d-inline">
+                                    <form action="/data_pegawai/{{ $item->id }}" method="POST" class="d-inline deleteForm">
                                         @csrf
                                         @method('delete')
                                         <button type="submit"
-                                            class="btn btn-danger btn-sm"
+                                            class="btn btn-danger btn-sm deleteAlert"
                                             style="font-size: 0.8rem"
-                                            onclick="return confirm('Anda yakin ingin menghapus data ini?')"
-                                            style="font-size: 0.8rem">
+                                            >
                                             Hapus
                                         </button>
                                     </form>
@@ -135,16 +179,41 @@
     </div>
 
     <script>
-        document.getElementById('search-nama-form').addEventListener('submit', function(event) {
-            if (document.getElementById('nama-input').value === '') {
-                event.preventDefault();
-            }
-        });
 
         document.getElementById('search-unit-form').addEventListener('submit', function(event) {
             if (document.getElementById('unit-input').value === '') {
                 event.preventDefault();
             }
         });
+    </script>
+
+    {{-- SWEET ALERT --}}
+    <script>
+        document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault(); // Mencegah submit langsung
+
+            Swal.fire({
+                title: "Apakah Anda Yakin?",
+                text: "Data Akan Dihapus Permanen dari Basis Data!",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: "Data Berhasil Dihapus",
+                        icon: "error"
+                    }).then(() => {
+                        // Submit form yang terkait dengan tombol ini
+                        button.closest('form').submit(); // Submit form terkait
+                    });
+                }
+            });
+        });
+    });
     </script>
 @endsection

@@ -21,7 +21,20 @@ class KelompokController extends Controller
     public function index()
     {
         $query = Kelompok::query();
+        $isSearching = request()->filled('q');
+        if ($isSearching) {
+            $query->whereHas('ketua', function ($q) {
+                $q->where('nama', 'like', '%' . request('q') . '%');
+            });
+        }
+
         $kelompok['kelompok'] = $query->latest()->paginate(10);
+
+        // Jika pencarian dilakukan dan tidak ada data ditemukan
+        if ($isSearching && $kelompok['kelompok']->isEmpty()) {
+            flash('Data yang Anda cari tidak ada.')->error();
+        }
+
         return view ('kelompok_index', $kelompok);
     }
 
@@ -89,7 +102,11 @@ class KelompokController extends Controller
      */
     public function edit(Kelompok $kelompok)
     {
-        $listPegawai = DataPegawai::orderBy('nama', 'asc')->get();
+        $listPegawai = DataPegawai::where(function ($query) use ($kelompok) {
+            $query->where('kelompok_id', 0) // Pegawai yang belum memiliki kelompok
+                ->orWhere('id', $kelompok->ketua_id)
+                ->orWhere('kelompok_id', $kelompok->id);
+            })->orderBy('nama', 'asc')->get();
         return view('kelompok_edit', compact('kelompok', 'listPegawai'));
     }
 
@@ -99,8 +116,38 @@ class KelompokController extends Controller
     public function update(UpdateKelompokRequest $request, Kelompok $kelompok)
     {
         $validatedData = $request->validated();
-        $kelompok->update($validatedData);
-        flash('Data kelompok berhasil diubah!')->success();
+        // Cek apakah ketua sudah terdaftar sebagai anggota
+        if (in_array($validatedData['ketua_id'], $validatedData['anggota'])) {
+            return back()->withErrors(['anggota' => 'Ketua kelompok tidak boleh dipilih sebagai anggota.']);
+        }
+
+        // Update data kelompok
+        $kelompok->update([
+            'ketua_id' => $validatedData['ketua_id'],
+        ]);
+
+        // Update kelompok_id untuk ketua
+        DataPegawai::where('id', $validatedData['ketua_id'])->update(['kelompok_id' => $kelompok->id]);
+
+        // Set semua anggota yang sebelumnya ada di kelompok ini, kelompok_id mereka menjadi null
+        DataPegawai::where('kelompok_id', $kelompok->id)->update(['kelompok_id' => null]);
+
+        // Update anggota baru, tetapkan kelompok_id
+        DataPegawai::whereIn('id', $validatedData['anggota'])->update(['kelompok_id' => $kelompok->id]);
+
+        // Update akses ketua menjadi ketua_kelompok
+        $user = User::where('id', $validatedData['ketua_id'])->first();
+        if ($user) {
+            $currentRoles = explode(',', $user->akses);
+
+            if (!in_array('ketua_kelompok', $currentRoles)) {
+                $currentRoles[] = 'ketua_kelompok';
+            }
+
+            $user->update(['akses' => implode(',', $currentRoles)]);
+        }
+
+        flash('Kelompok berhasil diperbarui.')->success();
         return redirect()->route('kelompok.index');
     }
 
@@ -112,8 +159,23 @@ class KelompokController extends Controller
         // Cari kelompok berdasarkan ID
         $kelompok = Kelompok::findOrFail($id);
 
+        // Ambil ID ketua kelompok
+        $ketuaId = $kelompok->ketua_id;
+
         // Update kelompok_id dari semua anggota menjadi null
         DataPegawai::where('kelompok_id', $kelompok->id)->update(['kelompok_id' => null]);
+
+        // Cek akses ketua, jika admin tetap admin, jika bukan admin kembalikan menjadi pegawai
+        $user = User::where('id', $ketuaId)->first();
+        if ($user) {
+        if (str_contains($user->akses, 'admin')) {
+            // Jika admin, hanya hapus ketua_kelompok
+            $user->update(['akses' => 'admin']);
+        } else {
+            // Jika bukan admin, jadikan pegawai
+            $user->update(['akses' => 'pegawai']);
+        }
+    }
 
         // Hapus kelompok
         $kelompok->delete();
@@ -124,10 +186,27 @@ class KelompokController extends Controller
 
     public function reset()
     {
+        // Ambil semua ketua kelompok sebelum reset
+        $ketuaIds = Kelompok::pluck('ketua_id');
+
         // Update semua data_pegawais kelompok_id menjadi null
         DataPegawai::whereNotNull('kelompok_id')->update(['kelompok_id' => null]);
 
         Kelompok::truncate();
+
+        // Perbarui akses ketua kelompok
+        foreach ($ketuaIds as $ketuaId) {
+            $user = User::where('id', $ketuaId)->first();
+            if ($user) {
+                if (str_contains($user->akses, 'admin')) {
+                    // Jika admin, hanya hapus ketua_kelompok
+                    $user->update(['akses' => 'admin']);
+                } else {
+                    // Jika bukan admin, jadikan pegawai
+                    $user->update(['akses' => 'pegawai']);
+                }
+            }
+        }
 
         // Redirect ke halaman daftar kelompok dengan pesan sukses
         flash('Kelompok berhasi direset!')->error();

@@ -2,8 +2,12 @@
 @section('content')
     <div class="card mb-3 bg-white">
         <div class="card-body p-0 ">
-            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Edit Rencana Pembelajaran <span class="fw-bolder tw-text-blue-500">{{ $rencanaPembelajaran->id }}</span></div>
-            <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST" class="px-3 py-3">
+            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+                <span class="me-2">
+                    <a href="/rencana_pembelajaran" class="ti ti-arrow-left fw-bolder ms-2"></a>
+                </span>
+                Edit Rencana Pembelajaran <span class="fw-bolder tw-text-blue-500">{{ $rencanaPembelajaran->id }}</span></div>
+            <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST" class="px-3 py-3" id="formID">
                 @method('PUT')
                 @csrf
                 {{-- TAHUN --}}
@@ -114,7 +118,7 @@
                 {{-- BUTTON --}}
                 <div class="d-flex justify-content-start mt-3">
                     <form>
-                        <button type="submit" class="btn btn-primary me-1">SIMPAN</button>
+                        <button type="submit" class="btn btn-primary me-1" id="confrimAlert">SIMPAN</button>
                     </form>
                     <a name="" id="" class="btn btn-warning me-1" href="/rencana_pembelajaran">BATAL EDIT</a>
                     <form action="/rencana_pembelajaran/{{ $rencanaPembelajaran->id }}" method="POST">
