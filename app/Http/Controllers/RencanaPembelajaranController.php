@@ -64,7 +64,7 @@ class RencanaPembelajaranController extends Controller
         RencanaPembelajaran::create($requestData);
 
         // Flash message sukses
-        flash('Yeay.. Data berhasil ditambah')->success();
+        flash('Data berhasil ditambah')->success();
 
         // Redirect ke halaman index
         return redirect()->route('rencana_pembelajaran.index');

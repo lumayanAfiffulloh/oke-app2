@@ -10,32 +10,36 @@
     <div class="card mb-4 bg-white">
         <div class="card-body px-0 py-0 ">
             <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
-            <div class="row mx-1 mt-2 mb-2 justify-content-end align-items-center">
-                <button class="col px-0 text-start ms-2">
-                    <a href="/data_pegawai/create"
-                        class="btn btn-outline-primary my-2"
-                        style="font-size: 0.9rem">
-                        <span>
-                            <i class="ti ti-user-plus me-1"></i>
-                        </span>
-                        <span>Tambah Pegawai</span>
-                    </a>
-                </button>
-
-                {{-- IMPORT EXCEL --}}
-                <button class="col px-0 text-start ms-2" type="button">
-                    <a href="#" class="btn btn-outline-success my-2" style="font-size: 0.9rem" data-bs-toggle="modal" data-bs-target="#excelModal">
-                        <span>
-                            <i class="ti ti-table-import me-1"></i>
-                        </span>
-                        <span>Import Excel</span>
-                    </a>
-                </button>
-                {{-- MODAL IMPORT EXCEL --}}
-                <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
+            <div class="row mx-3 mt-1 justify-content-start align-items-center">
+                <div class="col ps-0">
+                    <button class="px-0 text-start">
+                        <a href="/data_pegawai/create"
+                            class="btn btn-outline-primary my-2"
+                            style="font-size: 0.9rem">
+                            <span>
+                                <i class="ti ti-user-plus me-1"></i>
+                            </span>
+                            <span>Tambah Pegawai</span>
+                        </a>
+                    </button>
+    
+                    {{-- IMPORT EXCEL --}}
+                    <button class="px-0 text-start ms-2" type="button">
+                        <a href="#" class="btn btn-outline-success my-2" style="font-size: 0.9rem" data-bs-toggle="modal" data-bs-target="#excelModal">
+                            <span>
+                                <i class="ti ti-table-import me-1"></i>
+                            </span>
+                            <span>Import Excel</span>
+                        </a>
+                    </button>
+                    {{-- MODAL IMPORT EXCEL --}}
+                    <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div>
+                                        
+                                    </div>
                                 <h1 class="modal-title tw-text-[20px] fw-bold">
                                     Import Data Pegawai dari Excel
                                 </h1>
@@ -54,7 +58,6 @@
                                         <p class="fw-bolder">Unduh Template Excel : <span>
                                             <a href="https://drive.google.com/uc?export=download&id=1xzdyANHS0m9t_yqTV6SI_1v8Fgrsq4wU" class="btn btn-link px-1 pt-1">Klik di Sini!</a>
                                         </span></p>
-                                        
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -62,10 +65,12 @@
                                     <button type="submit" class="btn btn-warning">Import</button>
                                 </div>
                             </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+            </div>
+            <div class="row mx-3 mb-2">
                 <div class="col-md-3 p-0">
                     <form action="">
                         <div class="input-group">
@@ -90,7 +95,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-md-2 ps-0">
+                <div class="col-md-3 ps-0">
                     <form action="">
                         <div class="input-group">
                             <input class="form-control" type="text" name="e" placeholder="Cari NIP"

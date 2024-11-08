@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BentukJalurController;
 use App\Http\Controllers\DataPegawaiController;
 use App\Http\Controllers\DataPelatihanController;
 use App\Http\Controllers\EditAksesController;
@@ -22,7 +23,10 @@ Route::middleware([Authenticate::class])->group(function () {
 
     Route::resource('data_pelatihan', DataPelatihanController::class);
 
+    Route::resource('bentuk_jalur', BentukJalurController::class);
+    
     Route::resource('kelompok', KelompokController::class);
+
     
     Route::post('/kelompok/reset', [KelompokController::class, 'reset']);
     
@@ -31,6 +35,8 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::get('/ganti_password', [ProfilController::class, 'changePassword']);
 
     Route::post('/ganti_password', [ProfilController::class, 'processPassword']);
+
+
 });
 
 Route::get('/', function () {

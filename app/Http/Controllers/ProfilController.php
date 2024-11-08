@@ -110,7 +110,7 @@ class ProfilController extends Controller
 			'password' => Hash::make($request->password_baru)
 		]);
 
-		flash('Yeay.. Password berhasil diubah!')->success();
+		flash('Password berhasil diubah!')->success();
     return redirect()->route('profil');
 	}
 }

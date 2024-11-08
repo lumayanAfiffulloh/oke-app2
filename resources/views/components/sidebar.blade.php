@@ -11,7 +11,7 @@
       </div>
     </div>
     <!-- Sidebar navigation-->
-    <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+    <nav class="sidebar-nav scroll-sidebar pb-5" data-simplebar="">
       <ul id="sidebarnav">
       {{-- HALAMAN LOGIN --}}
         {{-- PROFIL --}}
@@ -64,7 +64,7 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">PELATIHAN</span>
         </li>
-        <li class="sidebar-item {{ Request::is('data_pelatihan*') ? 'selected' : '' }}">
+        <li class="sidebar-item {{ Request::is('data_pelatihan*') || Request::is('bentuk_jalur*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pelatihan" aria-expanded="false">
             <span>
               <i class="ti ti-file-stack"></i>
@@ -86,6 +86,31 @@
               <i class="ti ti-bookmarks "></i>
             </span>
             <span class="hide-menu">RPP Anda</span>
+          </a>
+        </li>
+        @can('admin')
+          
+        <li class="sidebar-item {{ Request::is('rpp_isidental*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/rpp_isidental" aria-expanded="false">
+            <span>
+              <i class="ti ti-file-alert "></i>
+            </span>
+            <span class="hide-menu">RPP Isidental</span>
+          </a>
+        </li>
+        @endcan
+        
+        {{-- LAPORAN --}}
+        <li class="nav-small-cap mt-2">
+          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+          <span class="hide-menu">Laporan</span>
+        </li>
+        <li class="sidebar-item {{ Request::is('laporan*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/analisa_jp" aria-expanded="false">
+            <span>
+              <i class="ti ti-clock "></i>
+            </span>
+            <span class="hide-menu">Analisa JP</span>
           </a>
         </li>
         

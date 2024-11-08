@@ -41,6 +41,7 @@
   <script src={{asset("modern/src/assets/libs/jquery/dist/jquery.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}></script>
   @stack('scripts')
+  @stack('scripts2')
   <script src={{asset("modern/src/assets/js/sidebarmenu.js")}}></script>
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>
@@ -53,6 +54,10 @@
   <script>
     $(".placeholder-single").select2({
       placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
+      allowClear: true
+    });
+    $(".bentuk-jalur-select").select2({
+      placeholder: "-- Pilih Bentuk Jalur --",
       allowClear: true
     });
     $(".placeholder-multiple").select2({

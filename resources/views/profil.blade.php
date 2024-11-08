@@ -2,7 +2,7 @@
 @section('content')
 
 {{-- ROW 1 --}}
-  <div class="row">
+	<div class="row">
 		{{-- FOTO --}}
     <div class="col col-md-6 d-flex align-items-strech">
 			<div class="card w-100">

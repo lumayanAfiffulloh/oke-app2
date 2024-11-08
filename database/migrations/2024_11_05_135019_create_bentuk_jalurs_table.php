@@ -11,16 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_pelatihans', function (Blueprint $table) {
+        Schema::create('bentuk_jalurs', function (Blueprint $table) {
             $table->id();
-            $table->year('tahun');
             $table->enum('kategori', ['klasikal', 'non-klasikal']);
             $table->string('bentuk_jalur');
-            $table->string('nama_pelatihan');
-            $table->integer('jam_pelajaran');
-            $table->enum('regional', ['nasional', 'internasional']);
-            $table->string('anggaran');
-            $table->enum('prioritas', ['rendah', 'sedang', 'tinggi']);
             $table->timestamps();
         });
     }
@@ -30,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_pelatihans');
+        Schema::dropIfExists('bentuk_jalurs');
     }
 };

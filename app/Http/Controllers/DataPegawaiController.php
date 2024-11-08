@@ -92,7 +92,7 @@ class DataPegawaiController extends Controller
             $data_pegawai->foto = $request->file('foto')->store('public');
         }
         $data_pegawai->save();
-        flash('Yeay.. Data berhasil disimpan!')->success();
+        flash('Data berhasil disimpan!')->success();
         return redirect()->route('data_pegawai.index');
     }
 
@@ -165,7 +165,7 @@ class DataPegawaiController extends Controller
         $user->fill($userData);
         $user->save();
 
-        flash('Yeay.. Data berhasil diubah!')->success();
+        flash('Data berhasil diubah!')->success();
         return redirect()->route('data_pegawai.index');
     }
 
@@ -200,7 +200,7 @@ class DataPegawaiController extends Controller
         ]);
 
         Excel::import(new DataPegawaiImport, $request->file('importDataPegawai'));
-        flash('Yeay.. Data berhasil diimport!')->success();
+        flash('Data berhasil diimport!')->success();
         return redirect()->route('data_pegawai.index');
 
     }

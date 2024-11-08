@@ -13,7 +13,23 @@ class DataPelatihanController extends Controller
      */
     public function index()
     {
-        return view ('pelatihan_index');
+        $query = DataPelatihan::query();
+        // $isSearching = request()->filled('q');
+        
+        // if ($isSearching) {
+        //     // Melakukan pencarian berdasarkan nama user
+        //     $query->where('name', 'like', '%' . request('q') . '%');
+        // }
+
+        // Melakukan paginasi hasil query
+        $data_pelatihan['data_pelatihan'] = $query->latest()->paginate(10);
+
+        // // Jika pencarian dilakukan dan tidak ada data ditemukan
+        // if ($isSearching && $data_pelatihan['data_pelatihan']->isEmpty()) {
+        //     flash('Data yang Anda cari tidak ditemukan.')->error();
+        // }
+
+        return view ('data_pelatihan_index', $data_pelatihan);
     }
 
     /**
@@ -21,7 +37,7 @@ class DataPelatihanController extends Controller
      */
     public function create()
     {
-        //
+        return view ('data_pelatihan_create');
     }
 
     /**
@@ -29,7 +45,17 @@ class DataPelatihanController extends Controller
      */
     public function store(StoreDataPelatihanRequest $request)
     {
-        //
+        // Validasi sudah dilakukan di StoreDataPelatihanRequest
+        $requestData = $request->validated();
+
+        // Simpan data ke dalam RencanaPembelajaran
+        DataPelatihan::create($requestData);
+
+        // Flash message sukses
+        flash('Data pelatihan berhasil ditambah')->success();
+
+        // Redirect ke halaman index
+        return redirect()->route('data_pelatihan.index');
     }
 
     /**
@@ -61,6 +87,8 @@ class DataPelatihanController extends Controller
      */
     public function destroy(DataPelatihan $dataPelatihan)
     {
-        //
+        $dataPelatihan->delete();
+        flash('Data berhasil dihapus!')->error();
+        return redirect()->route('rencana_pembelajaran.index');
     }
 }

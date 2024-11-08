@@ -96,7 +96,7 @@
 																</tr>
 															</thead>
 															<tbody>
-																@foreach($item->anggota as $pegawai)
+																@foreach($item->anggota->where('id', '!=', $item->ketua->id) as $pegawai)
 																	<tr>
 																		<td>{{ $pegawai->nama }}</td>
 																		<td>{{ $pegawai->nip }}</td>
