@@ -5,17 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\BentukJalur;
 use App\Http\Requests\StoreBentukJalurRequest;
 use App\Http\Requests\UpdateBentukJalurRequest;
+use Illuminate\Http\Request;
 
 class BentukJalurController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $query = BentukJalur::query();
-        $bentuk_jalur['bentuk_jalur'] = $query->latest()->paginate(10);
-        return view ('bentuk_jalur_index', $bentuk_jalur);
+
+         // Filter kategori
+        $kategori = $request->input('kategori');
+
+        $query->when($kategori, function ($filter) use ($kategori) {
+            return $filter->where('kategori', $kategori);
+        });
+
+        // Gunakan `get()` jika filter ada, dan `paginate(10)` jika tidak ada filter
+        $bentuk_jalur = $kategori ? $query->get() : $query->latest()->paginate(10);
+
+        return view ('bentuk_jalur_index', compact('bentuk_jalur', 'kategori'));
     }
 
     /**
@@ -23,7 +34,7 @@ class BentukJalurController extends Controller
      */
     public function create()
     {
-        //
+        return view('bentuk_jalur_create');
     }
 
     /**
@@ -31,7 +42,17 @@ class BentukJalurController extends Controller
      */
     public function store(StoreBentukJalurRequest $request)
     {
-        //
+        // Validasi sudah dilakukan di StoreDataPelatihanRequest
+        $requestData = $request->validated();
+
+        // Simpan data ke dalam RencanaPembelajaran
+        BentukJalur::create($requestData);
+
+        // Flash message sukses
+        flash('Bentuk jalur berhasil ditambah')->success();
+
+        // Redirect ke halaman index
+        return redirect()->route('bentuk_jalur.index');
     }
 
     /**
@@ -39,7 +60,7 @@ class BentukJalurController extends Controller
      */
     public function show(BentukJalur $bentukJalur)
     {
-        //
+        
     }
 
     /**
@@ -47,7 +68,7 @@ class BentukJalurController extends Controller
      */
     public function edit(BentukJalur $bentukJalur)
     {
-        //
+        return view('bentuk_jalur_edit', compact('bentukJalur'));
     }
 
     /**
@@ -55,7 +76,10 @@ class BentukJalurController extends Controller
      */
     public function update(UpdateBentukJalurRequest $request, BentukJalur $bentukJalur)
     {
-        //
+        $validatedData = $request->validated();
+        $bentukJalur->update($validatedData);
+        flash('Bentuk jalur berhasil diubah!')->success();
+        return redirect()->route('bentuk_jalur.index');
     }
 
     /**
@@ -64,5 +88,11 @@ class BentukJalurController extends Controller
     public function destroy(BentukJalur $bentukJalur)
     {
         //
+    }
+
+    public function filterByKategori($kategori)
+    {
+        $bentukJalur = BentukJalur::where('kategori', $kategori)->get();
+        return response()->json($bentukJalur);
     }
 }

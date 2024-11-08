@@ -24,6 +24,8 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::resource('data_pelatihan', DataPelatihanController::class);
 
     Route::resource('bentuk_jalur', BentukJalurController::class);
+    // Tambahkan route filter bentuk jalur berdasarkan kategori
+    Route::get('/bentuk_jalur/filter/{kategori}', [BentukJalurController::class, 'filterByKategori']);
     
     Route::resource('kelompok', KelompokController::class);
 

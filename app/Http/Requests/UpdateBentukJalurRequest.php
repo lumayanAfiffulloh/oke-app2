@@ -11,7 +11,7 @@ class UpdateBentukJalurRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateBentukJalurRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'kategori' => 'required|string',
+            'bentuk_jalur' => 'required|string|unique:bentuk_jalurs,bentuk_jalur'
         ];
     }
 }

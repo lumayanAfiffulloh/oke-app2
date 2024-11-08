@@ -13,18 +13,19 @@
     <!-- Sidebar navigation-->
     <nav class="sidebar-nav scroll-sidebar pb-5" data-simplebar="">
       <ul id="sidebarnav">
-      {{-- HALAMAN LOGIN --}}
+        {{-- HALAMAN LOGIN --}}
         {{-- PROFIL --}}
         <li class="nav-small-cap mt-1">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Dashboard</span>
         </li>
         <li class="sidebar-item {{ Request::is('ganti_password') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/profil" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/profil"
+            aria-expanded="false">
             <span>
               <i class="ti ti-user-circle"></i>
             </span>
-              <span class="hide-menu">Profil Anda</span>
+            <span class="hide-menu">Profil Anda</span>
           </a>
         </li>
 
@@ -35,7 +36,8 @@
           <span class="hide-menu">KELOLA DATA PEGAWAI</span>
         </li>
         <li class="sidebar-item {{ Request::is('data_pegawai*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pegawai" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pegawai"
+            aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
@@ -43,20 +45,22 @@
           </a>
         </li>
         <li class="sidebar-item {{ Request::is('kelompok*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/kelompok" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/kelompok"
+            aria-expanded="false">
             <span>
               <i class="ti ti-users"></i>
             </span>
             <span class="hide-menu">Kelompok</span>
-          </a>    
+          </a>
         </li>
         <li class="sidebar-item {{ Request::is('edit_akses*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/edit_akses" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/edit_akses"
+            aria-expanded="false">
             <span>
               <i class="ti ti-accessible"></i>
             </span>
             <span class="hide-menu">Hak Akses</span>
-          </a>    
+          </a>
         </li>
 
         {{-- DATA PELATIHAN --}}
@@ -64,12 +68,22 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">PELATIHAN</span>
         </li>
-        <li class="sidebar-item {{ Request::is('data_pelatihan*') || Request::is('bentuk_jalur*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pelatihan" aria-expanded="false">
+        <li class="sidebar-item {{ Request::is('data_pelatihan*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/data_pelatihan" aria-expanded="false">
             <span>
               <i class="ti ti-file-stack"></i>
             </span>
             <span class="hide-menu">Data Pelatihan</span>
+          </a>
+        </li>
+        <li class="sidebar-item {{Request::is('bentuk_jalur*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/bentuk_jalur"
+            aria-expanded="false">
+            <span>
+              <i class="ti ti-shape"></i>
+            </span>
+            <span class="hide-menu">Kelola Bentuk Jalur</span>
           </a>
         </li>
         @endcan
@@ -81,7 +95,8 @@
           <span class="hide-menu">Rencana Pembelajaran (RPP)</span>
         </li>
         <li class="sidebar-item {{ Request::is('rencana_pembelajaran*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/rencana_pembelajaran" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/rencana_pembelajaran" aria-expanded="false">
             <span>
               <i class="ti ti-bookmarks "></i>
             </span>
@@ -89,9 +104,10 @@
           </a>
         </li>
         @can('admin')
-          
+
         <li class="sidebar-item {{ Request::is('rpp_isidental*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/rpp_isidental" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/rpp_isidental" aria-expanded="false">
             <span>
               <i class="ti ti-file-alert "></i>
             </span>
@@ -99,22 +115,23 @@
           </a>
         </li>
         @endcan
-        
+
         {{-- LAPORAN --}}
         <li class="nav-small-cap mt-2">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Laporan</span>
         </li>
         <li class="sidebar-item {{ Request::is('laporan*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/analisa_jp" aria-expanded="false">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/analisa_jp"
+            aria-expanded="false">
             <span>
               <i class="ti ti-clock "></i>
             </span>
             <span class="hide-menu">Analisa JP</span>
           </a>
         </li>
-        
-        
+
+
       </ul>
     </nav>
   </div>

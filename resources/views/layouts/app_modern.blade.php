@@ -5,9 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ $title ?? '' }} | {{ config('app.name', 'Laravel') }}</title>
-  <link rel="shortcut icon" type="image/png" href={{ asset("modern/src/assets/images/logos/favicon.png") }}/>
-  <link rel="stylesheet" href= {{ asset("modern/src/assets/css/styles.min.css") }} />
-  <link rel="icon" href="{{ asset('img/undip.png') }}">
+  <link rel="shortcut icon" href="{{ asset('img/undip.png') }}">
+  <link rel="stylesheet" href={{ asset("modern/src/assets/css/styles.min.css") }} />
   @vite('resources/css/app.css')
 </head>
 
@@ -29,9 +28,9 @@
       {{-- KONTEN --}}
       <div class="container-fluid ">
         @if (session('status'))
-          <div class="alert alert-info" role="alert">
-            {{ session('status') }}
-          </div>
+        <div class="alert alert-info" role="alert">
+          {{ session('status') }}
+        </div>
         @endif
         @include('flash::message')
         @yield('content')
@@ -50,14 +49,11 @@
   {{-- SELECT 2 --}}
   <link href={{ asset("select2/dist/css/select2.min.css") }} rel="stylesheet" />
   <script src={{ asset("select2/dist/js/select2.min.js") }}></script>
+  @stack('bentuk_jalur')
 
   <script>
     $(".placeholder-single").select2({
       placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
-      allowClear: true
-    });
-    $(".bentuk-jalur-select").select2({
-      placeholder: "-- Pilih Bentuk Jalur --",
       allowClear: true
     });
     $(".placeholder-multiple").select2({
@@ -65,4 +61,5 @@
     });
   </script>
 </body>
+
 </html>

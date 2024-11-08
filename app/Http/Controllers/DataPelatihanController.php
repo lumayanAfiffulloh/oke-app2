@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BentukJalur;
 use App\Models\DataPelatihan;
 use App\Http\Requests\StoreDataPelatihanRequest;
 use App\Http\Requests\UpdateDataPelatihanRequest;
@@ -37,7 +38,8 @@ class DataPelatihanController extends Controller
      */
     public function create()
     {
-        return view ('data_pelatihan_create');
+        $bentuk_jalur = BentukJalur::all();
+        return view ('data_pelatihan_create', compact('bentuk_jalur'));
     }
 
     /**
