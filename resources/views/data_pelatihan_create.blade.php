@@ -39,7 +39,7 @@
 			<div class="form-group mt-1 mb-3">
 				<label for="bentuk_jalur" class="fw-bolder">Bentuk Jalur</label><br>
 				<div class="col-md-6">
-					<select class="form-select" id="bentuk_jalur" name="bentuk_jalur" class="placeholder-single">
+					<select class="form-select bentukjalur-placeholder-single" id="bentuk_jalur" name="bentuk_jalur">
 						<option value="" selected disabled>-- Pilih Bentuk Jalur --</option>
 					</select>
 					<span class="text-danger">{{ $errors->first('bentuk_jalur') }}</span>

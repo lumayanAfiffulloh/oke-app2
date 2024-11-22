@@ -3,22 +3,73 @@
 <div class="card mb-4 bg-white">
 	<div class="card-body px-0 pt-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+			<span>
+				<a href="/data_pelatihan" class="ti ti-arrow-left fw-bolder mx-2"></a>
+			</span>
 			Bentuk Jalur
 		</div>
 		<div class="row my-3">
 			<div class="col-md-6 d-flex">
 				<button class="position-relative ">
-					<a href="/bentuk_jalur/create" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem">
+					<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
+						data-bs-target="#createJalurModal">
 						<span class="me-1">
 							<i class="ti ti-clipboard-plus"></i>
 						</span>
 						<span>Tambah Bentuk Jalur</span>
 					</a>
 				</button>
+				{{-- MODAL TAMBAH BENTUK JALUR --}}
+				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createJalurModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title tw-text-[20px] fw-bold">
+									Tambah Bentuk Jalur
+								</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<form action="/bentuk_jalur" method="POST" class="py-2" id="createFormID">
+								@csrf
+								{{-- KATEGORI --}}
+								<div class="modal-body border border-2 mx-3 rounded-2">
+									<div class="form-group mt-1 mb-3">
+										<label for="kategori" class="fw-bolder">Kategori</label>
+										<div class="col-md-6">
+											<select class="form-select" id="kategori" name="kategori">
+												<option value="" selected disabled id="pilih">-- Pilih Kategori --</option>
+												<option value="klasikal" {{ old('kategori')==='klasikal' ? 'selected' : '' }}
+													id="kategori-klasikal">
+													Klasikal</option>
+												<option value="non-klasikal" {{ old('kategori')==='non-klasikal' ? 'selected' : '' }}
+													id="kategori-non-klasikal">Non-Klasikal</option>
+											</select>
+											<span class="text-danger">{{ $errors->first('kategori') }}</span>
+										</div>
+									</div>
+									{{-- BENTUK JALUR --}}
+									<div class="form-group mb-2">
+										<label for="bentuk_jalur" class="fw-bolder">Nama Bentuk Jalur</label><br>
+										<input type="text" class="form-control @error('bentuk_jalur') is-invalid @enderror"
+											id="bentuk_jalur" name="bentuk_jalur" value="{{ old('bentuk_jalur') }}">
+										<span class="text-danger">{{ $errors->first('bentuk_jalur') }}</span>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+									<button type="submit" class="btn btn-warning" id="createAlert">Simpan</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
 				<form action="">
 					<div class="input-group mx-2">
 						<select name="kategori" id="" class="form-select">
 							<option value="" selected disabled>-- Filter Kategori --</option>
+							<option value="" {{ is_null(request('kategori')) ? 'selected' : '' }}>Semua Kategori</option>
 							<option value="klasikal" {{ $kategori==='klasikal' ? 'selected' : '' }}>Klasikal</option>
 							<option value="non-klasikal" {{ $kategori==='non-klasikal' ? 'selected' : '' }}>Non-Klasikal</option>
 						</select>
@@ -46,13 +97,52 @@
 						<td>{{ ucwords($item->kategori) }}</td>
 						<td>{{ ucwords($item->bentuk_jalur) }}</td>
 						<td>
-							<a href="/bentuk_jalur/{{ $item->id }}/edit" class="btn btn-warning btn-sm"
-								style="font-size: 0.8rem">Edit</a>
+							<a href="#" class="btn btn-warning btn-sm editButton" data-id="{{ $item->id }}"
+								data-kategori="{{ $item->kategori }}" data-bentuk_jalur="{{ $item->bentuk_jalur }}"
+								data-bs-toggle="modal" data-bs-target="#editJalurModal" style="font-size: 0.8rem">
+								Edit
+							</a>
+
+							{{-- MODAL EDIT BENTUK JALUR --}}
+							<div class="modal fade" id="editJalurModal" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Edit Bentuk Jalur</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<form id="editForm" method="POST">
+											@csrf
+											@method('PUT')
+											<div class="modal-body border border-2 mx-3 rounded-2">
+												{{-- Kategori --}}
+												<div class="form-group mt-1 mb-3">
+													<label for="editKategori" class="fw-bolder">Kategori</label>
+													<select class="form-select" id="editKategori" name="kategori">
+														<option value="" disabled>-- Pilih Kategori --</option>
+														<option value="klasikal">Klasikal</option>
+														<option value="non-klasikal">Non-Klasikal</option>
+													</select>
+												</div>
+												{{-- Bentuk Jalur --}}
+												<div class="form-group mb-2">
+													<label for="editBentukJalur" class="fw-bolder">Nama Bentuk Jalur</label>
+													<input type="text" class="form-control" id="editBentukJalur" name="bentuk_jalur">
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+												<button type="submit" class="btn btn-primary">Simpan</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+
 							<form action="/bentuk_jalur/{{ $item->id }}" method="POST" class="d-inline deleteForm">
 								@csrf
 								@method('delete')
-								<button type="submit" class="btn btn-danger btn-sm"
-									onclick="return confirm('Anda yakin ingin menghapus data ini?')" style="font-size: 0.8rem;">
+								<button type="submit" class="btn btn-danger btn-sm deleteAlert" style="font-size: 0.8rem;">
 									Hapus
 								</button>
 							</form>
@@ -69,4 +159,75 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
+				button.addEventListener('click', function(event) {
+						event.preventDefault(); // Mencegah submit langsung
+						Swal.fire({
+								title: "Apakah Anda Yakin?",
+								text: "Data Akan Dihapus Permanen dari Basis Data!",
+								icon: "warning",
+								showCancelButton: true,
+								cancelButtonColor: "#d33",
+								confirmButtonText: "Ya, Hapus!",
+								cancelButtonText: "Batal"
+						}).then((result) => {
+								if (result.isConfirmed) {
+										Swal.fire({
+												title: "Berhasil!",
+												text: "Data Berhasil Dihapus",
+												icon: "error"
+										}).then(() => {
+												// Submit form yang terkait dengan tombol ini
+												button.closest('form').submit(); // Submit form terkait
+										});
+								}
+						});
+				});
+		});
+</script>
+<script>
+	document.getElementById('createAlert').onclick = function(event){
+		event.preventDefault();
+		Swal.fire({
+			title: "Konfirmasi Data",
+			text: "Pastikan Data yang Anda Isikan Sudah Benar",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonText: "Simpan",
+			cancelButtonText: "Batal"
+		}).then((result) => {
+			if (result.isConfirmed){
+				// Submit form atau aksi lain setelah konfirmasi
+				document.getElementById('createFormID').submit(); // Sesuaikan ID form
+			}
+		});
+	}
+</script>
+
+{{-- UNTUK MEMUNCULKAN DATA YANG AKAN DIEDIT PADA MODAL --}}
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.editButton');
+    const editModal = document.getElementById('editJalurModal');
+    const editForm = document.getElementById('editForm');
+    const editKategori = document.getElementById('editKategori');
+    const editBentukJalur = document.getElementById('editBentukJalur');
+
+    editButtons.forEach(button => {
+			button.addEventListener('click', function () {
+				// Ambil data dari atribut tombol
+				const id = this.getAttribute('data-id');
+				const kategori = this.getAttribute('data-kategori');
+				const bentukJalur = this.getAttribute('data-bentuk_jalur');
+
+				// Isi data ke dalam form modal
+				editForm.action = `/bentuk_jalur/${id}`;
+				editKategori.value = kategori;
+				editBentukJalur.value = bentukJalur;
+			});
+    });
+	});
+</script>
 @endsection

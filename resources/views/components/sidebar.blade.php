@@ -66,9 +66,9 @@
         {{-- DATA PELATIHAN --}}
         <li class="nav-small-cap mt-2">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-          <span class="hide-menu">PELATIHAN</span>
+          <span class="hide-menu">DATABASE PEMBELAJARAN</span>
         </li>
-        <li class="sidebar-item {{ Request::is('data_pelatihan*') ? 'selected' : '' }}">
+        <li class="sidebar-item {{ Request::is('data_pelatihan*') || Request::is('bentuk_jalur*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
             href="/data_pelatihan" aria-expanded="false">
             <span>
@@ -77,13 +77,13 @@
             <span class="hide-menu">Data Pelatihan</span>
           </a>
         </li>
-        <li class="sidebar-item {{Request::is('bentuk_jalur*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/bentuk_jalur"
-            aria-expanded="false">
+        <li class="sidebar-item {{ Request::is('data_pendidikan*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/data_pendidikan" aria-expanded="false">
             <span>
-              <i class="ti ti-shape"></i>
+              <i class="ti ti-book"></i>
             </span>
-            <span class="hide-menu">Kelola Bentuk Jalur</span>
+            <span class="hide-menu">Data Pendidikan</span>
           </a>
         </li>
         @endcan

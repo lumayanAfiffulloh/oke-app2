@@ -49,6 +49,7 @@
   {{-- SELECT 2 --}}
   <link href={{ asset("select2/dist/css/select2.min.css") }} rel="stylesheet" />
   <script src={{ asset("select2/dist/js/select2.min.js") }}></script>
+
   @stack('bentuk_jalur')
 
   <script>
@@ -58,6 +59,13 @@
     });
     $(".placeholder-multiple").select2({
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
+    });
+    $(".placeholder-multiple").select2({
+      placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
+    });
+    $(".bentukjalur-placeholder-single").select2({
+    placeholder: "Select a state",
+    allowClear: true
     });
   </script>
 </body>

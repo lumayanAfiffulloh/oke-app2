@@ -34,7 +34,7 @@ class BentukJalurController extends Controller
      */
     public function create()
     {
-        return view('bentuk_jalur_create');
+        //
     }
 
     /**
@@ -60,7 +60,7 @@ class BentukJalurController extends Controller
      */
     public function show(BentukJalur $bentukJalur)
     {
-        
+        //
     }
 
     /**
@@ -68,7 +68,7 @@ class BentukJalurController extends Controller
      */
     public function edit(BentukJalur $bentukJalur)
     {
-        return view('bentuk_jalur_edit', compact('bentukJalur'));
+        //
     }
 
     /**
@@ -87,7 +87,9 @@ class BentukJalurController extends Controller
      */
     public function destroy(BentukJalur $bentukJalur)
     {
-        //
+        $bentukJalur->delete();
+        flash('Data berhasil dihapus!')->error();
+        return redirect()->route('bentuk_jalur.index');
     }
 
     public function filterByKategori($kategori)

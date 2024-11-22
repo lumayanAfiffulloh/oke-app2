@@ -8,7 +8,7 @@
       </span>
       Edit Bentuk Jalur
     </div>
-    <form action="/bentuk_jalur" method="POST" class="px-4 py-2">
+    <form action="/bentuk_jalur" method="POST" class="px-4 py-2" id="editFormID">
       @csrf
       {{-- KATEGORI --}}
       <div class="form-group mt-1 mb-3">
@@ -37,8 +37,27 @@
         <span class="text-danger">{{ $errors->first('bentuk_jalur') }}</span>
       </div>
 
-      <button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
+      <button type="submit" class="btn btn-primary mb-2" id="editAlert">SIMPAN</button>
     </form>
   </div>
 </div>
+
+<script>
+  document.getElementById('editAlert').onclick = function(event){
+        event.preventDefault();
+        Swal.fire({
+            title: "Konfirmasi Data",
+            text: "Pastikan Data yang Anda Edit Sudah Benar",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Simpan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form atau aksi lain setelah konfirmasi
+                document.getElementById('editFormID').submit(); // Sesuaikan ID form
+            }
+        });
+        }
+</script>
 @endsection
