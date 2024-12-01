@@ -16,17 +16,32 @@ class BentukJalurController extends Controller
     {
         $query = BentukJalur::query();
 
-         // Filter kategori
+        // Filter kategori
         $kategori = $request->input('kategori');
 
         $query->when($kategori, function ($filter) use ($kategori) {
             return $filter->where('kategori', $kategori);
         });
 
-        // Gunakan `get()` jika filter ada, dan `paginate(10)` jika tidak ada filter
-        $bentuk_jalur = $kategori ? $query->get() : $query->latest()->paginate(10);
+        // Filter berdasarkan pencarian
+        if (request()->filled('q')) {
+            $query->where('bentuk_jalur', 'like', '%' . request('q') . '%');
+        }
 
-        return view ('bentuk_jalur_index', compact('bentuk_jalur', 'kategori'));
+        // Jika filter kategori diterapkan, gunakan `get()`; jika tidak, gunakan `paginate(10)`
+        if ($kategori || request()->filled('q')) {
+            $bentuk_jalur = $query->get();
+        } else {
+            $bentuk_jalur = $query->latest()->paginate(10);
+        }
+
+        // Cek jika tidak ada data yang ditemukan
+        if ($bentuk_jalur->isEmpty()) {
+            flash('Data yang Anda cari tidak ada.')->error();
+        }
+
+        return view('bentuk_jalur_index', compact('bentuk_jalur', 'kategori'));
+
     }
 
     /**

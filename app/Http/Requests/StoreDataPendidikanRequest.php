@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDataPelatihanRequest extends FormRequest
+class StoreDataPendidikanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,11 +22,7 @@ class StoreDataPelatihanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kategori' => 'required|string',
-            'bentuk_jalur' => 'required|string', // Bentuk jalur harus ada di tabel bentuk_jalur
-            'nama_pelatihan' => 'required|string|max:255',
-            'min_anggaran' => 'required|string',
-            'maks_anggaran' => 'required|string',
+            //
         ];
     }
 }

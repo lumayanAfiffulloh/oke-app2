@@ -68,12 +68,10 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row mx-3 mb-2">
 			<div class="col-md-3 p-0">
 				<form action="">
 					<div class="input-group">
-						<input class="form-control" type="text" name="q" placeholder="Cari Nama" value="{{ request('q') }}">
+						<input class="form-control" type="text" name="q" placeholder="Cari Nama/NIP" value="{{ request('q') }}">
 						<button type="submit" class="btn btn-primary">
 							<i class="ti ti-search"></i>
 						</button>
@@ -90,37 +88,26 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3 ps-0">
-				<form action="">
-					<div class="input-group">
-						<input class="form-control" type="text" name="e" placeholder="Cari NIP" value="{{ request('e') }}">
-						<button type="submit" class="btn btn-primary">
-							<i class="ti ti-search"></i>
-						</button>
-					</div>
-				</form>
-			</div>
 		</div>
-		<hr style="margin-top: 0.7rem">
+
+		<hr style="margin-top: 0.3rem">
 		<div class="table-responsive">
 			{{-- TABEL --}}
-			<table class="table table-striped mb-3" style="font-size: 0.8rem">
+			<table class="table table-striped" style="font-size: 0.8rem; width:100%">
 				<thead>
-					<th class="px-2 text-center">No.</th>
-					<th class="px-2">Nama</th>
-					<th class="px-2">NIP</th>
-					<th class="px-2" style="width: 10%;">Email</th>
-					<th class="px-2">Status</th>
-					<th class="px-2" style="width: 15%">Unit Kerja</th>
-					<th class="px-2">Jabatan</th>
-					<th class="px-2">Pendidikan</th>
-					<th class="px-2" style="width: 13%">AKSI</th>
+					<th class="text-center">No.</th>
+					<th>Nama</th>
+					<th>NIP</th>
+					<th>Email</th>
+					<th>Status</th>
+					<th>Unit Kerja</th>
+					<th>AKSI</th>
 				</thead>
 				<tbody>
 					@foreach ($data_pegawai as $index => $item)
 					<tr>
-						<td class="px-2 text-center"> {{ $data_pegawai->firstItem() + $index }} </td>
-						<td class="px-2">
+						<td class="text-center"> {{ $data_pegawai->firstItem() + $index }} </td>
+						<td>
 							@if ($item->foto)
 							<a href="{{ Storage::url($item->foto) }}" target="blank">
 								<img src="{{ Storage::url($item->foto) }}" class="rounded-circle d-block"
@@ -138,28 +125,104 @@
 								{{ $item->nama }} <span>({{ $item->kelompok_id }})</span>
 							</div>
 						</td>
-						<td class="px-2">{{ $item->nip }}</td>
-						<td class="px-2">{{ $item->user->email }}</td>
-						<td class="px-2">
+						<td class="text-start">{{ $item->nip }}</td>
+						<td>{{ $item->user->email }}</td>
+						<td>
 							@if ($item->status === 'aktif')
 							<span class="badge rounded-pill bg-success" style="font-size: 0.8rem">Aktif</span>
 							@else
 							<span class="badge rounded-pill bg-danger" style="font-size: 0.8rem">Non-Aktif</span>
 							@endif
 						</td>
-						<td class="px-2">{{ $item->unit_kerja }}</td>
-						<td class="px-2">{{ $item->jabatan }}</td>
-						<td class="px-2">{{ $item->pendidikan }}</td>
-						<td class="px-2">
-							<a href="/data_pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm"
-								style="font-size: 0.8rem">Edit</a>
-							<form action="/data_pegawai/{{ $item->id }}" method="POST" class="d-inline deleteForm">
-								@csrf
-								@method('delete')
-								<button type="submit" class="btn btn-danger btn-sm deleteAlert" style="font-size: 0.8rem">
-									Hapus
-								</button>
-							</form>
+						<td>{{ $item->unit_kerja }}</td>
+						<td>
+							<div class="btn-group" role="group">
+								<button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+									data-bs-target="#detailModal{{ $item->id }}" title="Detail" style="font-size: 0.8rem"><span
+										class="ti ti-eye"></span></button>
+								<!-- Detail Modal -->
+								<div class="modal fade" id="detailModal{{ $item->id }}" data-bs-backdrop="static"
+									data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $item->id }}"
+									aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
+													Detail Pegawai {{ $item->nama }}
+												</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body border border-2 mx-3 rounded-2">
+												<ol class="list-group">
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Nama</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nama) }} </span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">NIP</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nip) }}</span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Email</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ($item->user->email) }} </span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Status</span>
+															<span class="tw-text-sky-500 fw-bold">: @if ($item->status === 'aktif')
+																<span class="badge rounded-pill bg-success">Aktif</span>
+																@else
+																<span class="badge rounded-pill bg-danger">Non-Aktif</span>
+																@endif</span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Unit Kerja</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unit_kerja) }} </span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Jabatan</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan) }} Jam</span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:150px;">Pendidikan</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikan) }} </span>
+														</h2>
+													</li>
+												</ol>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+												<a href="/data_pegawai/{{ $item->id }}/edit" class="btn btn-warning"
+													style="font-size: 0.8rem">Edit</a>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<a href="/data_pegawai/{{ $item->id }}/edit" class="btn btn-warning btn-sm" style="font-size: 0.8rem"
+									title="Edit"><span class="ti ti-pencil"></span></a>
+
+								<form action="/data_pegawai/{{ $item->id }}" method="POST" class="d-inline deleteForm">
+									@csrf
+									@method('delete')
+									<button type="submit" class="btn btn-danger btn-sm rounded-end-1 deleteAlert"
+										style="font-size: 0.8rem; border-radius: 0" title="Hapus">
+										<span class="ti ti-trash"></span>
+									</button>
+								</form>
+							</div>
 						</td>
 					</tr>
 					@endforeach

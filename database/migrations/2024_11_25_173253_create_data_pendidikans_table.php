@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_pelatihans', function (Blueprint $table) {
+        Schema::create('data_pendidikans', function (Blueprint $table) {
             $table->id();
-            $table->enum('kategori', ['klasikal', 'non-klasikal']);
-            $table->string('bentuk_jalur');
-            $table->string('nama_pelatihan');
-            $table->string('min_anggaran');
-            $table->string('maks_anggaran');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_pelatihans');
+        Schema::dropIfExists('data_pendidikans');
     }
 };

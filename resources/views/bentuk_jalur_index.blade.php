@@ -6,10 +6,13 @@
 			<span>
 				<a href="/data_pelatihan" class="ti ti-arrow-left fw-bolder mx-2"></a>
 			</span>
+			<span class="text-dark text-opacity-50">
+				<a href="/data_pelatihan">Data Pelatihan / </a>
+			</span>
 			Bentuk Jalur
 		</div>
-		<div class="row my-3">
-			<div class="col-md-6 d-flex">
+		<div class=" row my-3">
+			<div class="col d-flex">
 				<button class="position-relative ">
 					<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
 						data-bs-target="#createJalurModal">
@@ -64,20 +67,34 @@
 					</div>
 				</div>
 
+				<div class="mx-2">
+					<form action="">
+						<div class="input-group">
+							<select name="kategori" id="kategoriFilter" class="form-select" onchange="applyLiveFilter()">
+								<option value="" selected disabled>-- Filter Kategori --</option>
+								<option value="" {{ is_null(request('kategori')) ? 'selected' : '' }}>Semua Kategori</option>
+								<option value=" klasikal" {{ $kategori==='klasikal' ? 'selected' : '' }}>Klasikal</option>
+								<option value="non-klasikal" {{ $kategori==='non-klasikal' ? 'selected' : '' }}>Non-Klasikal
+								</option>
+							</select>
+							<button type="submit" class="btn btn-primary">
+								<i class="ti ti-adjustments-horizontal"></i>
+							</button>
+						</div>
+					</form>
+				</div>
 
-				<form action="">
-					<div class="input-group mx-2">
-						<select name="kategori" id="" class="form-select">
-							<option value="" selected disabled>-- Filter Kategori --</option>
-							<option value="" {{ is_null(request('kategori')) ? 'selected' : '' }}>Semua Kategori</option>
-							<option value="klasikal" {{ $kategori==='klasikal' ? 'selected' : '' }}>Klasikal</option>
-							<option value="non-klasikal" {{ $kategori==='non-klasikal' ? 'selected' : '' }}>Non-Klasikal</option>
-						</select>
-						<button type="submit" class="btn btn-primary">
-							<i class="ti ti-adjustments-horizontal"></i>
-						</button>
-					</div>
-				</form>
+				<div>
+					<form action="">
+						<div class="input-group">
+							<input class="form-control" type="text" name="q" placeholder="Cari Bentuk Jalur"
+								value="{{ request('q') }}">
+							<button type="submit" class="btn btn-primary">
+								<i class="ti ti-search"></i>
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 		<hr class="my-0">
@@ -160,51 +177,8 @@
 	</div>
 </div>
 
-<script>
-	document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
-				button.addEventListener('click', function(event) {
-						event.preventDefault(); // Mencegah submit langsung
-						Swal.fire({
-								title: "Apakah Anda Yakin?",
-								text: "Data Akan Dihapus Permanen dari Basis Data!",
-								icon: "warning",
-								showCancelButton: true,
-								cancelButtonColor: "#d33",
-								confirmButtonText: "Ya, Hapus!",
-								cancelButtonText: "Batal"
-						}).then((result) => {
-								if (result.isConfirmed) {
-										Swal.fire({
-												title: "Berhasil!",
-												text: "Data Berhasil Dihapus",
-												icon: "error"
-										}).then(() => {
-												// Submit form yang terkait dengan tombol ini
-												button.closest('form').submit(); // Submit form terkait
-										});
-								}
-						});
-				});
-		});
-</script>
-<script>
-	document.getElementById('createAlert').onclick = function(event){
-		event.preventDefault();
-		Swal.fire({
-			title: "Konfirmasi Data",
-			text: "Pastikan Data yang Anda Isikan Sudah Benar",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonText: "Simpan",
-			cancelButtonText: "Batal"
-		}).then((result) => {
-			if (result.isConfirmed){
-				// Submit form atau aksi lain setelah konfirmasi
-				document.getElementById('createFormID').submit(); // Sesuaikan ID form
-			}
-		});
-	}
-</script>
+
+
 
 {{-- UNTUK MEMUNCULKAN DATA YANG AKAN DIEDIT PADA MODAL --}}
 <script>
@@ -229,5 +203,26 @@
 			});
     });
 	});
+</script>
+
+<script>
+	function applyLiveFilter() {
+			const kategori = document.getElementById('kategoriFilter').value;
+
+			// Kirim permintaan AJAX
+			fetch(`{{ url('bentuk_jalur') }}?kategori=${kategori}`, {
+					headers: {
+							'X-Requested-With': 'XMLHttpRequest'
+					}
+			})
+			.then(response => response.text())
+			.then(html => {
+					// Perbarui tabel dengan data baru
+					document.getElementById('dataTableContainer').innerHTML = html;
+			})
+			.catch(error => {
+					console.error('Error:', error);
+			});
+	}
 </script>
 @endsection

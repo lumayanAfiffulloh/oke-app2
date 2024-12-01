@@ -10,16 +10,6 @@
 		</div>
 		<form action="/data_pelatihan" method="POST" class="px-4 py-2">
 			@csrf
-			{{-- TAHUN --}}
-			<div class="form-group mt-1 mb-3">
-				<label for="tahun" class="fw-bolder">Tahun</label>
-				<div class="col-md-2">
-					<input type="number" max="2099" step="1" value="{{ old('tahun', 2024) }}"
-						class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun">
-				</div>
-				<span class="text-danger">{{ $errors->first('tahun') }}</span>
-			</div>
-
 			{{-- KATEGORI --}}
 			<div class="form-group mt-1 mb-3">
 				<label for="kategori" class="fw-bolder">Kategori</label>
@@ -56,68 +46,31 @@
 				<span class="text-danger">{{ $errors->first('nama_pelatihan') }}</span>
 			</div>
 
-			{{-- JAM PELAJARAN --}}
+			{{-- Minimum Anggaran --}}
 			<div class="form-group mt-1 mb-3">
-				<label for="jam_pelajaran" class="fw-bolder">Jam Pelajaran</label>
+				<label for="min_anggaran" class="fw-bolder">Minimum Anggaran</label>
 				<div class="col-md-2">
-					<input type="number" min="1" max="50" step="1" value="{{ old('jam_pelajaran', 0) }}"
-						class="form-control @error('jam_pelajaran') is-invalid @enderror" id="jam_pelajaran" name="jam_pelajaran">
+					<input type="number" value="{{ old('min_anggaran', 0) }}"
+						class="form-control @error('min_anggaran') is-invalid @enderror" id="min_anggaran" name="min_anggaran">
 				</div>
-				<span class="text-danger">{{ $errors->first('jam_pelajaran') }}</span>
+				<span class="text-danger">{{ $errors->first('min_anggaran') }}</span>
 			</div>
 
-
-			{{-- REGIONAL --}}
+			{{-- Maksimum Anggaran --}}
 			<div class="form-group mt-1 mb-3">
-				<label for="regional" class="fw-bolder">Regional</label><br>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="regional" id="nasional" value="nasional" {{
-						old('regional')==='nasional' ? 'checked' : '' }}>
-					<label class="form-check-label" for="nasional">Nasional</label>
+				<label for="min_anggaran" class="fw-bolder">Maksimum Anggaran</label>
+				<div class="col-md-2">
+					<input type="number" value="{{ old('min_anggaran', 0) }}"
+						class="form-control @error('min_anggaran') is-invalid @enderror" id="min_anggaran" name="min_anggaran">
 				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="regional" id="internasional" value="internasional" {{
-						old('regional')==='internasional' ? 'checked' : '' }}>
-					<label class="form-check-label" for="internasional">Internasional</label>
-				</div>
-				<span class="text-danger">{{ $errors->first('regional') }}</span>
-			</div>
-
-			{{-- ANGGARAN --}}
-			<div class="form-group mt-1 mb-3 col-md-4">
-				<label for="anggaran" class="fw-bolder">Anggaran</label>
-				<div class="input-group">
-					<span class="input-group-text rounded-start">Rp</span>
-					<input type="number" min="0" value="{{ old('anggaran', 0) }}" step="1000"
-						class="form-control @error('anggaran') is-invalid @enderror" id="anggaran" name="anggaran">
-				</div>
-				<span class="text-danger">{{ $errors->first('anggaran') }}</span>
-			</div>
-
-			{{-- PRIORITAS --}}
-			<div class="form-group mt-1 mb-3">
-				<label for="prioritas" class="fw-bolder">Prioritas</label><br>
-				<div class="btn-group" role="group" aria-label="Default button group">
-					<input class="btn-check" type="radio" name="prioritas" id="rendah" value="rendah" {{
-						old('prioritas')==='rendah' ? 'checked' : '' }} autocomplete="off">
-					<label class="btn btn-outline-success" for="rendah">Rendah</label>
-
-					<input class="btn-check" type="radio" name="prioritas" id="sedang" value="sedang" {{
-						old('prioritas')==='sedang' ? 'checked' : '' }} autocomplete="off">
-					<label class="btn btn-outline-warning" for="sedang">Sedang</label>
-
-					<input class="btn-check" type="radio" name="prioritas" id="tinggi" value="tinggi" {{
-						old('prioritas')==='tinggi' ? 'checked' : '' }} autocomplete="off">
-					<label class="btn btn-outline-danger" for="tinggi">Tinggi</label>
-				</div>
-				<span class="text-danger">{{ $errors->first('prioritas') }}</span>
+				<span class="text-danger">{{ $errors->first('min_anggaran') }}</span>
 			</div>
 
 			<button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
 		</form>
 	</div>
 </div>
-<script>
+{{-- <script>
 	document.getElementById('kategori').addEventListener('change', function () {
 		var kategori = this.value;
 
@@ -140,5 +93,5 @@
 			.catch(error => console.error('Error:', error));
 		}
 	});
-</script>
+</script> --}}
 @endsection

@@ -7,6 +7,7 @@
   <title>{{ $title ?? '' }} | {{ config('app.name', 'Laravel') }}</title>
   <link rel="shortcut icon" href="{{ asset('img/undip.png') }}">
   <link rel="stylesheet" href={{ asset("modern/src/assets/css/styles.min.css") }} />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
   @vite('resources/css/app.css')
 </head>
 
@@ -44,6 +45,8 @@
   <script src={{asset("modern/src/assets/js/sidebarmenu.js")}}></script>
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>
+
+  {{-- SWEET ALERT --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {{-- SELECT 2 --}}
@@ -64,10 +67,62 @@
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
     });
     $(".bentukjalur-placeholder-single").select2({
-    placeholder: "Select a state",
-    allowClear: true
+    placeholder: "-- Pilih Bentuk Jalur --",
+    allowClear: true,
+    dropdownParent:'#createPelatihanModal'
     });
   </script>
+
+  {{-- SWEET ALERT UNTUK CREATE --}}
+  <script>
+    document.getElementById('createAlert').onclick = function(event){
+      event.preventDefault();
+      Swal.fire({
+        title: "Konfirmasi Data",
+        text: "Pastikan Data yang Anda Isikan Sudah Benar",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Simpan",
+        cancelButtonText: "Batal"
+      }).then((result) => {
+        if (result.isConfirmed){
+          // Submit form atau aksi lain setelah konfirmasi
+          document.getElementById('createFormID').submit(); // Sesuaikan ID form
+        }
+      });
+    }
+  </script>
+
+  {{-- SWEET ALERT UNTUK DELETE --}}
+  <script>
+    document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
+          button.addEventListener('click', function(event) {
+              event.preventDefault(); // Mencegah submit langsung
+              Swal.fire({
+                  title: "Apakah Anda Yakin?",
+                  text: "Data Akan Dihapus Permanen dari Basis Data!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Ya, Hapus!",
+                  cancelButtonText: "Batal"
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      Swal.fire({
+                          title: "Berhasil!",
+                          text: "Data Berhasil Dihapus",
+                          icon: "error"
+                      }).then(() => {
+                          // Submit form yang terkait dengan tombol ini
+                          button.closest('form').submit(); // Submit form terkait
+                      });
+                  }
+              });
+          });
+      });
+  </script>
+
+
 </body>
 
 </html>

@@ -22,24 +22,30 @@ class DataPegawaiController extends Controller
     {
         $query = DataPegawai::query();
 
+        // Filter pencarian Nama atau NIP
         if (request()->filled('q')) {
-            $query->where('nama', 'like', '%' . request('q') . '%')->paginate(10);
-        }elseif (request()->filled('w')) {
-            $query->where('unit_kerja', 'like', '%' . request('w') . '%')->paginate(10);
-        }elseif (request()->filled('e')) {
-            $query->whereHas('user', function ($query) {
-            $query->where('nip', 'like', '%' . request('e') . '%');});
-        } 
-            
+            $search = request('q');
+            $query->where('nama', 'like', '%' . $search . '%')
+                ->orWhereHas('user', function ($query) use ($search) {
+                    $query->where('nip', 'like', '%' . $search . '%');
+                });
+        }
+
+        // Filter pencarian Unit Kerja
+        if (request()->filled('w')) {
+            $query->where('unit_kerja', 'like', '%' . request('w') . '%');
+        }
+
+        // Ambil data dengan paginasi
         $data['data_pegawai'] = $query->latest()->paginate(10);
 
         // Cek jika tidak ada data yang ditemukan
         if ($data['data_pegawai']->isEmpty()) {
-            // Setel pesan flash untuk tidak ada data ditemukan
             flash('Data yang Anda cari tidak ada.')->error();
         }
-        return view ('pegawai_index', $data);
-    }
+
+        return view('pegawai_index', $data);
+            }
 
     /**
      * Show the form for creating a new resource.
