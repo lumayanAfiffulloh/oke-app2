@@ -9,29 +9,6 @@ use Nicolaslopezj\Searchable\SearchableTrait;
 class DataPegawai extends Model
 {
     use HasFactory;
-    use SearchableTrait;
-
-    /**
-     * Searchable rules.
-     *
-     * @var array
-     */
-    protected $searchable = [
-        /**
-         * Columns and their priority in search results.
-         * Columns with higher values are more important.
-         * Columns with equal values have equal importance.
-         *
-         * @var array
-         */
-        'columns' => [
-            'data_pegawais.nama' => 1,
-            'data_pegawais.unit_kerja' => 1,
-            'data_pegawais.nip' => 1,
-        ],
-        
-        
-    ];
 
     public function posts()
     {

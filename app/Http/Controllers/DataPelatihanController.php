@@ -16,21 +16,7 @@ class DataPelatihanController extends Controller
     {
         $query = DataPelatihan::query();
         $bentuk_jalur = BentukJalur::all();
-        // $isSearching = request()->filled('q');
-        
-        // if ($isSearching) {
-        //     // Melakukan pencarian berdasarkan nama user
-        //     $query->where('name', 'like', '%' . request('q') . '%');
-        // }
-
-        // Melakukan paginasi hasil query
-        $data_pelatihan['data_pelatihan'] = $query->latest()->paginate(10);
-
-        // // Jika pencarian dilakukan dan tidak ada data ditemukan
-        // if ($isSearching && $data_pelatihan['data_pelatihan']->isEmpty()) {
-        //     flash('Data yang Anda cari tidak ditemukan.')->error();
-        // }
-
+        $data_pelatihan['data_pelatihan'] = $query->latest()->get();
         return view ('data_pelatihan_index', compact('bentuk_jalur'), $data_pelatihan);
     }
 

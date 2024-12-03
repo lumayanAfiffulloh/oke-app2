@@ -6,7 +6,8 @@
       <span class="me-2">
         <a href="/kelompok" class="ti ti-arrow-left fw-bolder ms-2"></a>
       </span>
-      Edit Kelompok <span class="fw-bolder tw-text-blue-500">{{ $kelompok->ketua->nama }}</span></div>
+      Edit Kelompok <span class="fw-bolder tw-text-blue-500">{{ $kelompok->ketua->nama }}</span>
+    </div>
     <form action="/kelompok/{{ $kelompok->id }}" method="POST" class="px-4 py-2" id="editFormID">
       @method('PUT')
       @csrf
@@ -15,45 +16,46 @@
         <select name="ketua_id" id="ketua_id" class="form-control placeholder-single">
           <option value=""></option>
           @foreach($listPegawai as $pegawai)
-            <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id, $kelompok->pluck('ketua_id')->toArray()))>
-              {{ $pegawai->nip }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
-            </option>
+          <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id, $kelompok->pluck('ketua_id')->toArray()))>
+            {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
+          </option>
           @endforeach
         </select>
       </div>
 
       <div class="form-group mb-3">
         <label for="anggota">Edit Anggota | <span class="text-warning">19 Orang</span></label>
-        <select name="anggota[]" id="anggota" class="form-control placeholder-multiple @error('anggota') is-invalid @enderror" multiple="multiple">
+        <select name="anggota[]" id="anggota"
+          class="form-control placeholder-multiple @error('anggota') is-invalid @enderror" multiple="multiple">
           @foreach($listPegawai as $pegawai)
-          @if($pegawai->id != $kelompok->ketua_id) 
-            <option value="{{ $pegawai->id }}"
-              @selected(in_array($pegawai->id, $kelompok->anggota->pluck('id')->toArray()))>
-              {{ $pegawai->nip }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
-            </option>
+          @if($pegawai->id != $kelompok->ketua_id)
+          <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id,
+            $kelompok->anggota->pluck('id')->toArray()))>
+            {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
+          </option>
           @endif
           @endforeach
         </select>
         @if ($errors->has('anggota'))
-          <span class="invalid-feedback">
-            <strong>{{ $errors->first('anggota') }}</strong>
-          </span>
+        <span class="invalid-feedback">
+          <strong>{{ $errors->first('anggota') }}</strong>
+        </span>
         @endif
       </div>
 
       <div class="d-flex justify-content-start my-2">
         <form>
-            <button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
+          <button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
         </form>
         <a href="/kelompok" class="btn btn-warning me-1">BATAL EDIT</a>
         <form action="/kelompok/{{ $kelompok->id }}" method="POST" class="d-flex" id="deleteFormID">
-            @csrf
-            @method('delete')
-            <button type="submit" class="btn btn-danger" id="deleteAlert">
-                HAPUS DATA
-            </button>
+          @csrf
+          @method('delete')
+          <button type="submit" class="btn btn-danger" id="deleteAlert">
+            HAPUS DATA
+          </button>
         </form>
-    </div>
+      </div>
     </form>
   </div>
 </div>

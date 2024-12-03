@@ -34,6 +34,10 @@ Route::middleware([Authenticate::class])->group(function () {
     
     Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
     
+    Route::post('/profil/tambah_foto', [ProfilController::class, 'processFoto']);
+
+    Route::post('/profil/ganti_foto', [ProfilController::class, 'processFoto']);
+
     Route::get('/ganti_password', [ProfilController::class, 'changePassword']);
 
     Route::post('/ganti_password', [ProfilController::class, 'processPassword']);

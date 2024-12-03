@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\DataPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProfilController extends Controller
@@ -63,17 +64,33 @@ class ProfilController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(DataPegawai $dataPegawai)
+	public function processFoto(Request $request)
 	{
-			//
-	}
+		$dataPegawai = Auth::user()->dataPegawai;
 
-	/**
-	 * Update the specified resource in storage.
-	 */
-	public function update(Request $request, DataPegawai $dataPegawai)
-	{
-			//
+		if (!$dataPegawai) {
+			flash('Data pegawai tidak ditemukan.')->error();
+			return redirect()->route('profil');
+		}
+
+		$request->validate([
+			'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+		]);
+
+		if ($request->hasFile('foto')) {
+			// Hapus foto lama jika ada
+			if ($dataPegawai->foto && Storage::exists($dataPegawai->foto)) {
+					Storage::delete($dataPegawai->foto);
+			}
+
+			// Simpan foto baru
+			$dataPegawai->foto = $request->file('foto')->store('public/foto');
+		}
+
+		$dataPegawai->save();
+
+		flash('Foto profil berhasil diperbarui!')->success();
+		return redirect()->route('profil');
 	}
 
 	/**

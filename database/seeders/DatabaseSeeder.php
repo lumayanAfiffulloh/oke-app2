@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DataPegawai;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,19 +15,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        // \App\Models\DataPegawai::factory(50)->create();
-        User::create([
-            'name' => 'Budiono',
-            'email' => 'budiono@gmail.com',
+        // Membuat user terlebih dahulu
+        $user = User::create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'akses' => 'admin',
             'password' => Hash::make('password'), // Hashing password untuk keamanan
+        ]);
+
+        DataPegawai::create([
+            'nama' => 'Achmad Admin',
+            'nppu' => '12345678',
+            'status' => 'aktif',
+            'jabatan' => 'Admin Ahli',
+            'unit_kerja' => 'Fakultas Teknik',
+            'pendidikan' => 'S1',
+            'jurusan_pendidikan' => 'Teknik Elektro',
+            'jenis_kelamin' => 'L',
+            'nomor_telepon' => '62896012030124',
+            'user_id' => $user->id
         ]);
     }
 }

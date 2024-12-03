@@ -21,19 +21,8 @@ class KelompokController extends Controller
     public function index()
     {
         $query = Kelompok::query();
-        $isSearching = request()->filled('q');
-        if ($isSearching) {
-            $query->whereHas('ketua', function ($q) {
-                $q->where('nama', 'like', '%' . request('q') . '%');
-            });
-        }
 
-        $kelompok['kelompok'] = $query->latest()->paginate(10);
-
-        // Jika pencarian dilakukan dan tidak ada data ditemukan
-        if ($isSearching && $kelompok['kelompok']->isEmpty()) {
-            flash('Data yang Anda cari tidak ada.')->error();
-        }
+        $kelompok['kelompok'] = $query->latest()->get();
 
         return view ('kelompok_index', $kelompok);
     }

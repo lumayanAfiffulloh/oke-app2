@@ -1,13 +1,7 @@
 @extends('layouts.app_modern', ['title' => 'Data Pegawai'])
 @section('content')
-<style>
-	input::placeholder {
-		font-size: 13px;
-		/* Atur ukuran font di sini */
-	}
-</style>
 
-<div class="card mb-4 bg-white">
+<div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0 ">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
 		<div class="row mx-3 mt-1 justify-content-start align-items-center">
@@ -36,9 +30,6 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<div>
-
-								</div>
 								<h1 class="modal-title tw-text-[20px] fw-bold">
 									Import Data Pegawai dari Excel
 								</h1>
@@ -68,55 +59,29 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 p-0">
-				<form action="">
-					<div class="input-group">
-						<input class="form-control" type="text" name="q" placeholder="Cari Nama/NIP" value="{{ request('q') }}">
-						<button type="submit" class="btn btn-primary">
-							<i class="ti ti-search"></i>
-						</button>
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3 mx-2 p-0">
-				<form action="">
-					<div class="input-group">
-						<input class="form-control" type="text" name="w" placeholder="Cari Unit Kerja" value="{{ request('w') }}">
-						<button type="submit" class="btn btn-primary">
-							<i class="ti ti-search"></i>
-						</button>
-					</div>
-				</form>
-			</div>
 		</div>
 
 		<hr style="margin-top: 0.3rem">
 		<div class="table-responsive">
 			{{-- TABEL --}}
-			<table class="table table-striped" style="font-size: 0.8rem; width:100%">
+			<table class="table table-striped mb-3" style="font-size: 0.8rem; width:100%" id="myTable">
 				<thead>
 					<th class="text-center">No.</th>
 					<th>Nama</th>
-					<th>NIP</th>
+					<th class="text-start">NPPU</th>
 					<th>Email</th>
 					<th>Status</th>
 					<th>Unit Kerja</th>
 					<th>AKSI</th>
 				</thead>
 				<tbody>
-					@foreach ($data_pegawai as $index => $item)
+					@foreach ($data_pegawai as $item)
 					<tr>
-						<td class="text-center"> {{ $data_pegawai->firstItem() + $index }} </td>
+						<td class="text-center"> {{ $loop->iteration }} </td>
 						<td>
-							@if ($item->foto)
-							<a href="{{ Storage::url($item->foto) }}" target="blank">
-								<img src="{{ Storage::url($item->foto) }}" class="rounded-circle d-block"
-									style="object-fit: cover; height: 40px; width: 40px;">
-							</a>
-							@endif
 							<div>
 								<span>
-									@if ($item->jenis_kelamin === 'laki-laki')
+									@if ($item->jenis_kelamin === 'L')
 									<i class="ti ti-gender-male text-primary" style="font-size: 15px"></i>
 									@else
 									<i class="ti ti-gender-female" style="font-size: 15px; color: #ff70e7"></i>
@@ -125,7 +90,7 @@
 								{{ $item->nama }} <span>({{ $item->kelompok_id }})</span>
 							</div>
 						</td>
-						<td class="text-start">{{ $item->nip }}</td>
+						<td class="text-start">{{ $item->nppu }}</td>
 						<td>{{ $item->user->email }}</td>
 						<td>
 							@if ($item->status === 'aktif')
@@ -148,7 +113,7 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
-													Detail Pegawai {{ $item->nama }}
+													Detail Pegawai <span class="fw-semibold tw-text-blue-500">{{ $item->nama }}</span>
 												</h1>
 												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
@@ -156,25 +121,25 @@
 												<ol class="list-group">
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Nama</span>
+															<span style="display:inline-block; width:200px;">Nama</span>
 															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nama) }} </span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">NIP</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nip) }}</span>
+															<span style="display:inline-block; width:200px;">NPPU</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nppu) }}</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Email</span>
+															<span style="display:inline-block; width:200px;">Email</span>
 															<span class="tw-text-sky-500 fw-bold">: {{ ($item->user->email) }} </span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Status</span>
+															<span style="display:inline-block; width:200px;">Status</span>
 															<span class="tw-text-sky-500 fw-bold">: @if ($item->status === 'aktif')
 																<span class="badge rounded-pill bg-success">Aktif</span>
 																@else
@@ -184,20 +149,26 @@
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Unit Kerja</span>
+															<span style="display:inline-block; width:200px;">Unit Kerja</span>
 															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unit_kerja) }} </span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Jabatan</span>
+															<span style="display:inline-block; width:200px;">Jabatan</span>
 															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan) }} Jam</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
-															<span style="display:inline-block; width:150px;">Pendidikan</span>
+															<span style="display:inline-block; width:200px;">Pendidikan</span>
 															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikan) }} </span>
+														</h2>
+													</li>
+													<li class="list-group-item">
+														<h2 class="fs-5 d-inline">
+															<span style="display:inline-block; width:200px;">Jurusan Pendidikan</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jurusan_pendidikan) }} </span>
 														</h2>
 													</li>
 												</ol>
@@ -229,9 +200,6 @@
 				</tbody>
 			</table>
 		</div>
-	</div>
-	<div class="mx-3 mb-3">
-		{!! $data_pegawai->links() !!}
 	</div>
 </div>
 

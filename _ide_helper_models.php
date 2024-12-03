@@ -16,37 +16,61 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $kategori
+ * @property string $bentuk_jalur
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\BentukJalurFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereBentukJalur($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereUpdatedAt($value)
+ */
+	class BentukJalur extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $nama
- * @property int $nip
+ * @property string $nppu
  * @property string $status
  * @property string $jabatan
  * @property string $unit_kerja
  * @property string $pendidikan
+ * @property string $jurusan_pendidikan
  * @property string $jenis_kelamin
+ * @property string|null $nomor_telepon
  * @property string|null $foto
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property int $user_id
  * @property int $kelompok_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Kelompok|null $kelompok
  * @property-read \App\Models\Kelompok|null $ketuaKelompok
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RencanaPembelajaran> $rencanaPembelajaran
  * @property-read int|null $rencana_pembelajaran_count
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\DataPegawaiFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai query()
- * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai search($search, $threshold = null, $entireText = false, $entireTextOnly = false)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai searchRestricted($search, $restriction, $threshold = null, $entireText = false, $entireTextOnly = false)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereFoto($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJabatan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJenisKelamin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereJurusanPendidikan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereKelompokId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNama($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNip($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNomorTelepon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereNppu($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai wherePendidikan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUnitKerja($value)
@@ -60,12 +84,40 @@ namespace App\Models{
 /**
  * 
  *
+ * @property int $id
+ * @property string $kategori
+ * @property string $bentuk_jalur
+ * @property string $nama_pelatihan
+ * @property string $min_anggaran
+ * @property string $maks_anggaran
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\DataPelatihanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereBentukJalur($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereMaksAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereMinAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereNamaPelatihan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereUpdatedAt($value)
  */
 	class DataPelatihan extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @method static \Database\Factories\DataPendidikanFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan query()
+ */
+	class DataPendidikan extends \Eloquent {}
 }
 
 namespace App\Models{

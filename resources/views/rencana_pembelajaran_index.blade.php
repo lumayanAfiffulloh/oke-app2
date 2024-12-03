@@ -1,7 +1,7 @@
 @extends('layouts.app_modern', ['title' => 'Rencana Pembelajaran Anda'])
 @section('content')
-<div class="card mb-4 bg-white">
-	<div class="card-body px-0 pt-0">
+<div class="card mb-4 pb-4 bg-white">
+	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Rencana Pembelajaran
 			<span class="fw-bolder tw-text-blue-600">{{ Auth::user()->name }}</span>
 		</div>
@@ -15,7 +15,7 @@
 		</button>
 		<hr class="my-0">
 		<div class="table-responsive">
-			<table class="table table-striped mb-3" style="font-size: 0.8rem">
+			<table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
 				<thead>
 					<th class="text-center">No.</th>
 					<th>Tahun</th>
@@ -28,9 +28,9 @@
 					<th>AKSI</th>
 				</thead>
 				<tbody>
-					@foreach ($rencana_pembelajaran as $index => $item)
+					@foreach ($rencana_pembelajaran as $item)
 					<tr>
-						<td class="text-center"> {{ $rencana_pembelajaran->firstItem() + $index }} </td>
+						<td class="text-center"> {{ $loop->iteration }} </td>
 						<td>{{ $item->tahun }}</td>
 						<td>{{ ucwords($item->klasifikasi) }}</td>
 						<td>{{ ucwords($item->kategori) }}</td>
@@ -159,9 +159,6 @@
 					@endforeach
 				</tbody>
 			</table>
-		</div>
-		<div class="mx-3">
-			{!! $rencana_pembelajaran->links() !!}
 		</div>
 	</div>
 </div>

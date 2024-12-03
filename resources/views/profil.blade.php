@@ -7,7 +7,7 @@
 	<div class="col col-md-6 d-flex align-items-strech">
 		<div class="card w-100">
 			<div class="card-body p-4">
-				<h1 class="card-title fw-bolder">{{ $dataPegawai->nama }}
+				<h1 class="card-title fw-bolder">{{ ucwords($dataPegawai->nama) }}
 					<span>
 						@if($dataPegawai->jenis_kelamin === "laki-laki")
 						<i class="text-primary ti ti-gender-male" style="font-size: 22px;"></i>
@@ -31,7 +31,8 @@
 								Tidak ada foto tercantum
 							</div>
 							<button class="mx-3 mb-5">
-								<a href="" class="btn btn-success btn-sm">Unggah Foto</a>
+								<a href="#" class="btn btn-success btn-sm" data-bs-toggle="modal"
+									data-bs-target="#tambahFotoModal">Unggah Foto</a>
 							</button>
 						</div>
 						@endif
@@ -39,6 +40,34 @@
 							Ganti Password
 						</a>
 					</div>
+
+					{{-- MODAL TAMBAH FOTO --}}
+					<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="tambahFotoModal">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title tw-text-[20px] fw-bold">
+										Unggah Foto Profil
+									</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<form action="profil/tambah_foto" method="POST" enctype="multipart/form-data">
+									<div class="modal-body border border-2 mx-3 rounded-2">
+										@csrf
+										<div class="form-group">
+											<label for="unggahFoto" class="form-label">Unggah File Foto (Maks : 5 MB)</label>
+											<input type="file" class="form-control" name="foto" id="unggahFoto">
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+										<button type="submit" class="btn btn-warning">Unggah</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+
 					<div class="col-8">
 						<p class="fw-bolder fs-4 border border-2 border-dark border-opacity-25 rounded mb-2 py-2 ps-3"
 							style="max-width: 70%">Rencana Pembelajaran</p>

@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('data_pegawais', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->integer('nip')->unique();
+            $table->string('nppu')->unique();
             $table->string('status');
             $table->string('jabatan');
             $table->string('unit_kerja');
             $table->string('pendidikan');
-            $table->enum('jenis_kelamin',['laki-laki', 'perempuan']);
+            $table->string('jurusan_pendidikan');
+            $table->string('jenis_kelamin');
+            $table->string('nomor_telepon')->nullable();
             $table->string('foto')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('kelompok_id');
             $table->timestamps();
         });
     }

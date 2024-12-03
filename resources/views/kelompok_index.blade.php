@@ -1,6 +1,6 @@
 @extends('layouts.app_modern', ['title'=>'Data Kelompok'])
 @section('content')
-<div class="card mb-4 bg-white">
+<div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0 ">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Kelompok</div>
 		<div class="row mx-1 mt-2 mb-2 justify-content-between align-items-center">
@@ -36,18 +36,18 @@
 	</div>
 	<hr class="my-0">
 	<div class="table-responsive px-0">
-		<table class="table table-striped mb-3" style="font-size: 0.8rem">
+		<table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
 			<thead>
 				<th class="text-center">No.</th>
 				<th>Ketua Kelompok</th>
 				<th>Aksi</th>
 			</thead>
 			<tbody>
-				@foreach ($kelompok as $index => $item)
+				@foreach ($kelompok as $item)
 				<tr>
-					<td class="text-center"> {{ $kelompok->firstItem() + $index }} </td>
-					<td>{{ $item->ketua->nama }}</td>
-					<td>
+					<td class="py-2 text-center"> {{ $loop->iteration }} </td>
+					<td class="py-2">{{ $item->ketua->nama }}</td>
+					<td class="py-2">
 						<div class="btn-group" role="group">
 							<button class="btn btn-primary btn-sm" style="font-size: 0.8rem" data-bs-toggle="modal"
 								data-bs-target="#detailModal{{ $item->id }}" title="Detail Kelompok"><span class="ti ti-eye"></span>
@@ -69,21 +69,21 @@
 												<thead>
 													<tr>
 														<th>Ketua</th>
-														<th>NIP</th>
+														<th>NPPU</th>
 														<th>Unit Kerja</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr>
 														<td>{{ $item->ketua->nama }}</td>
-														<td>{{ $item->ketua->nip }}</td>
+														<td>{{ $item->ketua->nppu }}</td>
 														<td>{{ $item->ketua->unit_kerja }}</td>
 													</tr>
 												</tbody>
 												<thead>
 													<tr>
 														<th>Anggota</th>
-														<th>NIP</th>
+														<th>NPPU</th>
 														<th>Unit Kerja</th>
 													</tr>
 												</thead>
@@ -91,7 +91,7 @@
 													@foreach($item->anggota->where('id', '!=', $item->ketua->id) as $pegawai)
 													<tr>
 														<td>{{ $pegawai->nama }}</td>
-														<td>{{ $pegawai->nip }}</td>
+														<td>{{ $pegawai->nppu }}</td>
 														<td>{{ $pegawai->unit_kerja }}</td>
 													</tr>
 													@endforeach
@@ -126,6 +126,5 @@
 			</tbody>
 		</table>
 	</div>
-</div>
 </div>
 @endsection

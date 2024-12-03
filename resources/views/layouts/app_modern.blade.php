@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ $title ?? '' }} | {{ config('app.name', 'Laravel') }}</title>
   <link rel="shortcut icon" href="{{ asset('img/undip.png') }}">
-  <link rel="stylesheet" href={{ asset("modern/src/assets/css/styles.min.css") }} />
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+  <link rel="stylesheet" href={{ asset("modern/src/assets/css/styles.min.css") }}>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
   @vite('resources/css/app.css')
 </head>
 
@@ -39,6 +39,7 @@
     </div>
   </div>
   <script src={{asset("modern/src/assets/libs/jquery/dist/jquery.min.js")}}></script>
+
   <script src={{asset("modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}></script>
   @stack('scripts')
   @stack('scripts2')
@@ -46,27 +47,43 @@
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>
 
+  {{-- DATA TABLES --}}
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#myTable').DataTable({
+        "language":{
+          "url":"{{asset('modern/src/assets/js/datatables_custom.json') }}",
+          "sEmptyTable":"Data Tidak Tersedia"
+        }
+      });
+    });
+  </script>
+
   {{-- SWEET ALERT --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {{-- SELECT 2 --}}
-  <link href={{ asset("select2/dist/css/select2.min.css") }} rel="stylesheet" />
-  <script src={{ asset("select2/dist/js/select2.min.js") }}></script>
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
   @stack('bentuk_jalur')
 
   <script>
     $(".placeholder-single").select2({
+      theme: 'bootstrap4',
       placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
       allowClear: true
     });
     $(".placeholder-multiple").select2({
-      placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
-    });
-    $(".placeholder-multiple").select2({
+      theme: 'bootstrap4',
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
     });
     $(".bentukjalur-placeholder-single").select2({
+      theme: 'bootstrap4',
     placeholder: "-- Pilih Bentuk Jalur --",
     allowClear: true,
     dropdownParent:'#createPelatihanModal'

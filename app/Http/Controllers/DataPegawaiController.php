@@ -17,32 +17,16 @@ class DataPegawaiController extends Controller
     /**
      * Display a listing of the resource.
      */
-
+    public function __construct()
+    {
+        $this->middleware('can:admin');
+    }
+    
     public function index()
     {
         $query = DataPegawai::query();
-
-        // Filter pencarian Nama atau NIP
-        if (request()->filled('q')) {
-            $search = request('q');
-            $query->where('nama', 'like', '%' . $search . '%')
-                ->orWhereHas('user', function ($query) use ($search) {
-                    $query->where('nip', 'like', '%' . $search . '%');
-                });
-        }
-
-        // Filter pencarian Unit Kerja
-        if (request()->filled('w')) {
-            $query->where('unit_kerja', 'like', '%' . request('w') . '%');
-        }
-
-        // Ambil data dengan paginasi
-        $data['data_pegawai'] = $query->latest()->paginate(10);
-
-        // Cek jika tidak ada data yang ditemukan
-        if ($data['data_pegawai']->isEmpty()) {
-            flash('Data yang Anda cari tidak ada.')->error();
-        }
+        
+        $data['data_pegawai'] = $query->latest()->get();
 
         return view('pegawai_index', $data);
             }
@@ -63,12 +47,14 @@ class DataPegawaiController extends Controller
         
         $requestData = $request->validate([
             'nama' => 'required|min:3',
-            'nip' => 'required|integer|unique:data_pegawais,nip',
+            'nppu' => 'required|unique:data_pegawais,nppu',
             'status' => 'required',
             'jabatan' => 'required',
             'unit_kerja' => 'required',
             'pendidikan' => 'required',
+            'jurusan_pendidikan' => 'required',
             'jenis_kelamin' => 'required',
+            'nomor_telepon' => 'nullable|integer',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
             // Validasi untuk tabel users
             'email' => 'required|email|unique:users,email', // Email harus unik di tabel users
@@ -87,12 +73,14 @@ class DataPegawaiController extends Controller
 
         // Hanya isi data yang relevan dari $requestData
         $data_pegawai->nama = $requestData['nama'];
-        $data_pegawai->nip = $requestData['nip'];
+        $data_pegawai->nppu = $requestData['nppu'];
         $data_pegawai->status = $requestData['status'];
         $data_pegawai->jabatan = $requestData['jabatan'];
         $data_pegawai->unit_kerja = $requestData['unit_kerja'];
         $data_pegawai->pendidikan = $requestData['pendidikan'];
+        $data_pegawai->jurusan_pendidikan = $requestData['jurusan_pendidikan'];
         $data_pegawai->jenis_kelamin = $requestData['jenis_kelamin'];
+        $data_pegawai->nomor_telepon = $request->has('nomor_telepon') ? $requestData['nomor_telepon'] : null;
 
         if ($request->hasFile('foto')) {
             $data_pegawai->foto = $request->file('foto')->store('public');
@@ -138,16 +126,16 @@ class DataPegawaiController extends Controller
         // Validasi input
         $requestData = $request->validate([
             'nama' => 'nullable|min:3',
-            'nip' => [
-                'nullable',
-                'integer',
-                Rule::unique('data_pegawais', 'nip')->ignore($data_pegawai->id),
+            'nppu' => [
+                'nullable', Rule::unique('data_pegawais', 'nppu')->ignore($data_pegawai->id),
             ],
             'status' => 'nullable',
             'unit_kerja' => 'nullable',
             'jabatan' => 'nullable',
             'pendidikan' => 'nullable',
+            'jurusan_pendidikan' => 'nullable',
             'jenis_kelamin' => 'nullable',
+            'nomor_telepom' => 'nullable',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
         ]);
 

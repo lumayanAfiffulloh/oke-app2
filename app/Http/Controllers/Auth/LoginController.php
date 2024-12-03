@@ -57,7 +57,7 @@ class LoginController extends Controller
             'login' => 'required|string',
             'password' => 'required|string',
         ], [
-        'login.required' => 'Email / NIP wajib diisi.'
+        'login.required' => 'Email/NIP/NPPU wajib diisi.'
         ]);
     }
 
@@ -68,15 +68,15 @@ class LoginController extends Controller
 
         // Tentukan apakah input adalah email atau NIP
         $login = $request->input('login');
-        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nip';
+        $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'nppu';
 
-        // Jika login menggunakan NIP, cari di tabel pegawai
-        if ($field === 'nip') {
-            $pegawai = \App\Models\DataPegawai::where('nip', $login)->first();
+        // Jika login menggunakan nppu, cari di tabel pegawai
+        if ($field === 'nppu') {
+            $pegawai = \App\Models\DataPegawai::where('nppu', $login)->first();
 
             if (!$pegawai) {
                 return back()->withErrors([
-                    'login' => 'NIP tidak ditemukan.',
+                    'login' => 'NIP/NPPU tidak ditemukan.',
                 ]);
             }
 
@@ -85,7 +85,7 @@ class LoginController extends Controller
             // Cek apakah user terkait ada
             if (!$user) {
                 return back()->withErrors([
-                    'login' => 'User terkait dengan NIP tidak ditemukan.',
+                    'login' => 'User terkait dengan NIP/NPPU tidak ditemukan.',
                 ]);
             }
             // Buat kredensial untuk autentikasi

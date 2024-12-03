@@ -9,17 +9,21 @@
 		</ul>
 		<div class="navbar-collapse justify-content-end px-0" id="navbarNav">
 			<ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-				<div class="text-bg-primary bg-opacity-75 rounded fw-bolder" style="padding: 8px 10px;">{{ Auth::user()->name }} <span style="color:rgb(255, 239, 93)"> ({{ Auth::user()->akses }})</span></div>
+				<div class="border border-2 border-primary border-opacity-50 rounded fw-bolder" style="padding: 6px 10px;">{{
+					Auth::user()->name }} <span class="text-warning"> ({{ Auth::user()->akses }})</span></div>
 				<li class="nav-item dropdown">
-					<a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+						aria-expanded="false">
 						@if (Auth::user()->dataPegawai && Auth::user()->dataPegawai->foto)
-						<img src="{{ Storage::url(Auth::user()->dataPegawai->foto) }}" alt="Foto Profil" style="object-fit: cover; height: 35px; width: 35px;" class="rounded-circle">
+						<img src="{{ Storage::url(Auth::user()->dataPegawai->foto) }}" alt="Foto Profil"
+							style="object-fit: cover; height: 35px; width: 35px;" class="rounded-circle">
 						@else
-						<img src={{ asset("modern/src/assets/images/profile/user-1.jpg") }} alt="" width="35" height="35" class="rounded-circle">
+						<img src={{ asset("modern/src/assets/images/profile/user-1.jpg") }} alt="" width="35" height="35"
+							class="rounded-circle">
 						@endif
 					</a>
 
-					<div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2" >
+					<div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
 						<div class="message-body">
 							<a href="profil" class="d-flex dropdown-item">
 								<i class="ti ti-user fs-6 me-2"></i>
@@ -29,11 +33,12 @@
 								<i class="ti ti-settings fs-6 me-2"></i>
 								<p class="fs-3">Ganti Password</p>
 							</a>
-							<a href="{{ route('logout') }}" class="d-block btn btn-outline-danger mx-2" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+							<a href="{{ route('logout') }}" class="d-block btn btn-outline-danger mx-2"
+								onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 								<p class=" fs-3">Logout</p>
 							</a>
 							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-							@csrf
+								@csrf
 							</form>
 						</div>
 					</div>

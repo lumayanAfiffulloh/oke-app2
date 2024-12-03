@@ -1,165 +1,236 @@
 @extends('layouts.app_modern', ['title'=>'Edit Data Pegawai'])
 @section('content')
-    <div class="card mb-3 bg-white">
-        <div class="card-body p-0 ">
-            <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
-                <span class="me-2">
-                    <a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2"></a>
-                </span>
-                Edit Data Pegawai
-                <span class="fw-bolder tw-text-blue-500">
-                    {{ $data_pegawai->nama }}
-                </span></div>
-            <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3" id="editFormID">
-                @method('PUT')
-                @csrf
+<div class="card mb-3 bg-white">
+	<div class="card-body p-0 ">
+		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+			<span class="me-2">
+				<a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2"></a>
+			</span>
+			<span class="text-dark text-opacity-50">
+				<a href="/data_pegawai">Data Pegawai / </a>
+			</span>
+			Edit Data Pegawai
+			<span class="fw-bolder tw-text-blue-500">
+				{{ $data_pegawai->nama }}
+			</span>
+		</div>
+		<form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" enctype="multipart/form-data" class="px-3 py-3"
+			id="editFormID">
+			@method('PUT')
+			@csrf
 
-                {{-- FOTO --}}
-                <div class="form-group mt-1 mb-3">                    
-                    @if($data_pegawai->foto) 
-                    <a href="{{ Storage::url($data_pegawai->foto) }}" target="blank" id="fotobaru">
-                        <img src="{{ Storage::url($data_pegawai->foto) }}" class="rounded mx-start d-block " style="object-fit: cover; height: 150px; width: 150px;">
-                    </a>
-                    @endif
-                    <label for="foto" class="mt-2">Upload Foto Baru Pegawai</label> 
-                    <input type="file" class="form-control @error('foto') is-invalid @enderror" id="fotoubah" name="foto">
-                    <span class="text-danger">{{ $errors->first('foto') }}</span>
-                </div>
+			{{-- FOTO --}}
+			<div class="form-group mt-1 mb-3">
+				@if($data_pegawai->foto)
+				<a href="{{ Storage::url($data_pegawai->foto) }}" target="blank" id="fotobaru">
+					<img src="{{ Storage::url($data_pegawai->foto) }}" class="rounded mx-start d-block "
+						style="object-fit: cover; height: 150px; width: 150px;">
+				</a>
+				@endif
+				<label class="fw-semibold" for="foto" class="mt-2">Upload Foto Baru Pegawai</label>
+				<input type="file" class="form-control @error('foto') is-invalid @enderror" id="fotoubah" name="foto">
+				<span class="text-danger">{{ $errors->first('foto') }}</span>
+			</div>
 
-                {{-- NAMA PEGAWAI --}}
-                <div class="form-group mt-1 mb-3">
-                    <label for="nama">Nama Pegawai</label> 
-                    <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama" value="{{ old('nama') ?? $data_pegawai->nama }}">
-                    <span class="text-danger">{{ $errors->first('nama') }}</span>
-                </div>
+			{{-- NAMA PEGAWAI --}}
+			<div class="form-group mt-1 mb-3">
+				<label class="fw-semibold" for="nama">Nama Pegawai</label>
+				<input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
+					value="{{ old('nama') ?? $data_pegawai->nama }}">
+				<span class="text-danger">{{ $errors->first('nama') }}</span>
+			</div>
 
-                {{-- NIP--}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="nip">NIP</label>
-                    <input type="number" class="form-control @error('nip') is-invalid @enderror" id="nip" name="nip" value="{{ old('nip') ?? $data_pegawai->nip}}">
-                    <span class="text-danger">{{ $errors->first('nip') }}</span>
-                </div>
-                
-                {{-- EMAIL --}}
-                <div class="form-group mt-1 mb-3">
-                    <label for="email">Email</label> 
-                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $user->email) }}">
-                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                </div>
+			<div class="row">
+				<div class="col-md-6">
+					{{-- NPPU--}}
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="nppu">NPPU</label>
+						<input type="number" class="form-control @error('nppu') is-invalid @enderror" id="nppu" name="nppu"
+							value="{{ old('nppu') ?? $data_pegawai->nppu}}">
+						<span class="text-danger">{{ $errors->first('nppu') }}</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					{{-- EMAIL --}}
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="email">Email</label>
+						<input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
+							value="{{ old('email', $user->email) }}">
+						<span class="text-danger">{{ $errors->first('email') }}</span>
+					</div>
+				</div>
+			</div>
 
-                {{-- Status --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="status">Status</label><br> 
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status') ?? $data_pegawai->status === 'aktif' ? 'checked' : '' }} @checked(old('aktif', $data_pegawai->status))
-                        >
-                        <label class="form-check-label" for="aktif">Aktif</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" @checked(old('non-aktif', $data_pegawai->status))>
-                        <label class="form-check-label" for="non-aktif">Non-aktif</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('status') }}</span>
-                </div>
+			{{-- STATUS --}}
+			<div class="form-group mt-1 mb-3">
+				<label class="fw-semibold" for="status">Status</label><br>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="status" id="aktif" value="aktif" {{ old('status',
+						$data_pegawai->status) === 'aktif' ? 'checked' : '' }}>
+					<label class="form-check-label" for="aktif">Aktif</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="status" id="non-aktif" value="non-aktif" {{ old('status',
+						$data_pegawai->status) === 'non-aktif' ? 'checked' : '' }}>
+					<label class="form-check-label" for="non-aktif">Non-aktif</label>
+				</div>
+				<span class="text-danger">{{ $errors->first('status') }}</span>
+			</div>
 
-                {{-- UNIT KERJA --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="unit_kerja">Unit Kerja</label>
-                    <input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
-                    name="unit_kerja" value="{{ old('unit_kerja') ?? $data_pegawai->unit_kerja}}">
-                    <span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
-                </div>
+			<div class="row">
+				<div class="col-md-6">
+					{{-- UNIT KERJA --}}
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="unit_kerja">Unit Kerja</label>
+						<input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
+							name="unit_kerja" value="{{ old('unit_kerja') ?? $data_pegawai->unit_kerja}}">
+						<span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
+					</div>
+				</div>
+				<div class="col-md-6">
+					{{-- JABATAN --}}
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="jabatan">Jabatan</label>
+						<input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan" name="jabatan"
+							value="{{ old('jabatan') ?? $data_pegawai->jabatan}}">
+						<span class="text-danger">{{ $errors->first('jabatan') }}</span>
+					</div>
+				</div>
+			</div>
 
-                {{-- JABATAN --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="jabatan">Jabatan</label>
-                    <input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan"
-                    name="jabatan" value="{{ old('jabatan') ?? $data_pegawai->jabatan}}">
-                    <span class="text-danger">{{ $errors->first('jabatan') }}</span>
-                </div>
+			{{-- PENDIDIKAN --}}
+			<div class="form-group mt-1 mb-3">
+				<label class="fw-semibold" for="pendidikan">Pendidikan Terakhir</label><br>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="SMA" value="SMA" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'SMA' ? 'checked' : '' }}>
+					<label class="form-check-label" for="SMA">SMA</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="D1" value="D1" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'D1' ? 'checked' : '' }}>
+					<label class="form-check-label" for="D1">D1</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="D2" value="D2" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'D2' ? 'checked' : '' }}>
+					<label class="form-check-label" for="D2">D2</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="D3" value="D3" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'D3' ? 'checked' : '' }}>
+					<label class="form-check-label" for="D3">D3</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="S1" value="S1" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'S1' ? 'checked' : '' }}>
+					<label class="form-check-label" for="S1">S1/D4</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="S2" value="S2" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'S2' ? 'checked' : '' }}>
+					<label class="form-check-label" for="S2">S2</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="pendidikan" id="S3" value="S3" {{ old('pendidikan') ??
+						$data_pegawai->pendidikan === 'S3' ? 'checked' : '' }}>
+					<label class="form-check-label" for="S3">S3</label>
+				</div>
+				<span class="text-danger">{{ $errors->first('pendidikan') }}</span>
+			</div>
 
-                {{-- PENDIDIKAN --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="pendidikan">Pendidikan Terakhir</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pendidikan" id="SMA" value="SMA" {{ old('pendidikan') ?? $data_pegawai->pendidikan === 'SMA' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="SMA">SMA</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pendidikan" id="S1" value="S1" {{ old('pendidikan') ?? $data_pegawai->pendidikan === 'S1' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="S1">S1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pendidikan" id="S2" value="S2" {{ old('pendidikan') ?? $data_pegawai->pendidikan === 'S2' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="S2">S2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="pendidikan" id="S3" value="S3" {{ old('pendidikan') ?? $data_pegawai->pendidikan === 'S3' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="S3">S3</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('pendidikan') }}</span>
-                </div>
+			{{-- JURUSAN PENDIDIKAN --}}
+			<div class="form-group mt-1 mb-3">
+				<label class="fw-semibold" for="jurusan_pendidikan">Jurusan</label>
+				<input type="text" class="form-control @error('jurusan_pendidikan') is-invalid @enderror"
+					id="jurusan_pendidikan" name="jurusan_pendidikan"
+					value="{{ old('jurusan_pendidikan') ?? $data_pegawai->jurusan_pendidikan }}">
+				<span class="text-danger">{{ $errors->first('jurusan_pendidikan') }}</span>
+			</div>
 
-                {{-- JENIS KELAMIN --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="jenis_kelamin">Jenis Kelamin</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki_laki" value="laki-laki" {{ old('jenis_kelamin') ?? $data_pegawai->jenis_kelamin === 'laki-laki' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="laki_laki">Laki-laki</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="perempuan" {{ old('jenis_kelamin') ?? $data_pegawai->jenis_kelamin === 'perempuan' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="perempuan">Perempuan</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
-                </div>
+			<div class="row">
+				<div class="col-md-3">
+					{{-- JENIS KELAMIN --}}
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="jenis_kelamin">Jenis Kelamin</label><br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="jenis_kelamin" id="L" value="L" {{ old('jenis_kelamin')
+								?? $data_pegawai->jenis_kelamin === 'L' ? 'checked' : '' }}>
+							<label class="form-check-label" for="L">Laki-laki</label>
+						</div>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="jenis_kelamin" id="P" value="P" {{ old('jenis_kelamin')
+								?? $data_pegawai->jenis_kelamin === 'P' ? 'checked' : '' }}>
+							<label class="form-check-label" for="P">Perempuan</label>
+						</div>
+						<span class="text-danger">{{ $errors->first('jenis_kelamin') }}</span>
+					</div>
+				</div>
+				{{-- NOMOR TELEPON --}}
+				<div class="col-md-9">
+					<div class="form-group mt-1 mb-3">
+						<label class="fw-semibold" for="nomor_telepon">No. Telepon</label>
+						<input type="number" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomor_telepon"
+							name="nomor_telepon" value="{{ old('nomor_telepon') ?? $data_pegawai->nomor_telepon }}">
+						<span class="text-danger">{{ $errors->first('nomor_telepon') }}</span>
+					</div>
+				</div>
+			</div>
 
-                {{-- AKSES --}}
-                <div class="form-group mt-1 mb-3"> 
-                    <label for="akses">Akses</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') ?? $user->akses === 'pegawai' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="pegawai">Pegawai</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="ketua_kelompok" value="ketua_kelompok" {{ old('akses') ?? $user->akses === 'ketua_kelompok' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="approval" value="approval" {{ old('akses') ?? $user->akses === 'approval' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="approval">Approval</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="verifikator" value="verifikator" {{ old('akses') ?? $user->akses === 'verifikator' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="verifikator">Verifikator</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="akses" id="admin" value="admin" {{ old('akses') ?? $user->akses === 'admin' ? 'checked' : '' }}>
-                        <label class="form-check-label" for="admin">Admin</label>
-                    </div>
-                    <span class="text-danger">{{ $errors->first('akses') }}</span>
-                </div>
 
-                {{-- BUTTON --}}
-                <div class="d-flex justify-content-start mt-2">
-                    <form>
-                        <button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
-                    </form>
-                    <a href="/data_pegawai" class="btn btn-warning me-1">BATAL EDIT</a>
-                    <form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" class="d-flex" id="deleteFormID">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger" id="deleteAlert">
-                            HAPUS DATA
-                        </button>
-                    </form>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <script>
-        document.getElementById('editAlert').onclick = function(event){
+
+			{{-- AKSES --}}
+			<div class="form-group mt-1 mb-3">
+				<label class="fw-semibold" for="akses">Akses</label><br>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') ??
+						$user->akses === 'pegawai' ? 'checked' : '' }}>
+					<label class="form-check-label" for="pegawai">Pegawai</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="akses" id="ketua_kelompok" value="ketua_kelompok" {{
+						old('akses') ?? $user->akses === 'ketua_kelompok' ? 'checked' : '' }}>
+					<label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="akses" id="approval" value="approval" {{ old('akses') ??
+						$user->akses === 'approval' ? 'checked' : '' }}>
+					<label class="form-check-label" for="approval">Approval</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="akses" id="verifikator" value="verifikator" {{ old('akses')
+						?? $user->akses === 'verifikator' ? 'checked' : '' }}>
+					<label class="form-check-label" for="verifikator">Verifikator</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input" type="radio" name="akses" id="admin" value="admin" {{ old('akses') ??
+						$user->akses === 'admin' ? 'checked' : '' }}>
+					<label class="form-check-label" for="admin">Admin</label>
+				</div>
+				<span class="text-danger">{{ $errors->first('akses') }}</span>
+			</div>
+
+			{{-- BUTTON --}}
+			<div class="d-flex justify-content-start mt-2">
+				<form>
+					<button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
+				</form>
+				<a href="/data_pegawai" class="btn btn-warning me-1">BATAL EDIT</a>
+				<form action="/data_pegawai/{{ $data_pegawai->id }}" method="POST" class="d-flex" id="deleteFormID">
+					@csrf
+					@method('delete')
+					<button type="submit" class="btn btn-danger" id="deleteAlert">
+						HAPUS DATA
+					</button>
+				</form>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	document.getElementById('editAlert').onclick = function(event){
         event.preventDefault();
         Swal.fire({
             title: "Konfirmasi Data",
@@ -175,9 +246,9 @@
             }
         });
         }
-    </script>
-    <script>
-        document.getElementById('deleteAlert').onclick = function(event){
+</script>
+<script>
+	document.getElementById('deleteAlert').onclick = function(event){
         event.preventDefault();
         Swal.fire({
             title: "Apakah Anda Yakin?",
@@ -200,5 +271,5 @@
             }
         });
         }
-    </script>
+</script>
 @endsection

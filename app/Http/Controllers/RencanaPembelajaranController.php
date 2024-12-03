@@ -23,7 +23,7 @@ class RencanaPembelajaranController extends Controller
         $dataPegawai = $user->dataPegawai;
     
         // Ambil rencana pembelajaran yang terkait dengan pegawai
-        $rencana_pembelajaran = $dataPegawai ? $dataPegawai->rencanaPembelajaran()->orderBy('tahun', 'asc')->paginate(10) : null;
+        $rencana_pembelajaran = $dataPegawai ? $dataPegawai->rencanaPembelajaran()->orderBy('tahun', 'asc')->get() : null;
     
         return view('rencana_pembelajaran_index', compact('rencana_pembelajaran'));
     }

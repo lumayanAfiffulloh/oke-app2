@@ -1,7 +1,7 @@
 @extends('layouts.app_modern', ['title' => 'Bentuk Jalur'])
 @section('content')
-<div class="card mb-4 bg-white">
-	<div class="card-body px-0 pt-0">
+<div class="card pb-4 bg-white">
+	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
 			<span>
 				<a href="/data_pelatihan" class="ti ti-arrow-left fw-bolder mx-2"></a>
@@ -67,39 +67,11 @@
 					</div>
 				</div>
 
-				<div class="mx-2">
-					<form action="">
-						<div class="input-group">
-							<select name="kategori" id="kategoriFilter" class="form-select" onchange="applyLiveFilter()">
-								<option value="" selected disabled>-- Filter Kategori --</option>
-								<option value="" {{ is_null(request('kategori')) ? 'selected' : '' }}>Semua Kategori</option>
-								<option value=" klasikal" {{ $kategori==='klasikal' ? 'selected' : '' }}>Klasikal</option>
-								<option value="non-klasikal" {{ $kategori==='non-klasikal' ? 'selected' : '' }}>Non-Klasikal
-								</option>
-							</select>
-							<button type="submit" class="btn btn-primary">
-								<i class="ti ti-adjustments-horizontal"></i>
-							</button>
-						</div>
-					</form>
-				</div>
-
-				<div>
-					<form action="">
-						<div class="input-group">
-							<input class="form-control" type="text" name="q" placeholder="Cari Bentuk Jalur"
-								value="{{ request('q') }}">
-							<button type="submit" class="btn btn-primary">
-								<i class="ti ti-search"></i>
-							</button>
-						</div>
-					</form>
-				</div>
 			</div>
 		</div>
 		<hr class="my-0">
 		<div class="table-responsive">
-			<table class="table table-striped mb-3" style="font-size: 0.8rem">
+			<table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
 				<thead>
 					<th class="text-center">No.</th>
 					<th>Kategori</th>
@@ -107,10 +79,9 @@
 					<th>Aksi</th>
 				</thead>
 				<tbody>
-					@foreach ($bentuk_jalur as $index => $item)
+					@foreach ($bentuk_jalur as $item)
 					<tr>
-						<td class="text-center"> {{ $bentuk_jalur instanceof \Illuminate\Pagination\LengthAwarePaginator ?
-							$bentuk_jalur->firstItem() + $index : $index + 1 }} </td>
+						<td class="text-center">{{ $loop->iteration }}</td>
 						<td>{{ ucwords($item->kategori) }}</td>
 						<td>{{ ucwords($item->bentuk_jalur) }}</td>
 						<td>
@@ -169,11 +140,6 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mx-3">
-			@if ($bentuk_jalur instanceof \Illuminate\Pagination\LengthAwarePaginator)
-			{!! $bentuk_jalur->links() !!}
-			@endif
-		</div>
 	</div>
 </div>
 
@@ -205,24 +171,4 @@
 	});
 </script>
 
-<script>
-	function applyLiveFilter() {
-			const kategori = document.getElementById('kategoriFilter').value;
-
-			// Kirim permintaan AJAX
-			fetch(`{{ url('bentuk_jalur') }}?kategori=${kategori}`, {
-					headers: {
-							'X-Requested-With': 'XMLHttpRequest'
-					}
-			})
-			.then(response => response.text())
-			.then(html => {
-					// Perbarui tabel dengan data baru
-					document.getElementById('dataTableContainer').innerHTML = html;
-			})
-			.catch(error => {
-					console.error('Error:', error);
-			});
-	}
-</script>
 @endsection
