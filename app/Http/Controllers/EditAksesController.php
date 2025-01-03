@@ -17,27 +17,10 @@ class EditAksesController extends Controller
 
     public function index()
     {
-        // Membuat query awal untuk model User
-        $query = User::query();
-        
-        // Memeriksa apakah ada input pencarian ('q')
-        $isSearching = request()->filled('q');
-        
-        if ($isSearching) {
-            // Melakukan pencarian berdasarkan nama user
-            $query->where('name', 'like', '%' . request('q') . '%');
-        }
-
-        // Melakukan paginasi hasil query
-        $data['user'] = $query->latest()->paginate(10);
-
-        // Jika pencarian dilakukan dan tidak ada data ditemukan
-        if ($isSearching && $data['user']->isEmpty()) {
-            flash('Data yang Anda cari tidak ditemukan.')->error();
-        }
+        $user = User::latest()->get();
 
         // Menampilkan view dengan data user
-        return view('edit_akses_index', $data);
+        return view('edit_akses_index', compact('user'));
     }
 
     /**

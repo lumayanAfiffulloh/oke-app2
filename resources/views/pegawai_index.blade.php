@@ -1,15 +1,14 @@
 @extends('layouts.app_modern', ['title' => 'Data Pegawai'])
 @section('content')
-
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0 ">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
-		<div class="row mx-3 mt-1 justify-content-start align-items-center">
-			<div class="col ps-0">
-				<button class="px-0 text-start">
-					<a href="/data_pegawai/create" class="btn btn-outline-primary my-2" style="font-size: 0.9rem">
+		<div class="row my-3">
+			<div class="col-md-12">
+				<button class="position-relative">
+					<a href="/data_pegawai/create" class="btn btn-outline-primary ms-3" style="font-size: 0.9rem">
 						<span>
-							<i class="ti ti-user-plus me-1"></i>
+							<i class="ti ti-user-plus"></i>
 						</span>
 						<span>Tambah Pegawai</span>
 					</a>
@@ -17,10 +16,10 @@
 
 				{{-- IMPORT EXCEL --}}
 				<button class="px-0 text-start ms-2" type="button">
-					<a href="#" class="btn btn-outline-success my-2" style="font-size: 0.9rem" data-bs-toggle="modal"
+					<a href="#" class="btn btn-outline-success" style="font-size: 0.9rem" data-bs-toggle="modal"
 						data-bs-target="#excelModal">
 						<span>
-							<i class="ti ti-table-import me-1"></i>
+							<i class="ti ti-table-import"></i>
 						</span>
 						<span>Import Excel</span>
 					</a>
@@ -30,7 +29,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title tw-text-[20px] fw-bold">
+								<h1 class="modal-title tw-text-[20px] fw-semibold">
 									Import Data Pegawai dari Excel
 								</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -39,9 +38,11 @@
 								<div class="modal-body border border-2 mx-3 rounded-2">
 									@csrf
 									<div class="form-group">
-										<label for="importExcel" class="form-label">Unggah File Excel (Sesuai
+										<label for="importExcel" class="fw-semibold">Unggah File Excel (Sesuai
 											Template)</label>
-										<input type="file" class="form-control" name="importDataPegawai" id="importExcel">
+										<input type="file" class="form-control @error('importDataPegawai') is-invalid @enderror"
+											name="importDataPegawai" id="importExcel">
+										<span class="text-danger">{{ $errors->first('importDataPegawai') }}</span>
 									</div>
 									<div class="mt-2">
 										<p class="fw-bolder">Unduh Template Excel : <span>
@@ -87,7 +88,7 @@
 									<i class="ti ti-gender-female" style="font-size: 15px; color: #ff70e7"></i>
 									@endif
 								</span>
-								{{ $item->nama }} <span>({{ $item->kelompok_id }})</span>
+								{{ $item->nama }}
 							</div>
 						</td>
 						<td class="text-start">{{ $item->nppu }}</td>
@@ -150,25 +151,29 @@
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Unit Kerja</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unit_kerja) }} </span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unit_kerja) }}
+															</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jabatan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan) }} Jam</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan) }}
+																Jam</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikan) }} </span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikan) }}
+															</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jurusan Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jurusan_pendidikan) }} </span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jurusan_pendidikan)
+																}} </span>
 														</h2>
 													</li>
 												</ol>
@@ -203,40 +208,13 @@
 	</div>
 </div>
 
+{{-- PAKSA BUKA MODAL JIKA ADA ERROR --}}
 <script>
-	document.getElementById('search-unit-form').addEventListener('submit', function(event) {
-            if (document.getElementById('unit-input').value === '') {
-                event.preventDefault();
-            }
-        });
-</script>
-
-{{-- SWEET ALERT --}}
-<script>
-	document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah submit langsung
-            Swal.fire({
-                title: "Apakah Anda Yakin?",
-                text: "Data Akan Dihapus Permanen dari Basis Data!",
-                icon: "warning",
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Ya, Hapus!",
-                cancelButtonText: "Batal"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        title: "Berhasil!",
-                        text: "Data Berhasil Dihapus",
-                        icon: "error"
-                    }).then(() => {
-                        // Submit form yang terkait dengan tombol ini
-                        button.closest('form').submit(); // Submit form terkait
-                    });
-                }
-            });
-        });
+	@if ($errors->any())
+    document.addEventListener('DOMContentLoaded', function() {
+        var modalImportExcel = new bootstrap.Modal(document.getElementById('excelModal'));
+        modalImportExcel.show();
     });
+	@endif
 </script>
 @endsection

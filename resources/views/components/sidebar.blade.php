@@ -2,9 +2,10 @@
 <aside class="left-sidebar">
   <!-- Sidebar scroll-->
   <div>
-    <div class="brand-logo d-flex align-items-center justify-content-between mt-2" style="padding-left: 11px">
+    <div class="brand-logo d-flex align-items-center justify-content-between mt-2" style="padding-left: 20px">
       <div class="logo-img">
-        <img src={{ asset("img/logo.png")}} width="210" alt="" />
+        <img src={{ asset("img/sidebar-logo.png")}}
+          style="object-fit: cover; height: 100px; width: 200px; object-position: 80% 40%;" />
       </div>
       <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
         <i class="ti ti-x fs-8"></i>

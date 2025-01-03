@@ -68,13 +68,8 @@ class ProfilController extends Controller
 	{
 		$dataPegawai = Auth::user()->dataPegawai;
 
-		if (!$dataPegawai) {
-			flash('Data pegawai tidak ditemukan.')->error();
-			return redirect()->route('profil');
-		}
-
 		$request->validate([
-			'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5000',
+			'foto' => 'required|image|mimes:jpeg,png,jpg|max:5000',
 		]);
 
 		if ($request->hasFile('foto')) {
@@ -93,11 +88,15 @@ class ProfilController extends Controller
 		return redirect()->route('profil');
 	}
 
+
 	/**
 	 * Remove the specified resource from storage.
 	 */
 	public function changePassword()
 	{
+		// Hapus session default_password
+    session()->forget('default_password');
+
 		return view('password_edit');
 	}
 

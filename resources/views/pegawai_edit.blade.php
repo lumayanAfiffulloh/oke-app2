@@ -45,7 +45,7 @@
 					{{-- NPPU--}}
 					<div class="form-group mt-1 mb-3">
 						<label class="fw-semibold" for="nppu">NPPU</label>
-						<input type="number" class="form-control @error('nppu') is-invalid @enderror" id="nppu" name="nppu"
+						<input type="text" class="form-control @error('nppu') is-invalid @enderror" id="nppu" name="nppu"
 							value="{{ old('nppu') ?? $data_pegawai->nppu}}">
 						<span class="text-danger">{{ $errors->first('nppu') }}</span>
 					</div>

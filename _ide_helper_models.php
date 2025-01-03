@@ -85,24 +85,28 @@ namespace App\Models{
  * 
  *
  * @property int $id
- * @property string $kategori
- * @property string $bentuk_jalur
+ * @property string $kode
+ * @property string|null $rumpun
  * @property string $nama_pelatihan
- * @property string $min_anggaran
- * @property string $maks_anggaran
+ * @property string|null $deskripsi
+ * @property int $jp
+ * @property string|null $materi
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EstimasiHarga> $estimasiHarga
+ * @property-read int|null $estimasi_harga_count
  * @method static \Database\Factories\DataPelatihanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan query()
- * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereBentukJalur($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereDeskripsi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereKategori($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereMaksAnggaran($value)
- * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereMinAnggaran($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereJp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereKode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereMateri($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereNamaPelatihan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereRumpun($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereUpdatedAt($value)
  */
 	class DataPelatihan extends \Eloquent {}
@@ -112,12 +116,62 @@ namespace App\Models{
 /**
  * 
  *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\pendidikanHasEstimasi> $pendidikanHasEstimasi
+ * @property-read int|null $pendidikan_has_estimasi_count
  * @method static \Database\Factories\DataPendidikanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereUpdatedAt($value)
  */
 	class DataPendidikan extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $pelatihan_id
+ * @property string $region
+ * @property string $kategori
+ * @property int $anggaran_min
+ * @property int $anggaran_maks
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\DataPelatihan|null $dataPelatihan
+ * @method static \Database\Factories\EstimasiHargaFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereAnggaranMaks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereAnggaranMin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereKategori($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga wherePelatihanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereRegion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiHarga whereUpdatedAt($value)
+ */
+	class EstimasiHarga extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\pendidikanHasEstimasi> $pendidikanHasEstimasi
+ * @property-read int|null $pendidikan_has_estimasi_count
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan query()
+ */
+	class EstimasiPendidikan extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -213,5 +267,18 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property-read \App\Models\DataPendidikan|null $dataPendidikan
+ * @property-read \App\Models\EstimasiPendidikan|null $estimasiPendidikan
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi query()
+ */
+	class pendidikanHasEstimasi extends \Eloquent {}
 }
 

@@ -22,7 +22,7 @@
 
 			{{-- NAMA PEGAWAI --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="nama">Nama Pegawai</label>
+				<label class="fw-semibold" for="nama">Nama Pegawai<span class="text-danger">*</span></label>
 				<input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama" name="nama"
 					value="{{ old('nama') }}">
 				<span class="text-danger">{{ $errors->first('nama') }}</span>
@@ -32,7 +32,7 @@
 				{{-- NPPU --}}
 				<div class="col-md-6">
 					<div class="form-group mt-1 mb-3">
-						<label class="fw-semibold" for="nppu">NPPU</label>
+						<label class="fw-semibold" for="nppu">NPPU<span class="text-danger">*</span></label>
 						<input type="text" class="form-control @error('nppu') is-invalid @enderror" id="nppu" name="nppu"
 							value="{{ old('nppu') }}">
 						<span class="text-danger">{{ $errors->first('nppu') }}</span>
@@ -42,7 +42,7 @@
 				{{-- EMAIL --}}
 				<div class="col-md-6">
 					<div class="form-group mt-1 mb-3">
-						<label class="fw-semibold" for="email">Email</label>
+						<label class="fw-semibold" for="email">Email<span class="text-danger">*</span></label>
 						<input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email"
 							value="{{ old('email') }}">
 						<span class="text-danger">{{ $errors->first('email') }}</span>
@@ -52,7 +52,7 @@
 
 			{{-- STATUS --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="status">Status</label><br>
+				<label class="fw-semibold" for="status">Status<span class="text-danger">*</span></label><br>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input @error('status') is-invalid @enderror" type="radio" name="status" id="aktif"
 						value="aktif" {{ old('status')==='aktif' ? 'checked' : '' }}>
@@ -70,7 +70,7 @@
 				{{-- UNIT KERJA --}}
 				<div class="col-md-6">
 					<div class="form-group mt-1 mb-3">
-						<label class="fw-semibold" for="unit_kerja">Unit Kerja</label>
+						<label class="fw-semibold" for="unit_kerja">Unit Kerja<span class="text-danger">*</span></label>
 						<input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
 							name="unit_kerja" value="{{ old('unit_kerja') }}">
 						<span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
@@ -80,7 +80,7 @@
 				{{-- JABATAN --}}
 				<div class="col-md-6">
 					<div class="form-group mt-1 mb-3">
-						<label class="fw-semibold" for="jabatan">Jabatan</label>
+						<label class="fw-semibold" for="jabatan">Jabatan<span class="text-danger">*</span></label>
 						<input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan" name="jabatan"
 							value="{{ old('jabatan') }}">
 						<span class="text-danger">{{ $errors->first('jabatan') }}</span>
@@ -90,7 +90,7 @@
 
 			{{-- PENDIDIKAN --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="pendidikan">Pendidikan Terakhir</label><br>
+				<label class="fw-semibold" for="pendidikan">Pendidikan Terakhir<span class="text-danger">*</span></label><br>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input @error('pendidikan') is-invalid @enderror" type="radio" name="pendidikan"
 						id="SMA" value="SMA" {{ old('pendidikan')==='SMA' ? 'checked' : '' }}>
@@ -131,7 +131,7 @@
 
 			{{-- JURUSAN PENDIDIKAN --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="jurusan_pendidikan">Jurusan</label>
+				<label class="fw-semibold" for="jurusan_pendidikan">Jurusan<span class="text-danger">*</span></label>
 				<input type="text" class="form-control @error('jurusan_pendidikan') is-invalid @enderror"
 					id="jurusan_pendidikan" name="jurusan_pendidikan" value="{{ old('jurusan_pendidikan') }}">
 				<span class="text-danger">{{ $errors->first('jurusan_pendidikan') }}</span>
@@ -141,7 +141,7 @@
 				{{-- JENIS KELAMIN --}}
 				<div class="col-md-3">
 					<div class="form-group mt-1 mb-3">
-						<label class="fw-semibold" for="jenis_kelamin">Jenis Kelamin</label><br>
+						<label class="fw-semibold" for="jenis_kelamin">Jenis Kelamin<span class="text-danger">*</span></label><br>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input @error('jenis_kelamin') is-invalid @enderror" type="radio"
 								name="jenis_kelamin" id="L" value="L" {{ old('jenis_kelamin')==='L' ? 'checked' : '' }}>
@@ -173,7 +173,7 @@
 
 			{{-- AKSES --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="akses">Akses</label><br>
+				<label class="fw-semibold" for="akses">Akses<span class="text-danger">*</span></label><br>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses" id="pegawai"
 						value="pegawai" {{ old('akses')==='pegawai' ? 'checked' : '' }}>
@@ -205,23 +205,4 @@
 		</form>
 	</div>
 </div>
-
-<script>
-	document.getElementById('createAlert').onclick = function(event){
-		event.preventDefault();
-		Swal.fire({
-			title: "Konfirmasi Data",
-			text: "Pastikan Data yang Anda Isikan Sudah Benar",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonText: "Simpan",
-			cancelButtonText: "Batal"
-		}).then((result) => {
-			if (result.isConfirmed){
-				// Submit form atau aksi lain setelah konfirmasi
-				document.getElementById('createFormID').submit(); // Sesuaikan ID form
-			}
-		});
-	}
-</script>
 @endsection

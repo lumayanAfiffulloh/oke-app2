@@ -22,9 +22,10 @@ class KelompokController extends Controller
     {
         $query = Kelompok::query();
 
-        $kelompok['kelompok'] = $query->latest()->get();
+        $kelompok = $query->latest()->get();
+        $listPegawai = DataPegawai::where('kelompok_id', 0)->orderBy('nama', 'asc')->get();
 
-        return view ('kelompok_index', $kelompok);
+        return view('kelompok_index', compact('kelompok', 'listPegawai'));
     }
 
     /**
@@ -65,14 +66,25 @@ class KelompokController extends Controller
 
         // Update akses ketua menjadi ketua_kelompok pada tabel users
         $user = User::where('id', $request->ketua_id)->first();
+
         if ($user) {
-            // Jika role saat ini admin, tambahkan "ketua_kelompok" tanpa menghapus "admin"
-            if (str_contains($user->akses, 'admin')) {
-                $user->update(['akses' => 'admin, ketua_kelompok']);
-            } else {
-                $user->update(['akses' => 'ketua_kelompok']);
+            // Decode akses menjadi array jika berbentuk string, atau gunakan array kosong jika null
+            $aksesArray = $user->akses ? explode(', ', $user->akses) : [];
+
+            // Tambahkan "ketua_kelompok" jika belum ada
+            if (!in_array('ketua_kelompok', $aksesArray)) {
+                $aksesArray[] = 'ketua_kelompok';
             }
+
+            // Pastikan "admin" tetap ada jika memang sudah ada
+            if (str_contains($user->akses, 'admin') && !in_array('admin', $aksesArray)) {
+                $aksesArray[] = 'admin';
+            }
+
+            // Simpan kembali sebagai string
+            $user->update(['akses' => implode(', ', $aksesArray)]);
         }
+
 
         flash('Kelompok berhasil dibuat.')->success();
         return redirect()->route('kelompok.index');

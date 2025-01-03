@@ -22,11 +22,20 @@ class StoreDataPelatihanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kategori' => 'required|string',
-            'bentuk_jalur' => 'required|string', // Bentuk jalur harus ada di tabel bentuk_jalur
+            'kode' => 'required|string|max:255|unique:data_pelatihans,kode',
+            'rumpun' => 'required|string|max:255',
             'nama_pelatihan' => 'required|string|max:255',
-            'min_anggaran' => 'required|string',
-            'maks_anggaran' => 'required|string',
+            'deskripsi' => 'nullable|string',
+            'jp' => 'required|numeric',
+            'materi' => 'nullable|string',
+            'nasional_klasikal_min' => 'nullable|string',
+            'nasional_klasikal_maks' => 'nullable|string',
+            'nasional_non-klasikal_min' => 'nullable|string',
+            'nasional_non-klasikal_maks' => 'nullable|string',
+            'internasional_klasikal_min' => 'nullable|string',
+            'internasional_klasikal_maks' => 'nullable|string',
+            'internasional_non-klasikal_min' => 'nullable|string',
+            'internasional_non-klasikal_maks' => 'nullable|string',
         ];
     }
 }

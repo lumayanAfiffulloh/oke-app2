@@ -6,13 +6,20 @@
 		<div class="row mx-1 mt-2 mb-2 justify-content-between align-items-center">
 			<div class="col-md-5 d-flex justify-content-start align-items-center">
 				<button class="col text-start ps-0">
-					<a href="/kelompok/create" class="btn btn-outline-primary my-2" style="font-size: 0.9rem">
+					<a href="#" class="btn btn-outline-primary my-2" style="font-size: 0.9rem" data-bs-toggle="modal"
+						data-bs-target="#createKelompokModal">
 						<span>
 							<i class="ti ti-file-plus me-1"></i>
 						</span>
 						<span>Buat Kelompok Baru</span>
 					</a>
 				</button>
+
+				{{-- MODAL CREATE KELOMPOK --}}
+				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createKelompokModal">
+					@include('components.modal.kelompok_create_modal')
+				</div>
+
 				<div class="col">
 					<form action="/kelompok/reset" method="POST"
 						onsubmit="return confirm('Apakah Anda yakin ingin mereset semua kelompok? Semua pegawai akan dikeluarkan dari kelompok mereka.')">
@@ -20,17 +27,6 @@
 						<button type="submit" class="btn btn-warning">Reset</button>
 					</form>
 				</div>
-			</div>
-			<div class="col-md-5 p-0 mx-3">
-				<form action="">
-					<div class="input-group">
-						<input class="form-control" type="text" name="q" placeholder="Cari berdasarkan Nama Ketua Kelompok"
-							value="{{ request('q') }}">
-						<button type="submit" class="btn btn-primary">
-							<i class="ti ti-search"></i>
-						</button>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -40,6 +36,7 @@
 			<thead>
 				<th class="text-center">No.</th>
 				<th>Ketua Kelompok</th>
+				<th>NIP / NPPU</th>
 				<th>Aksi</th>
 			</thead>
 			<tbody>
@@ -47,6 +44,7 @@
 				<tr>
 					<td class="py-2 text-center"> {{ $loop->iteration }} </td>
 					<td class="py-2">{{ $item->ketua->nama }}</td>
+					<td class="py-2">{{ $item->ketua->nppu }}</td>
 					<td class="py-2">
 						<div class="btn-group" role="group">
 							<button class="btn btn-primary btn-sm" style="font-size: 0.8rem" data-bs-toggle="modal"

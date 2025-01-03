@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\Imports\DataPegawaiImport;
+use Excel;
 use App\Models\User;
 use App\Models\DataPegawai;
-use Excel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Imports\DataPegawaiImport;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Validators\ValidationException;
 
 class DataPegawaiController extends Controller
 {
@@ -190,12 +191,33 @@ class DataPegawaiController extends Controller
     public function importExcelData(Request $request)
     {
         $request->validate([
-            'importDataPegawai' => ['required', 'file']
+            'importDataPegawai' => [
+                'required',
+                'file',
+                'mimes:xlsx,xls,csv' // Validasi tipe file
+            ],
+        ], [
+            'importDataPegawai.required' => 'File impor wajib diunggah.',
+            'importDataPegawai.file' => 'Berkas harus berupa file.',
+            'importDataPegawai.mimes' => 'Format file harus berupa xlsx, xls, atau csv.',
         ]);
 
-        Excel::import(new DataPegawaiImport, $request->file('importDataPegawai'));
-        flash('Data berhasil diimport!')->success();
-        return redirect()->route('data_pegawai.index');
+        try {
+            Excel::import(new DataPegawaiImport, $request->file('importDataPegawai'));
+            flash('Data berhasil diimport!')->success();
+        } catch (ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessage = "Gagal mengimpor data. Periksa file Anda.";
+            
+            foreach ($failures as $failure) {
+                $errorMessage .= " Baris: {$failure->row()}, Kolom: " . implode(', ', $failure->attribute());
+            }
+            flash($errorMessage)->error();
+        } catch (\Exception $e) {
+            flash('Import File Gagal. Pastikan format file sesuai dengan template!')->error();
+        }
 
+        return redirect()->route('data_pegawai.index');
     }
+
 }

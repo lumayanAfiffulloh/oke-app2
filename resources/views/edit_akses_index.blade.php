@@ -16,9 +16,9 @@
 					<th>Aksi</th>
 				</thead>
 				<tbody>
-					@foreach ($user as $index => $item)
+					@foreach ($user as $item)
 					<tr>
-						<td class="py-2 text-center"> {{ $user->firstItem() + $index }} </td>
+						<td class="py-2 text-center"> {{ $loop->iteration }} </td>
 						<td class="py-2"> {{ $item->name }} </td>
 						<td class="py-2">{{ ucwords(str_replace('_', ' ', $item->akses)) }}</td>
 						<td class="py-2">
@@ -46,17 +46,32 @@
 											@method('PUT')
 											<div class="modal-body border border-2 mx-3 rounded-2">
 												<div class="form-group">
-													<label for="akses" class="form-label">Hak Akses</label>
-													<select name="akses" class="form-select">
-														<option value="pegawai" {{ $item->akses == 'pegawai' ? 'selected' : '' }}>Pegawai</option>
-														<option value="admin" {{ $item->akses == 'admin' ? 'selected' : '' }}>Admin</option>
-														<option value="verifikator" {{ $item->akses == 'verifikator' ? 'selected' : ''
-															}}>Verifikator</option>
-														<option value="approval" {{ $item->akses == 'approval' ? 'selected' : '' }}>Approval
-														</option>
-														<option value="ketua_kelompok" {{ $item->akses == 'ketua_kelompok' ? 'selected' : ''
-															}}>Ketua Kelompok</option>
-													</select>
+													<label for="akses" class="fw-bolder mb-2 fs-4">Hak Akses</label>
+													<div class="form-check">
+														<input type="checkbox" name="akses[]" id="pegawai" value="pegawai" class="form-check-input"
+															{{ $item->akses == 'pegawai' ? 'checked' : '' }}>
+														<label class="form-check-label" for="pegawai">Pegawai</label>
+													</div>
+													<div class="form-check">
+														<input type="checkbox" name="akses[]" id="admin" value="admin" class="form-check-input" {{
+															$item->akses == 'admin' ? 'checked' : '' }}>
+														<label class="form-check-label" for="admin">Admin</label>
+													</div>
+													<div class="form-check">
+														<input type="checkbox" name="akses[]" id="verifikator" value="verifikator"
+															class="form-check-input" {{ $item->akses == 'verifikator' ? 'checked' : '' }}>
+														<label class="form-check-label" for="verifikator">Verifikator</label>
+													</div>
+													<div class="form-check">
+														<input type="checkbox" name="akses[]" id="approval" value="approval"
+															class="form-check-input" {{ $item->akses == 'approval' ? 'checked' : '' }}>
+														<label class="form-check-label" for="approval">Approval</label>
+													</div>
+													<div class="form-check">
+														<input type="checkbox" name="akses[]" id="ketua_kelompok" value="ketua_kelompok"
+															class="form-check-input" {{ $item->akses == 'ketua_kelompok' ? 'checked' : '' }}>
+														<label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
+													</div>
 												</div>
 											</div>
 											<div class="modal-footer">
@@ -77,41 +92,4 @@
 	</div>
 </div>
 
-<script>
-	document.getElementById('search-unit-form').addEventListener('submit', function(event) {
-			if (document.getElementById('unit-input').value === '') {
-				event.preventDefault();
-			}
-		});
-</script>
-
-{{-- SWEET ALERT --}}
-<script>
-	document.querySelectorAll('.deleteAlert').forEach(function(button, index) {
-		button.addEventListener('click', function(event) {
-			event.preventDefault(); // Mencegah submit langsung
-
-			Swal.fire({
-				title: "Apakah Anda Yakin?",
-				text: "Data Akan Dihapus Permanen dari Basis Data!",
-				icon: "warning",
-				showCancelButton: true,
-				cancelButtonColor: "#d33",
-				confirmButtonText: "Ya, Hapus!",
-				cancelButtonText: "Batal"
-			}).then((result) => {
-				if (result.isConfirmed) {
-						Swal.fire({
-								title: "Berhasil!",
-								text: "Data Berhasil Dihapus",
-								icon: "error"
-						}).then(() => {
-								// Submit form yang terkait dengan tombol ini
-								button.closest('form').submit(); // Submit form terkait
-						});
-				}
-			});
-		});
-	});
-</script>
 @endsection

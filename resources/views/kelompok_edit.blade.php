@@ -12,7 +12,7 @@
       @method('PUT')
       @csrf
       <div class="form-group mt-2 mb-3">
-        <label for="ketua_id">Edit Ketua Kelompok</label>
+        <label for="ketua_id" class="fw-semibold">Edit Ketua Kelompok</label>
         <select name="ketua_id" id="ketua_id" class="form-control placeholder-single">
           <option value=""></option>
           @foreach($listPegawai as $pegawai)
@@ -24,7 +24,7 @@
       </div>
 
       <div class="form-group mb-3">
-        <label for="anggota">Edit Anggota | <span class="text-warning">19 Orang</span></label>
+        <label for="anggota" class="fw-semibold">Edit Anggota | <span class="text-warning">19 Orang</span></label>
         <select name="anggota[]" id="anggota"
           class="form-control placeholder-multiple @error('anggota') is-invalid @enderror" multiple="multiple">
           @foreach($listPegawai as $pegawai)
@@ -59,49 +59,5 @@
     </form>
   </div>
 </div>
-
-<script>
-  document.getElementById('editAlert').onclick = function(event){
-  event.preventDefault();
-  Swal.fire({
-      title: "Konfirmasi Data",
-      text: "Pastikan Data yang Anda Edit Sudah Benar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Simpan",
-      cancelButtonText: "Batal"
-  }).then((result) => {
-      if (result.isConfirmed) {
-        // Submit form atau aksi lain setelah konfirmasi
-        document.getElementById('editFormID').submit(); // Sesuaikan ID form
-      }
-    });
-  }
-</script>
-<script>
-  document.getElementById('deleteAlert').onclick = function(event){
-  event.preventDefault();
-  Swal.fire({
-      title: "Apakah Anda Yakin?",
-      text: "Data Akan Dihapus Permanen dari Basis Data!",
-      icon: "warning",
-      showCancelButton: true,
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Hapus!",
-      cancelButtonText: "Batal"
-  }).then((result) => {
-      if (result.isConfirmed) {
-      Swal.fire({
-          title: "Berhasil!",
-          text: "Data Berhasil Dihapus",
-          icon: "error"
-      }).then(() => {
-          // Submit form atau aksi lain setelah konfirmasi
-          document.getElementById('deleteFormID').submit(); // Sesuaikan ID form
-      });
-      }
-  });
-  }
-</script>
 
 @endsection

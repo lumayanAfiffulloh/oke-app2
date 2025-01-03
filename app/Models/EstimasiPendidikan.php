@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DataPendidikan extends Model
+class EstimasiPendidikan extends Model
 {
     use HasFactory;
+
     protected $guarded=[];
 
     public function pendidikanHasEstimasi(): HasMany
     {
-        return $this->hasMany(pendidikanHasEstimasi::class, 'data_pendidikan_id');
+        return $this->hasMany(pendidikanHasEstimasi::class, 'estimasi_pendidikan_id');
     }
+
 }

@@ -16,7 +16,7 @@
         <div class="row min-vh-100 align-items-center">
             <div class="col-lg-5">
                 <div class="d-flex justify-content-center">
-                    <img src="{{ asset('img/dashboard.png') }}" style="width: 70%"></img>
+                    <img src="{{ asset('img/dashboard1.png') }}" style="width: 70%"></img>
                 </div>
             </div>
             <div class="col-lg-7" style="padding-right: 10%">

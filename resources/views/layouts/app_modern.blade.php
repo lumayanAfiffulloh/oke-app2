@@ -33,19 +33,60 @@
           {{ session('status') }}
         </div>
         @endif
+        {{-- MODAL PERINGATAN GANTI PASSWORD --}}
+        @if(session('default_password'))
+        {{-- MODAL NOTIFIKASI GANTI PASSWORD --}}
+        <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="notifPasswordModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body border border-2 mx-3 rounded-2" style="margin-top: 24px">
+                <div class="d-flex">
+                  <div class="icon me-3">
+                    <i class="ti ti-alert-triangle text-warning display-6"></i>
+                  </div>
+                  <div>
+                    <p class="fs-5 fw-bold text-dark mb-1">
+                      Perhatian: Password Anda masih menggunakan password default!
+                    </p>
+                    <p class="text-muted mb-3">
+                      Untuk mengakses halaman ini, harap segera mengganti password Anda dengan yang lebih aman.
+                    </p>
+                    <a href="ganti_password" class="btn btn-warning btn-sm text-white px-4">
+                      <i class="ti ti-key me-2"></i> Ganti Password
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+        @endif
         @include('flash::message')
         @yield('content')
       </div>
     </div>
   </div>
+  {{-- SCRIPT TEMPLATE --}}
   <script src={{asset("modern/src/assets/libs/jquery/dist/jquery.min.js")}}></script>
-
   <script src={{asset("modern/src/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js")}}></script>
   @stack('scripts')
   @stack('scripts2')
   <script src={{asset("modern/src/assets/js/sidebarmenu.js")}}></script>
   <script src={{asset("modern/src/assets/js/app.min.js")}}></script>
   <script src={{asset("modern/src/assets/libs/simplebar/dist/simplebar.js")}}></script>
+
+  {{-- SCRIPT MODAL PERINGATAN GANTI PASSWORD --}}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const modalElement = document.getElementById('notifPasswordModal');
+    if (modalElement && modalElement.dataset.show === undefined) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+});
+  </script>
 
   {{-- DATA TABLES --}}
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -62,8 +103,6 @@
     });
   </script>
 
-  {{-- SWEET ALERT --}}
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   {{-- SELECT 2 --}}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
@@ -74,29 +113,35 @@
 
   <script>
     $(".placeholder-single").select2({
+      dropdownParent: $('#createKelompokModal'),
       theme: 'bootstrap4',
       placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
       allowClear: true
     });
     $(".placeholder-multiple").select2({
+      dropdownParent: $('#createKelompokModal'),
       theme: 'bootstrap4',
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
     });
+    
     $(".bentukjalur-placeholder-single").select2({
-      theme: 'bootstrap4',
+    theme: 'bootstrap4',
     placeholder: "-- Pilih Bentuk Jalur --",
     allowClear: true,
     dropdownParent:'#createPelatihanModal'
     });
   </script>
 
+
+  {{-- SWEET ALERT --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   {{-- SWEET ALERT UNTUK CREATE --}}
   <script>
     document.getElementById('createAlert').onclick = function(event){
       event.preventDefault();
       Swal.fire({
         title: "Konfirmasi Data",
-        text: "Pastikan Data yang Anda Isikan Sudah Benar",
+        text: "Pastikan data yang anda isikan sudah benar!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Simpan",
@@ -137,6 +182,26 @@
               });
           });
       });
+  </script>
+
+  {{-- UNTUK EDIT --}}
+  <script>
+    document.getElementById('editAlert').onclick = function(event){
+      event.preventDefault();
+      Swal.fire({
+          title: "Konfirmasi Data",
+          text: "Pastikan Data yang Anda Edit Sudah Benar",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Simpan",
+          cancelButtonText: "Batal"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Submit form atau aksi lain setelah konfirmasi
+          document.getElementById('editFormID').submit(); // Sesuaikan ID form
+        }
+      });
+      }
   </script>
 
 

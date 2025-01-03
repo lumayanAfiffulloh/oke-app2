@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DataPendidikan;
-use App\Http\Requests\StoreDataPendidikanRequest;
-use App\Http\Requests\UpdateDataPendidikanRequest;
+use App\Models\EstimasiHarga;
+use App\Http\Requests\StoreEstimasiHargaRequest;
+use App\Http\Requests\UpdateEstimasiHargaRequest;
 
-class DataPendidikanController extends Controller
+class EstimasiHargaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $dataPendidikan = DataPendidikan::latest()->get();
-
-        return view('data_pendidikan_index', compact('dataPendidikan'));
+        //
     }
 
     /**
@@ -29,7 +27,7 @@ class DataPendidikanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDataPendidikanRequest $request)
+    public function store(StoreEstimasiHargaRequest $request)
     {
         //
     }
@@ -37,7 +35,7 @@ class DataPendidikanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(DataPendidikan $dataPendidikan)
+    public function show(EstimasiHarga $estimasiHarga)
     {
         //
     }
@@ -45,7 +43,7 @@ class DataPendidikanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DataPendidikan $dataPendidikan)
+    public function edit(EstimasiHarga $estimasiHarga)
     {
         //
     }
@@ -53,7 +51,7 @@ class DataPendidikanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDataPendidikanRequest $request, DataPendidikan $dataPendidikan)
+    public function update(UpdateEstimasiHargaRequest $request, EstimasiHarga $estimasiHarga)
     {
         //
     }
@@ -61,7 +59,7 @@ class DataPendidikanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DataPendidikan $dataPendidikan)
+    public function destroy(EstimasiHarga $estimasiHarga)
     {
         //
     }
