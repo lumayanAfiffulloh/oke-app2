@@ -2,19 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Jenjang;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class EstimasiPendidikan extends Model
+class Jurusan extends Model
 {
     use HasFactory;
-
     protected $guarded=[];
 
-    public function dataPendidikans()
+    public function jenjangs()
     {
-        return $this->belongsToMany(DataPendidikan::class, 'pendidikan_has_estimasis');
+      return $this->belongsToMany(Jenjang::class, 'data_pendidikans', 'jurusan_id', 'jenjang_id');
     }
-
 }

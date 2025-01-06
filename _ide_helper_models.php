@@ -117,16 +117,22 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property int $jenjang_id
+ * @property int $jurusan_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\pendidikanHasEstimasi> $pendidikanHasEstimasi
- * @property-read int|null $pendidikan_has_estimasi_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EstimasiPendidikan> $estimasiPendidikans
+ * @property-read int|null $estimasi_pendidikans_count
+ * @property-read \App\Models\Jenjang|null $jenjang
+ * @property-read \App\Models\Jurusan|null $jurusan
  * @method static \Database\Factories\DataPendidikanFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan query()
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereJenjangId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereJurusanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereUpdatedAt($value)
  */
 	class DataPendidikan extends \Eloquent {}
@@ -165,13 +171,67 @@ namespace App\Models{
 /**
  * 
  *
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\pendidikanHasEstimasi> $pendidikanHasEstimasi
- * @property-read int|null $pendidikan_has_estimasi_count
+ * @property int $id
+ * @property string $region
+ * @property int $anggaran_min
+ * @property int $anggaran_maks
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DataPendidikan> $dataPendidikans
+ * @property-read int|null $data_pendidikans_count
  * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereAnggaranMaks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereAnggaranMin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereRegion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EstimasiPendidikan whereUpdatedAt($value)
  */
 	class EstimasiPendidikan extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $jenjang
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Jurusan> $jurusans
+ * @property-read int|null $jurusans_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereJenjang($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereUpdatedAt($value)
+ */
+	class Jenjang extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $jurusan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Jenjang> $jenjangs
+ * @property-read int|null $jenjangs_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan whereJurusan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Jurusan whereUpdatedAt($value)
+ */
+	class Jurusan extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -273,11 +333,19 @@ namespace App\Models{
 /**
  * 
  *
- * @property-read \App\Models\DataPendidikan|null $dataPendidikan
- * @property-read \App\Models\EstimasiPendidikan|null $estimasiPendidikan
+ * @property int $id
+ * @property int $data_pendidikan_id
+ * @property int $estimasi_pendidikan_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi query()
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi whereDataPendidikanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi whereEstimasiPendidikanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi whereUpdatedAt($value)
  */
 	class pendidikanHasEstimasi extends \Eloquent {}
 }

@@ -11,7 +11,7 @@ class StoreDataPendidikanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class StoreDataPendidikanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'jenjang' => 'required|string',
+            'jurusan' => 'required|string',
+            'nasional_min' => 'required|string|min:0',
+            'nasional_maks' => 'required|string|min:0|gte:nasional_min',
+            'internasional_min' => 'required|string|min:0',
+            'internasional_maks' => 'required|string|min:0|gte:internasional_min'
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'nasional_maks.gte' => 'Maksimal anggaran harus lebih besar atau sama dengan minimal anggaran.',
+            'internasional_maks.gte' => 'Maksimal anggaran harus lebih besar atau sama dengan minimal anggaran.',
         ];
     }
 }

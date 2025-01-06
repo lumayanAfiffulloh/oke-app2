@@ -69,7 +69,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->jp) }} </span>
+                <span class="tw-text-sky-500 fw-bold">{{ $item->jp }} Jam</span>
               </div>
             </div>
           </h2>

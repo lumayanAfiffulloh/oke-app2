@@ -7,7 +7,7 @@
       <div class="col-md-12">
         <button class="position-relative ">
           <a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
-            data-bs-target="#createPeendidikanModal">
+            data-bs-target="#createPendidikanModal">
             <span class="me-1">
               <i class="ti ti-clipboard-plus"></i>
             </span>
@@ -82,15 +82,27 @@
           @foreach ($dataPendidikan as $item)
           <tr>
             <td class="text-center py-3"> {{ $loop->iteration }} </td>
-            <td class="py-3">{{ ucwords($item->jenjang) }}</td>
-            <td class="py-3">{{ ucwords($item->jurusan) }}</td>
+            <td class="py-3">{{ ucwords($item->jenjang->jenjang) }}</td>
+            <td class="py-3">{{ ucwords($item->jurusan->jurusan) }}</td>
             <td class="py-3">
               <div class="btn-group" role="group">
+
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                  data-bs-target="#detailModal{{ $item->id }}" title="Detail" style="font-size: 0.8rem">
+                  <span class="ti ti-eye"></span>
+                </button>
+                <!-- MODAL DETAIL -->
+                <div class="modal fade" id="detailModal{{ $item->id }}" data-bs-backdrop="static"
+                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $item->id }}"
+                  aria-hidden="true">
+                  @include('components.modal.data_pendidikan_detail_modal')
+                </div>
 
                 <a href="/data_pendidikan/{{ $item->id }}/edit" class="btn btn-warning btn-sm" style="font-size: 0.8rem"
                   title="Edit">
                   <span class="ti ti-pencil"></span>
                 </a>
+
 
                 <form action="/data_pendidikan/{{ $item->id }}" method="POST">
                   @csrf
@@ -109,31 +121,6 @@
     </div>
   </div>
 </div>
-
-<script>
-  document.getElementById('kategori').addEventListener('change', function () {
-		var kategori = this.value;
-
-		// Kosongkan opsi bentuk jalur
-		var bentukJalurSelect = document.getElementById('bentuk_jalur');
-		bentukJalurSelect.innerHTML = '<option value="" selected disabled>-- Pilih Bentuk Jalur --</option>';
-
-		if (kategori) {
-			// Lakukan AJAX untuk mengambil bentuk jalur berdasarkan kategori
-			fetch(`/bentuk_jalur/filter/${kategori}`)
-			.then(response => response.json())
-			.then(data => {
-				data.forEach(jalur => {
-					var option = document.createElement('option');
-					option.value = jalur.bentuk_jalur;
-					option.text = jalur.bentuk_jalur;
-					bentukJalurSelect.appendChild(option);
-				});
-			})
-			.catch(error => console.error('Error:', error));
-		}
-	});
-</script>
 
 {{-- FORMAT RUPIAH RIBUAN --}}
 <script>
@@ -178,10 +165,14 @@
 {{-- PAKSA BUKA MODAL JIKA ADA ERROR --}}
 <script>
   @if ($errors->any())
-    document.addEventListener('DOMContentLoaded', function() {
-        var modalImportExcel = new bootstrap.Modal(document.getElementById('createPendidikanModal'));
-        modalImportExcel.show();
-    });
-	@endif
+  document.addEventListener('DOMContentLoaded', function () {
+    var modalCreate = new bootstrap.Modal(document.getElementById('createPendidikanModal'));
+    modalCreate.show();
+
+    // Pastikan format rupiah diterapkan ulang pada input
+    const rupiahInputs = document.querySelectorAll('.format-rupiah');
+    rupiahInputs.forEach((input) => formatRupiah(input));
+  });
+  @endif
 </script>
 @endsection
