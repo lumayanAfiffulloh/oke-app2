@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class EstimasiPendidikan extends Model
+class AnggaranPendidikan extends Model
 {
     use HasFactory;
 
     protected $guarded=[];
 
-    public function dataPendidikans()
+    public function jenjangs()
     {
-        return $this->belongsToMany(DataPendidikan::class, 'pendidikan_has_estimasis');
+        return $this->belongsTo(Jenjang::class);
     }
 
 }

@@ -22,12 +22,9 @@ class StoreDataPendidikanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'jenjang' => 'required|string',
+            'jenjang' => 'required|array',
+            'jenjang.*' => 'string|distinct',
             'jurusan' => 'required|string',
-            'nasional_min' => 'required|string|min:0',
-            'nasional_maks' => 'required|string|min:0|gte:nasional_min',
-            'internasional_min' => 'required|string|min:0',
-            'internasional_maks' => 'required|string|min:0|gte:internasional_min'
         ];
     }
     public function messages()

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Jenjang;
 use App\Models\Jurusan;
 use App\Models\DataPendidikan;
-use App\Models\EstimasiPendidikan;
+use App\Models\AnggaranPendidikan;
 use App\Http\Requests\StoreDataPendidikanRequest;
 use App\Http\Requests\UpdateDataPendidikanRequest;
 
@@ -16,9 +16,12 @@ class DataPendidikanController extends Controller
      */
     public function index()
     {
-        $dataPendidikan = DataPendidikan::latest()->get();
+        // Ambil semua DataPendidikan dengan relasi 'jenjangs', dan 'jurusan'
+        $dataPendidikan = DataPendidikan::with(['jenjangs', 'jurusan'])->latest()->get();
+        $jenjang = Jenjang::whereIn('jenjang', ['S1', 'S2', 'S3'])->with('anggaranPendidikan')->get();
 
-        return view('data_pendidikan_index', compact('dataPendidikan'));
+
+        return view('data_pendidikan_index', compact('dataPendidikan', 'jenjang'));
     }
 
     /**
@@ -36,25 +39,6 @@ class DataPendidikanController extends Controller
     {
         $requestData = $request->validated();
 
-        // Simpan data estimasi nasional
-        $nasional = EstimasiPendidikan::create([
-            'region' => 'nasional',
-            'anggaran_min' => $requestData['nasional_min'],
-            'anggaran_maks' => $requestData['nasional_maks'],
-        ]);
-    
-        // Simpan data estimasi internasional
-        $internasional = EstimasiPendidikan::create([
-            'region' => 'internasional',
-            'anggaran_min' => $requestData['internasional_min'],
-            'anggaran_maks' => $requestData['internasional_maks'],
-        ]);
-    
-        // Cek dan buat data jenjang jika belum ada
-        $jenjang = Jenjang::firstOrCreate([
-            'jenjang' => $requestData['jenjang']
-        ]);
-
         // Cek dan buat data jurusan jika belum ada
         $jurusan = Jurusan::firstOrCreate([
             'jurusan' => $requestData['jurusan']
@@ -62,15 +46,22 @@ class DataPendidikanController extends Controller
 
         // Menyimpan data pendidikan ke tabel data_pendidikans
         $dataPendidikan = DataPendidikan::create([
-            'jenjang_id' => $jenjang->id,
             'jurusan_id' => $jurusan->id,
         ]);
-    
-         // Simpan relasi di pivot table
-        $dataPendidikan->estimasiPendidikans()->attach([$nasional->id, $internasional->id]);
+
+        // Menyimpan relasi jenjang yang dipilih ke dalam pivot table
+        if (!empty($requestData['jenjang'])) {
+            foreach ($requestData['jenjang'] as $jenjang) {
+                // Cek atau buat data jenjang jika belum ada
+                $jenjangObj = Jenjang::firstOrCreate(['jenjang' => $jenjang]);
+
+                // Menambahkan jenjang ke dataPendidikan (relasi many-to-many)
+                $dataPendidikan->jenjangs()->attach($jenjangObj->id);
+            }
+        }
     
         // Flash message sukses
-        flash('Data pendidikan dan estimasi harga berhasil ditambahkan')->success();
+        flash('Data pendidikan berhasil ditambahkan')->success();
     
         // Redirect ke halaman index
         return redirect()->route('data_pendidikan.index');

@@ -70,54 +70,81 @@
     </div>
 
     <hr class="my-0">
-    <div class="table-responsive">
-      <table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
-        <thead>
-          <th class="text-center">No.</th>
-          <th>Jenjang</th>
-          <th>Jurusan</th>
-          <th>AKSI</th>
-        </thead>
-        <tbody>
-          @foreach ($dataPendidikan as $item)
-          <tr>
-            <td class="text-center py-3"> {{ $loop->iteration }} </td>
-            <td class="py-3">{{ ucwords($item->jenjang->jenjang) }}</td>
-            <td class="py-3">{{ ucwords($item->jurusan->jurusan) }}</td>
-            <td class="py-3">
-              <div class="btn-group" role="group">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="table-responsive">
+          <table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
+            <thead>
+              <th class="text-center">No.</th>
+              <th>Jenjang</th>
+              <th>Jurusan</th>
+              <th>AKSI</th>
+            </thead>
+            <tbody>
+              @foreach ($dataPendidikan as $item)
+              <tr>
+                <td class="text-center py-3">{{ $loop->iteration }}</td>
+                <td class="py-3">{{ ucwords($item->jurusan->jurusan) }}</td>
+                <td class="py-3">
+                  {{-- Menampilkan jenjang-jenjang yang terkait --}}
+                  {{ ucwords($item->jenjangs->pluck('jenjang')->join(', ')) }}
+                </td>
+                <td class="py-3">
+                  <div class="btn-group" role="group">
+                    <a href="/data_pendidikan/{{ $item->id }}/edit" class="btn btn-warning btn-sm" title="Edit">
+                      <span class="ti ti-pencil"></span>
+                    </a>
+                    <form action="/data_pendidikan/{{ $item->id }}" method="POST">
+                      @csrf
+                      @method('delete')
+                      <button type="submit" class="btn btn-danger rounded-end-1 btn-sm deleteAlert"
+                        style="border-radius: 0;" title="Hapus">
+                        <span class="ti ti-trash"></span>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                  data-bs-target="#detailModal{{ $item->id }}" title="Detail" style="font-size: 0.8rem">
-                  <span class="ti ti-eye"></span>
-                </button>
-                <!-- MODAL DETAIL -->
-                <div class="modal fade" id="detailModal{{ $item->id }}" data-bs-backdrop="static"
-                  data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ $item->id }}"
-                  aria-hidden="true">
-                  @include('components.modal.data_pendidikan_detail_modal')
-                </div>
-
-                <a href="/data_pendidikan/{{ $item->id }}/edit" class="btn btn-warning btn-sm" style="font-size: 0.8rem"
-                  title="Edit">
-                  <span class="ti ti-pencil"></span>
-                </a>
-
-
-                <form action="/data_pendidikan/{{ $item->id }}" method="POST">
-                  @csrf
-                  @method('delete')
-                  <button type="submit" class="btn btn-danger btn-sm rounded-end-1 deleteAlert"
-                    style="font-size: 0.8rem; border-radius: 0" title="Hapus">
-                    <span class="ti ti-trash"></span>
-                  </button>
-                </form>
-              </div>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
+      {{-- ESTIMASI HARGA --}}
+      <div class="col-md-5 ms-sm-0 ms-2">
+        <div class="fs-5 fw-bolder mt-1 text-primary"> Estimasi Anggaran Pendidikan </div>
+        <hr class="border border-1 mb-2 border-primary" style="width: 65%">
+        <div class="row me-1">
+          @foreach($jenjang as $jenjang)
+          @if($jenjang->anggaranPendidikan->count() > 0)
+          <div class="col">
+            <div class="fs-3 fw-semibold mb-1">{{ ucwords($jenjang->jenjang) }}</div>
+            <div class="table-responsive">
+              <table class="table table-bordered ">
+                <thead class="fs-2">
+                  <th>Region</th>
+                  <th>Anggaran Min</th>
+                  <th>Anggaran Maks</th>
+                </thead>
+                <tbody class="fs-2">
+                  @foreach($jenjang->anggaranPendidikan as $anggaran)
+                  <tr>
+                    <td>{{ ucwords($anggaran->region) }}</td>
+                    <td>Rp{{ number_format($anggaran->anggaran_min, 0, ',', '.') }}</td>
+                    <td>Rp{{ number_format($anggaran->anggaran_maks, 0, ',', '.') }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
+            </div>
+            @else
+            <h5>{{ $jenjang->jenjang }} (Belum memiliki anggaran)</h5>
+            @endif
+            @endforeach
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
