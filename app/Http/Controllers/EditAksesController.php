@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -17,10 +18,11 @@ class EditAksesController extends Controller
 
     public function index()
     {
-        $user = User::latest()->get();
+        $users = User::with('roles')->latest()->get(); // Ambil semua user dengan relasi roles
+        $roles = Role::all(); // Ambil semua role
 
-        // Menampilkan view dengan data user
-        return view('edit_akses_index', compact('user'));
+        // Menampilkan view dengan data user dan roles
+        return view('edit_akses_index', compact('users', 'roles'));
     }
 
     /**
@@ -29,20 +31,20 @@ class EditAksesController extends Controller
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
+
+        // Validasi input roles
         $request->validate([
-            'akses' => 'required' // Sesuaikan dengan roles yang ada
+            'roles' => 'required|array', // Roles harus berupa array
+            'roles.*' => 'exists:roles,id', // Setiap role harus valid berdasarkan id
         ]);
 
-        // Menggunakan metode update() langsung untuk memperbarui data
-        $user->update([
-            'akses' => $request->input('akses'),
-        ]);
-        // $user->fill($userData);
-        // $user->save();
+        // Sinkronisasi roles ke user
+        $user->roles()->sync($request->input('roles'));
 
         flash('Hak Akses Berhasil Diedit!')->success();
         return redirect()->route('edit_akses.index');
     }
+
     
 
 }

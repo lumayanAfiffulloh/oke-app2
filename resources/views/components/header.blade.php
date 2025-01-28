@@ -11,8 +11,12 @@
 			<ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
 
 				<div class="border border-2 border-primary border-opacity-50 rounded fw-bolder" style="padding: 6px 10px;">{{
-					Auth::user()->name }} (<span class="text-warning">{{ ucwords(str_replace('_', ' ', Auth::user()->akses))
-						}}</span>)</div>
+					Auth::user()->name }} (<span class="text-warning">@foreach (Auth::user()->roles as $role)
+						{{ ucwords(str_replace('_', ' ', $role->role)) }}
+						@if (!$loop->last)
+						,
+						@endif
+						@endforeach</span>)</div>
 				<li class="nav-item dropdown">
 					<a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
 						aria-expanded="false">

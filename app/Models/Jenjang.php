@@ -11,9 +11,9 @@ class Jenjang extends Model
     use HasFactory;
     protected $guarded=[];
 
-    public function dataPendidikans()
+    public function dataPendidikan()
     {
-        return $this->belongsToMany(DataPendidikan::class, 'pendidikan_has_jenjangs', 'jenjang_id', 'data_pendidikan_id');
+        return $this->hasMany(DataPendidikan::class);
     }
 
     public function anggaranPendidikan()

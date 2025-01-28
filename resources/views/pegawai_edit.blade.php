@@ -83,7 +83,7 @@
 					<div class="form-group mt-1 mb-3">
 						<label class="fw-semibold" for="unit_kerja">Unit Kerja</label>
 						<input type="text" class="form-control @error('unit_kerja') is-invalid @enderror" id="unit_kerja"
-							name="unit_kerja" value="{{ old('unit_kerja') ?? $data_pegawai->unit_kerja}}">
+							name="unit_kerja" value="{{ old('unit_kerja') ?? $data_pegawai->unitKerja->unit_kerja}}">
 						<span class="text-danger">{{ $errors->first('unit_kerja') }}</span>
 					</div>
 				</div>
@@ -92,7 +92,7 @@
 					<div class="form-group mt-1 mb-3">
 						<label class="fw-semibold" for="jabatan">Jabatan</label>
 						<input type="text" class="form-control @error('jabatan') is-invalid @enderror" id="jabatan" name="jabatan"
-							value="{{ old('jabatan') ?? $data_pegawai->jabatan}}">
+							value="{{ old('jabatan') ?? $data_pegawai->jabatan->jabatan}}">
 						<span class="text-danger">{{ $errors->first('jabatan') }}</span>
 					</div>
 				</div>
@@ -103,37 +103,37 @@
 				<label class="fw-semibold" for="pendidikan">Pendidikan Terakhir</label><br>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="SMA" value="SMA" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'SMA' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'SMA' ? 'checked' : '' }}>
 					<label class="form-check-label" for="SMA">SMA</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="D1" value="D1" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'D1' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'D1' ? 'checked' : '' }}>
 					<label class="form-check-label" for="D1">D1</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="D2" value="D2" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'D2' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'D2' ? 'checked' : '' }}>
 					<label class="form-check-label" for="D2">D2</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="D3" value="D3" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'D3' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'D3' ? 'checked' : '' }}>
 					<label class="form-check-label" for="D3">D3</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="S1" value="S1" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'S1' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'S1' ? 'checked' : '' }}>
 					<label class="form-check-label" for="S1">S1/D4</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="S2" value="S2" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'S2' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'S2' ? 'checked' : '' }}>
 					<label class="form-check-label" for="S2">S2</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="pendidikan" id="S3" value="S3" {{ old('pendidikan') ??
-						$data_pegawai->pendidikan === 'S3' ? 'checked' : '' }}>
+						$pendidikan_terakhir->jenjangTerakhir->jenjang_terakhir === 'S3' ? 'checked' : '' }}>
 					<label class="form-check-label" for="S3">S3</label>
 				</div>
 				<span class="text-danger">{{ $errors->first('pendidikan') }}</span>
@@ -144,7 +144,7 @@
 				<label class="fw-semibold" for="jurusan_pendidikan">Jurusan</label>
 				<input type="text" class="form-control @error('jurusan_pendidikan') is-invalid @enderror"
 					id="jurusan_pendidikan" name="jurusan_pendidikan"
-					value="{{ old('jurusan_pendidikan') ?? $data_pegawai->jurusan_pendidikan }}">
+					value="{{ old('jurusan_pendidikan') ?? $data_pegawai->pendidikanTerakhir->jurusan }}">
 				<span class="text-danger">{{ $errors->first('jurusan_pendidikan') }}</span>
 			</div>
 
@@ -177,42 +177,26 @@
 				</div>
 			</div>
 
-
-
-
 			{{-- AKSES --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="akses">Akses</label><br>
+				<label class="fw-semibold" for="roles">Akses<span class="text-danger">*</span></label><br>
+
+				@foreach ($roles as $role)
 				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="akses" id="pegawai" value="pegawai" {{ old('akses') ??
-						$user->akses === 'pegawai' ? 'checked' : '' }}>
-					<label class="form-check-label" for="pegawai">Pegawai</label>
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]"
+						id="role_{{ $role->id }}" value="{{ $role->id }}" {{ in_array($role->id, old('roles', $userRoles)) ?
+					'checked' : '' }}>
+					<label class="form-check-label" for="role_{{ $role->id }}">{{ ucwords(str_replace('_', ' ', $role->role))
+						}}</label>
 				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="akses" id="ketua_kelompok" value="ketua_kelompok" {{
-						old('akses') ?? $user->akses === 'ketua_kelompok' ? 'checked' : '' }}>
-					<label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="akses" id="approval" value="approval" {{ old('akses') ??
-						$user->akses === 'approval' ? 'checked' : '' }}>
-					<label class="form-check-label" for="approval">Approval</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="akses" id="verifikator" value="verifikator" {{ old('akses')
-						?? $user->akses === 'verifikator' ? 'checked' : '' }}>
-					<label class="form-check-label" for="verifikator">Verifikator</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input" type="radio" name="akses" id="admin" value="admin" {{ old('akses') ??
-						$user->akses === 'admin' ? 'checked' : '' }}>
-					<label class="form-check-label" for="admin">Admin</label>
-				</div>
-				<span class="text-danger">{{ $errors->first('akses') }}</span>
+				@endforeach
+				<br><span class="text-danger">{{ $errors->first('roles') }}</span>
 			</div>
 
+
+
 			{{-- BUTTON --}}
-			<div class="d-flex justify-content-start mt-2">
+			<div class="d-flex justify-content-start mt-4 mb-2">
 				<form>
 					<button type="submit" class="btn btn-primary me-1" id="editAlert">SIMPAN</button>
 				</form>

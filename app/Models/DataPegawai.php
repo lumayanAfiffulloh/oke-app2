@@ -32,13 +32,29 @@ class DataPegawai extends Model
         return $this->hasMany(RencanaPembelajaran::class);
     }
 
+
     public function ketuaKelompok()
     {
-        return $this->hasOne(Kelompok::class, 'ketua_id'); // Ketua kelompok
+        return $this->hasOne(Kelompok::class, 'id_ketua'); // Ketua kelompok
     }
 
     public function kelompok()
     {
         return $this->belongsTo(Kelompok::class)->withDefault();
+    }
+
+    public function unitKerja()
+    {
+        return $this->belongsTo(UnitKerja::class);
+    }
+
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class);
+    }
+
+    public function pendidikanTerakhir()
+    {
+        return $this->belongsTo(PendidikanTerakhir::class);
     }
 }

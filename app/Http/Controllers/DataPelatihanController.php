@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Region;
+use App\Models\Rumpun;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\DataPelatihan;
-use App\Models\EstimasiHarga;
+use App\Models\AnggaranPelatihan;
 use Illuminate\Support\Facades\DB;
 use App\Imports\DataPelatihanImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,7 +21,7 @@ class DataPelatihanController extends Controller
      */
     public function index()
     {
-        $dataPelatihan = DataPelatihan::with('estimasiHarga')->latest()->get();
+        $dataPelatihan = DataPelatihan::with('anggaranPelatihan', 'rumpun')->latest()->get();
 
         return view('data_pelatihan_index', compact('dataPelatihan'));
     }
@@ -40,58 +43,61 @@ class DataPelatihanController extends Controller
         $requestData = $request->validated();
 
         DB::transaction(function () use ($requestData) {
+            // Simpan data rumpun jika belum ada
+            $rumpun = Rumpun::firstOrCreate(['rumpun' => $requestData['rumpun']]);
+
             // Simpan data pelatihan
             $dataPelatihan = DataPelatihan::create([
+                'rumpun_id' => $rumpun->id,
                 'kode' => $requestData['kode'],
-                'rumpun' => $requestData['rumpun'],
                 'nama_pelatihan' => $requestData['nama_pelatihan'],
                 'deskripsi' => $requestData['deskripsi'],
                 'jp' => $requestData['jp'],
                 'materi' => $requestData['materi'],
             ]);
 
-            // Data estimasi harga nasional dan internasional
-            $estimasiHargaData = [
+            // Data anggaran harga nasional dan internasional
+            $anggaranPelatihanData = [
                 [
-                    'pelatihan_id' => $dataPelatihan->id,
-                    'region' => 'nasional',
-                    'kategori' => 'klasikal',
+                    'data_pelatihan_id' => $dataPelatihan->id,
+                    'region_id' => Region::where('region', 'nasional')->first()->id, // Ambil ID region nasional
+                    'kategori_id' => Kategori::where('kategori', 'klasikal')->first()->id, // Ambil ID kategori klasikal
                     'anggaran_min' => $requestData['nasional_klasikal_min'] ?? null,
                     'anggaran_maks' => $requestData['nasional_klasikal_maks'] ?? null,
                 ],
                 [
-                    'pelatihan_id' => $dataPelatihan->id,
-                    'region' => 'nasional',
-                    'kategori' => 'non-klasikal',
+                    'data_pelatihan_id' => $dataPelatihan->id,
+                    'region_id' => Region::where('region', 'nasional')->first()->id, // Ambil ID region nasional
+                    'kategori_id' => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
                     'anggaran_min' => $requestData['nasional_non-klasikal_min'] ?? null,
                     'anggaran_maks' => $requestData['nasional_non-klasikal_maks'] ?? null,
                 ],
                 [
-                    'pelatihan_id' => $dataPelatihan->id,
-                    'region' => 'internasional',
-                    'kategori' => 'klasikal',
+                    'data_pelatihan_id' => $dataPelatihan->id,
+                    'region_id' => Region::where('region', 'internasional')->first()->id, // Ambil ID region internasional
+                    'kategori_id' => Kategori::where('kategori', 'klasikal')->first()->id, // Ambil ID kategori klasikal
                     'anggaran_min' => $requestData['internasional_klasikal_min'] ?? null,
                     'anggaran_maks' => $requestData['internasional_klasikal_maks'] ?? null,
                 ],
                 [
-                    'pelatihan_id' => $dataPelatihan->id,
-                    'region' => 'internasional',
-                    'kategori' => 'non-klasikal',
+                    'data_pelatihan_id' => $dataPelatihan->id,
+                    'region_id' => Region::where('region', 'internasional')->first()->id, // Ambil ID region internasional
+                    'kategori_id' => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
                     'anggaran_min' => $requestData['internasional_non-klasikal_min'] ?? null,
                     'anggaran_maks' => $requestData['internasional_non-klasikal_maks'] ?? null,
                 ],
             ];
 
-            // Simpan data estimasi harga
-            foreach ($estimasiHargaData as $estimasi) {
-                if ($estimasi['anggaran_min'] !== null || $estimasi['anggaran_maks'] !== null) {
-                    EstimasiHarga::create($estimasi);
+            // Simpan data anggaran harga
+            foreach ($anggaranPelatihanData as $anggaran) {
+                if ($anggaran['anggaran_min'] !== null || $anggaran['anggaran_maks'] !== null) {
+                    AnggaranPelatihan::create($anggaran);
                 }
             }
         });
 
         // Flash message sukses
-        flash('Data pelatihan dan estimasi harga berhasil ditambahkan')->success();
+        flash('Data pelatihan dan anggaran harga berhasil ditambahkan')->success();
 
         // Redirect ke halaman index
         return redirect()->route('data_pelatihan.index');
@@ -108,48 +114,50 @@ class DataPelatihanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DataPelatihan $dataPelatihan)
+    public function edit(string $id)
     {
-        $dataPelatihan->load('estimasiHarga');
+        $dataPelatihan = DataPelatihan::with(['rumpun', 'anggaranPelatihan'])->findOrFail($id);
+        $rumpuns = Rumpun::all();
 
-        return view('data_pelatihan_edit', compact('dataPelatihan'));
+        return view('data_pelatihan_edit', compact('dataPelatihan', 'rumpuns'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDataPelatihanRequest $request, DataPelatihan $dataPelatihan)
+    public function update(UpdateDataPelatihanRequest $request, $id)
     {
-        $requestData = $request->validated();
+        // Ambil data pelatihan berdasarkan ID
+        $dataPelatihan = DataPelatihan::findOrFail($id);
 
-        DB::transaction(function () use ($requestData, $dataPelatihan) {
-            // Update data pelatihan
-            $dataPelatihan->update([
-                'kode' => $requestData['kode'],
-                'rumpun' => $requestData['rumpun'],
-                'nama_pelatihan' => $requestData['nama_pelatihan'],
-                'deskripsi' => $requestData['deskripsi'],
-                'jp' => $requestData['jp'],
-                'materi' => $requestData['materi'],
-            ]);
+        // Update data pelatihan
+        $dataPelatihan->update([
+            'kode' => $request->kode,
+            'rumpun_id' => $request->rumpun_id,
+            'nama_pelatihan' => $request->nama_pelatihan,
+            'deskripsi' => $request->deskripsi,
+            'jp' => $request->jp,
+            'materi' => $request->materi,
+        ]);
 
-            // Update data estimasi harga
-            if (isset($requestData['estimasi'])) {
-                foreach ($requestData['estimasi'] as $id => $estimasiData) {
-                    $estimasi = EstimasiHarga::find($id);
-                    if ($estimasi && $estimasi->pelatihan_id == $dataPelatihan->id) {
-                        $estimasi->update([
-                            'anggaran_min' => $estimasiData['anggaran_min'],
-                            'anggaran_maks' => $estimasiData['anggaran_maks'],
-                        ]);
-                    }
-                }
+        // Update data anggaran pelatihan
+        if ($request->has('anggaran')) {
+            foreach ($request->anggaran as $anggaranId => $anggaranData) {
+                $anggaran = AnggaranPelatihan::findOrFail($anggaranId);
+                $anggaran->update([
+                    'anggaran_min' => (int) str_replace('.', '', $anggaranData['anggaran_min']),
+                    'anggaran_maks' => (int) str_replace('.', '', $anggaranData['anggaran_maks']),
+                ]);
             }
-        });
+        }
 
-        flash('Data pelatihan dan estimasi harga berhasil diperbarui')->success();
+        // Flash message sukses
+        flash('Data pelatihan berhasil diupdate')->success();
+
+        // Redirect ke halaman index
         return redirect()->route('data_pelatihan.index');
     }
+
 
 
     /**

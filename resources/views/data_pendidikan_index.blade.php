@@ -76,24 +76,32 @@
           <table class="table table-striped mb-3" style="font-size: 0.8rem" id="myTable">
             <thead>
               <th class="text-center">No.</th>
-              <th>Jenjang</th>
               <th>Jurusan</th>
+              <th>Jenjang</th>
               <th>AKSI</th>
             </thead>
             <tbody>
               @foreach ($dataPendidikan as $item)
               <tr>
                 <td class="text-center py-3">{{ $loop->iteration }}</td>
-                <td class="py-3">{{ ucwords($item->jurusan->jurusan) }}</td>
+                <td class="py-3">{{ ucwords($item->jurusan) }}</td>
                 <td class="py-3">
                   {{-- Menampilkan jenjang-jenjang yang terkait --}}
                   {{ ucwords($item->jenjangs->pluck('jenjang')->join(', ')) }}
                 </td>
                 <td class="py-3">
                   <div class="btn-group" role="group">
-                    <a href="/data_pendidikan/{{ $item->id }}/edit" class="btn btn-warning btn-sm" title="Edit">
+                    <a href="#" class="btn btn-warning btn-sm editButton" data-id="{{ $item->id }}"
+                      data-jenjang="{{ $item->jenjangs->pluck('jenjang') }}" data-jurusan="{{ $item->jurusan }}"
+                      data-bs-toggle="modal" data-bs-target="#editPendidikanModal" title="Edit">
                       <span class="ti ti-pencil"></span>
                     </a>
+
+                    {{-- MODAL EDIT BENTUK JALUR --}}
+                    <div class="modal fade" id="editPendidikanModal" tabindex="-1" aria-hidden="true">
+                      @include('components.modal.data_pendidikan_edit_modal')
+                    </div>
+
                     <form action="/data_pendidikan/{{ $item->id }}" method="POST">
                       @csrf
                       @method('delete')
@@ -116,21 +124,23 @@
         <div class="fs-5 fw-bolder mt-1 text-primary"> Estimasi Anggaran Pendidikan </div>
         <hr class="border border-1 mb-2 border-primary" style="width: 65%">
         <div class="row me-1">
-          @foreach($jenjang as $jenjang)
+          @foreach($jenjangs as $jenjang)
           @if($jenjang->anggaranPendidikan->count() > 0)
           <div class="col">
             <div class="fs-3 fw-semibold mb-1">{{ ucwords($jenjang->jenjang) }}</div>
             <div class="table-responsive">
-              <table class="table table-bordered ">
+              <table class="table table-bordered">
                 <thead class="fs-2">
-                  <th>Region</th>
-                  <th>Anggaran Min</th>
-                  <th>Anggaran Maks</th>
+                  <tr>
+                    <th>Region</th>
+                    <th>Anggaran Min</th>
+                    <th>Anggaran Maks</th>
+                  </tr>
                 </thead>
                 <tbody class="fs-2">
                   @foreach($jenjang->anggaranPendidikan as $anggaran)
                   <tr>
-                    <td>{{ ucwords($anggaran->region) }}</td>
+                    <td>{{ ucwords($anggaran->region->region) }}</td> {{-- Menggunakan relasi region --}}
                     <td>Rp{{ number_format($anggaran->anggaran_min, 0, ',', '.') }}</td>
                     <td>Rp{{ number_format($anggaran->anggaran_maks, 0, ',', '.') }}</td>
                   </tr>
@@ -138,55 +148,75 @@
                 </tbody>
               </table>
             </div>
-            @else
-            <h5>{{ $jenjang->jenjang }} (Belum memiliki anggaran)</h5>
-            @endif
-            @endforeach
           </div>
+          @else
+          <div class="col">
+            <h5>{{ ucwords($jenjang->jenjang) }} (Belum memiliki anggaran)</h5>
+          </div>
+          @endif
+          @endforeach
+
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
-{{-- FORMAT RUPIAH RIBUAN --}}
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-        // Seleksi semua input dengan class "format-rupiah"
-        const rupiahInputs = document.querySelectorAll('.format-rupiah');
+  document.addEventListener('DOMContentLoaded', () => {
+    const editButtons = document.querySelectorAll('.editButton');
+    const modal = document.querySelector('#editPendidikanModal');
+    const editFormID = modal.querySelector('#editFormID');
+    const jenjangContainer = modal.querySelector('#jenjangContainer');
+    const jurusanInput = modal.querySelector('#jurusan');
+    const jurusanName = document.querySelector('#jurusanName'); // Menampilkan nama jurusan di title modal
 
-        rupiahInputs.forEach((input) => {
-            // Event listener saat input berubah
-            input.addEventListener('input', function () {
-                formatRupiah(input);
-            });
+    editButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Ambil data dari tombol
+        const id = button.getAttribute('data-id');
+        const jenjang = JSON.parse(button.getAttribute('data-jenjang'));
+        const jurusan = button.getAttribute('data-jurusan');
+
+        // Isi action form
+        editFormID.setAttribute('action', `/data_pendidikan/${id}`);
+
+        // Isi jenjang checkbox
+        // Isi jenjang checkbox
+        jenjangContainer.innerHTML = '';
+        const jenjangList = ['D1', 'D2', 'D3', 'S1', 'S2', 'S3'];
+        jenjangList.forEach(jenjangItem => {
+          const checked = jenjang.includes(jenjangItem) ? 'checked' : '';
+          jenjangContainer.innerHTML += `
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="jenjang[]" id="${jenjangItem}" value="${jenjangItem}" ${checked}>
+              <label class="form-check-label" for="${jenjangItem}">${jenjangItem}</label>
+            </div>
+          `;
+        });
+
+        // Isi jurusan
+        jurusanInput.value = jurusan;
+
+        // Menampilkan nama jurusan di title modal
+        jurusanName.textContent = jurusan;
+      });
+    });
+  });
+
+  // Script tambahan untuk menampilkan nama jurusan
+  document.addEventListener('DOMContentLoaded', function () {
+    const editButtons = document.querySelectorAll('.editButton');
+    const jurusanName = document.querySelector('#jurusanName');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const jurusan = this.getAttribute('data-jurusan');
+            jurusanName.textContent = jurusan; // Menampilkan nama jurusan di span
         });
     });
-
-    function formatRupiah(input) {
-        // Ambil nilai input dan buang format lama
-        let rawValue = input.value.replace(/[^,\d]/g, '');
-
-        // Masukkan ke input hidden terkait
-        const hiddenInput = input.nextElementSibling;
-        if (hiddenInput && hiddenInput.type === 'hidden') {
-            hiddenInput.value = rawValue;
-        }
-
-        // Format ulang untuk menampilkan sebagai rupiah
-        let formattedValue = '';
-        const split = rawValue.split(',');
-        const sisa = split[0].length % 3;
-        formattedValue += split[0].substr(0, sisa);
-        const ribuan = split[0].substr(sisa).match(/\d{3}/g);
-
-        if (ribuan) {
-            const separator = sisa ? '.' : '';
-            formattedValue += separator + ribuan.join('.');
-        }
-
-        input.value = 'Rp ' + formattedValue + (split[1] ? ',' + split[1] : '');
-    }
+  });
 </script>
 
 {{-- PAKSA BUKA MODAL JIKA ADA ERROR --}}

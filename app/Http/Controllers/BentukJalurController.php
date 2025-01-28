@@ -84,10 +84,4 @@ class BentukJalurController extends Controller
         flash('Data berhasil dihapus!')->error();
         return redirect()->route('bentuk_jalur.index');
     }
-
-    public function filterByKategori($kategori)
-    {
-        $bentukJalur = BentukJalur::where('kategori', $kategori)->get();
-        return response()->json($bentukJalur);
-    }
 }

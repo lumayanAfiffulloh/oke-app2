@@ -11,7 +11,7 @@ class UpdateDataPendidikanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateDataPendidikanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'jenjang' => 'nullable|array',
+            'jenjang.*' => 'string|exists:jenjangs,jenjang',
+            'jp' => 'nullable',
+            'jurusan' => 'required|string|max:255',
         ];
     }
 }

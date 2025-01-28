@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('bentuk_jalurs', function (Blueprint $table) {
             $table->id();
-            $table->enum('kategori', ['klasikal', 'non-klasikal']);
+            $table->foreignId('kategori_id');
             $table->string('bentuk_jalur');
             $table->timestamps();
         });

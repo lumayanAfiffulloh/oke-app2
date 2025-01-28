@@ -2,8 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
-        Detail Pelatihan <span class="text-primary fw-bolder">{{ ucwords($item->nama_pelatihan)
-          }}</span>
+        Detail Pelatihan <span class="text-primary fw-bolder">{{ ucwords($item->nama_pelatihan) }}</span>
       </h1>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
@@ -17,7 +16,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->kode) }} </span>
+                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->kode) }}</span>
               </div>
             </div>
           </h2>
@@ -30,7 +29,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->rumpun) }} </span>
+                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->rumpun->rumpun) }}</span>
               </div>
             </div>
           </h2>
@@ -43,7 +42,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->nama_pelatihan) }} </span>
+                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->nama_pelatihan) }}</span>
               </div>
             </div>
           </h2>
@@ -56,7 +55,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->deskripsi) }} </span>
+                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->deskripsi) }}</span>
               </div>
             </div>
           </h2>
@@ -82,7 +81,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->materi) }} </span>
+                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->materi) }}</span>
               </div>
             </div>
           </h2>
@@ -96,7 +95,7 @@
                 <span>:</span>
               </div>
             </div>
-            @if($item->estimasiHarga->count() > 0)
+            @if($item->anggaranPelatihan->count() > 0)
             <table class="table table-bordered">
               <thead>
                 <tr class="fs-4">
@@ -107,10 +106,10 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($item->estimasiHarga as $estimasi)
+                @foreach ($item->anggaranPelatihan as $estimasi)
                 <tr class="fs-4">
-                  <td>{{ ucwords($estimasi->region) }}</td>
-                  <td>{{ ucwords($estimasi->kategori) }}</td>
+                  <td>{{ ucwords($estimasi->region->region) }}</td> {{-- Menampilkan region --}}
+                  <td>{{ ucwords($estimasi->kategori->kategori) }}</td> {{-- Menampilkan kategori --}}
                   <td>{{ 'Rp' . number_format($estimasi->anggaran_min, 0, ',', '.') }}</td>
                   <td>{{ 'Rp' . number_format($estimasi->anggaran_maks, 0, ',', '.') }}</td>
                 </tr>

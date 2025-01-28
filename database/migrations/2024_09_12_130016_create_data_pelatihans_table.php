@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('data_pelatihans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('rumpun_id');
             $table->string('kode')->unique();
-            $table->string('rumpun')->nullable();
             $table->string('nama_pelatihan');
             $table->text('deskripsi')->nullable();
             $table->integer('jp');

@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('data_pegawais', function (Blueprint $table) {
-            $table->foreignId('kelompok_id');
+        Schema::create('pendidikan_terakhirs', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('jenjang_terakhir_id');
+            $table->string('jurusan');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('data_pegawais', function (Blueprint $table) {
-            $table->dropColumn('kelompok_id');
-        });
+        Schema::dropIfExists('pendidikan_terakhirs');
     }
 };

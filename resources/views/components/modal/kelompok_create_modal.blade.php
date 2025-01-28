@@ -10,17 +10,17 @@
       <form action="{{ route('kelompok.store') }}" method="POST" id="createFormID">
         @csrf
         <div class="form-group mb-3">
-          <label for="ketua_id" class="fw-semibold">Ketua Kelompok</label>
-          <select name="ketua_id" id="ketua_id"
-            class="form-control placeholder-single @error('ketua_id') is-invalid @enderror" required>
+          <label for="id_ketua" class="fw-semibold">Ketua Kelompok</label>
+          <select name="id_ketua" id="id_ketua"
+            class="form-control placeholder-single @error('id_ketua') is-invalid @enderror" required>
             <option value=""></option>
             @foreach($listPegawai as $pegawai)
-            <option value="{{ $pegawai->id }}" @selected(old('ketua_id'))>
+            <option value="{{ $pegawai->id }}" @selected(old('id_ketua'))>
               {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
             </option>
             @endforeach
           </select>
-          @error('ketua_id')
+          @error('id_ketua')
           <span class="invalid-feedback">
             <strong>{{ $message }}</strong>
           </span>

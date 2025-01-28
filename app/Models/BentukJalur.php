@@ -9,4 +9,15 @@ class BentukJalur extends Model
 {
     use HasFactory;
     protected $guarded=[];
+
+    public function rencanaPembelajaran()
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
+    }
+
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class);
+    }
+    
 }

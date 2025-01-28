@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('anggaran_pendidikans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('jenjang_id');
-            $table->string('region');
+            $table->foreignId('region_id');
             $table->integer('anggaran_min');
             $table->integer('anggaran_maks');
             $table->timestamps();

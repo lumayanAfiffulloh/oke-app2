@@ -15,7 +15,7 @@ class Kelompok extends Model
 
 	public function ketua(): BelongsTo
 	{
-		return $this->belongsTo(DataPegawai::class, 'ketua_id');
+		return $this->belongsTo(DataPegawai::class, 'id_ketua');
 	}
 
 	public function anggota(): HasMany

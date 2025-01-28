@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estimasi_hargas', function (Blueprint $table) {
+        Schema::create('unit_kerjas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pelatihan_id');
-            $table->enum('region', ['nasional', 'internasional']);
-            $table->enum('kategori', ['klasikal', 'non-klasikal']);
-            $table->integer('anggaran_min');
-            $table->integer('anggaran_maks');
+            $table->string('unit_kerja');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estimasi_hargas');
+        Schema::dropIfExists('unit_kerjas');
     }
 };

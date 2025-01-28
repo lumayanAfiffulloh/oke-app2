@@ -22,16 +22,9 @@ class StoreDataPendidikanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'jenjang' => 'required|array',
-            'jenjang.*' => 'string|distinct',
             'jurusan' => 'required|string',
-        ];
-    }
-    public function messages()
-    {
-        return [
-            'nasional_maks.gte' => 'Maksimal anggaran harus lebih besar atau sama dengan minimal anggaran.',
-            'internasional_maks.gte' => 'Maksimal anggaran harus lebih besar atau sama dengan minimal anggaran.',
+            'jenjang' => 'required|array',
+            'jenjang.*' => 'required|string',
         ];
     }
 }

@@ -100,7 +100,7 @@
 							<span class="badge rounded-pill bg-danger" style="font-size: 0.8rem">Non-Aktif</span>
 							@endif
 						</td>
-						<td>{{ $item->unit_kerja }}</td>
+						<td>{{ $item->unitKerja->unit_kerja }}</td>
 						<td>
 							<div class="btn-group" role="group">
 								<button class="btn btn-sm btn-primary" data-bs-toggle="modal"
@@ -151,28 +151,28 @@
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Unit Kerja</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unit_kerja) }}
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unitKerja->unit_kerja) }}
 															</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jabatan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan) }}
-																Jam</span>
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan->jabatan) }}</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikan) }}
+															<span class="tw-text-sky-500 fw-bold">: {{
+																ucwords($item->pendidikanTerakhir->jenjangTerakhir->jenjang_terakhir) }}
 															</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jurusan Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jurusan_pendidikan)
+															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikanTerakhir->jurusan)
 																}} </span>
 														</h2>
 													</li>

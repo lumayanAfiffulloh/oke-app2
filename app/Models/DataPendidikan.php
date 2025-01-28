@@ -11,19 +11,19 @@ class DataPendidikan extends Model
     use HasFactory;
     protected $guarded=[];
 
-    // Relasi ke Jenjang
-    public function jenjangs()
-    {
-        return $this->belongsToMany(Jenjang::class, 'pendidikan_has_jenjangs', 'data_pendidikan_id', 'jenjang_id'); 
-    }
-
     public function anggaranPendidikan()
     {
         return $this->hasManyThrough(AnggaranPendidikan::class, Jenjang::class);
     }
-    // Relasi ke Jurusan
-    public function jurusan()
+
+    public function jenjangs()
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsToMany(Jenjang::class, 'pendidikan_has_jenjangs');
     }
+
+    public function rencanaPembelajaran()
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
+    }
+
 }

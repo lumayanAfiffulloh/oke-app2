@@ -10,4 +10,5 @@ class pendidikanHasJenjang extends Model
     use HasFactory;
 
     protected $guarded=[];
+
 }

@@ -17,4 +17,9 @@ class AnggaranPendidikan extends Model
         return $this->belongsTo(Jenjang::class);
     }
 
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
 }

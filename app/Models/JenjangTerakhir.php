@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EstimasiHarga extends Model
+class JenjangTerakhir extends Model
 {
     use HasFactory;
-
     protected $guarded=[];
 
-    public function dataPelatihan()
+    public function pendidikanTerakhir()
     {
-        return $this->belongsTo(DataPelatihan::class, 'pelatihan_id');
+        return $this->hasMany(PendidikanTerakhir::class);
     }
 }

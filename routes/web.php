@@ -11,7 +11,7 @@ use App\Http\Controllers\DataPegawaiController;
 use App\Http\Controllers\DataPelatihanController;
 use App\Http\Controllers\DataPendidikanController;
 use App\Http\Controllers\RencanaPembelajaranController;
-
+use App\Models\RencanaPembelajaran;
 
 Route::middleware([Authenticate::class, 'check.default.password'])->group(function () {
     
@@ -29,9 +29,19 @@ Route::middleware([Authenticate::class, 'check.default.password'])->group(functi
     Route::post('/data_pendidikan/import', [DataPendidikanController::class, 'importExcelData']);
 
     Route::resource('bentuk_jalur', BentukJalurController::class);
-    // Tambahkan route filter bentuk jalur berdasarkan kategori
-    Route::get('/bentuk_jalur/filter/{kategori}', [BentukJalurController::class, 'filterByKategori']);
-    
+    Route::get('/get-bentuk-jalur/{kategori_id}', [RencanaPembelajaranController::class, 'getBentukJalur']);
+    Route::get('/get-jenjang', [RencanaPembelajaranController::class, 'getJenjang']);
+    Route::get('/get-jurusan-by-jenjang', [RencanaPembelajaranController::class, 'getJurusanByJenjang']);
+    Route::get('/get-rumpun', [RencanaPembelajaranController::class, 'getRumpun']);
+    Route::get('/nama-pelatihan/{rumpunId}', [RencanaPembelajaranController::class, 'getNamaPelatihan']);
+    Route::get('/get-jenis-pendidikan', [RencanaPembelajaranController::class, 'getJenisPendidikan']);
+    Route::get('/get-pelatihan-info/{id}', [RencanaPembelajaranController::class, 'getPelatihanInfo']);
+    Route::get('/get-anggaran-by-pendidikan', [RencanaPembelajaranController::class, 'getAnggaranByPendidikan']);
+    Route::get('/get-anggaran-by-pelatihan', [RencanaPembelajaranController::class, 'getAnggaranByPelatihan']);
+
+
+
+
     Route::resource('kelompok', KelompokController::class);
 
     

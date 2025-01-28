@@ -22,7 +22,7 @@ class UpdateKelompokRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ketua_id' => 'required|exists:data_pegawais,id',
+            'id_ketua' => 'required|exists:data_pegawais,id',
             'anggota' => 'required|array|max:19',
             'anggota.*' => 'exists:data_pegawais,id|distinct',
         ];

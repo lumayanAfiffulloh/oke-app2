@@ -126,7 +126,7 @@
 						id="S3" value="S3" {{ old('pendidikan')==='S3' ? 'checked' : '' }}>
 					<label class="form-check-label" for="S3">S3</label>
 				</div>
-				<span class="text-danger">{{ $errors->first('pendidikan') }}</span>
+				<br><span class="text-danger">{{ $errors->first('pendidikan') }}</span>
 			</div>
 
 			{{-- JURUSAN PENDIDIKAN --}}
@@ -167,40 +167,40 @@
 				</div>
 			</div>
 
-
-
-
-
-			{{-- AKSES --}}
+			{{-- ROLE --}}
 			<div class="form-group mt-1 mb-3">
-				<label class="fw-semibold" for="akses">Akses<span class="text-danger">*</span></label><br>
+				<label class="fw-semibold" for="roles">Akases<span class="text-danger">*</span></label><br>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses" id="pegawai"
-						value="pegawai" {{ old('akses')==='pegawai' ? 'checked' : '' }}>
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]" id="admin"
+						value="admin" {{ is_array(old('roles')) && in_array('admin', old('roles')) ? 'checked' : '' }}>
+					<label class="form-check-label" for="admin">Admin</label>
+				</div>
+				<div class="form-check form-check-inline">
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]"
+						id="pegawai" value="pegawai" {{ is_array(old('roles')) && in_array('pegawai', old('roles')) ? 'checked' : ''
+						}}>
 					<label class="form-check-label" for="pegawai">Pegawai</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses"
-						id="ketua_kelompok" value="ketua_kelompok" {{ old('akses')==='ketua_kelompok' ? 'checked' : '' }}>
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]"
+						id="ketua_kelompok" value="ketua_kelompok" {{ is_array(old('roles')) && in_array('ketua_kelompok',
+						old('roles')) ? 'checked' : '' }}>
 					<label class="form-check-label" for="ketua_kelompok">Ketua Kelompok</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses" id="approval"
-						value="approval" {{ old('akses')==='approval' ? 'checked' : '' }}>
-					<label class="form-check-label" for="approval">Approval</label>
-				</div>
-				<div class="form-check form-check-inline">
-					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses"
-						id="verifikator" value="verifikator" {{ old('akses')==='verifikator' ? 'checked' : '' }}>
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]" id="S2"
+						value="verifikator" {{ is_array(old('roles')) && in_array('verifikator', old('roles')) ? 'checked' : '' }}>
 					<label class="form-check-label" for="verifikator">Verifikator</label>
 				</div>
 				<div class="form-check form-check-inline">
-					<input class="form-check-input @error('akses') is-invalid @enderror" type="radio" name="akses" id="admin"
-						value="admin" {{ old('akses')==='admin' ? 'checked' : '' }}>
-					<label class="form-check-label" for="admin">Admin</label>
+					<input class="form-check-input @error('roles') is-invalid @enderror" type="checkbox" name="roles[]"
+						id="approver" value="approver" {{ is_array(old('roles')) && in_array('approver', old('roles')) ? 'checked'
+						: '' }}>
+					<label class="form-check-label" for="approver">Approver</label>
 				</div>
-				<span class="text-danger">{{ $errors->first('akses') }}</span>
+				<br><span class="text-danger">{{ $errors->first('roles') }}</span>
 			</div>
+
 			<button type="submit" class="btn btn-primary mb-2" id="createAlert">SIMPAN</button>
 		</form>
 	</div>

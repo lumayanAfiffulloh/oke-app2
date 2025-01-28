@@ -12,11 +12,11 @@
       @method('PUT')
       @csrf
       <div class="form-group mt-2 mb-3">
-        <label for="ketua_id" class="fw-semibold">Edit Ketua Kelompok</label>
-        <select name="ketua_id" id="ketua_id" class="form-control placeholder-single">
+        <label for="id_ketua" class="fw-semibold">Edit Ketua Kelompok</label>
+        <select name="id_ketua" id="id_ketua" class="form-control placeholder-single">
           <option value=""></option>
           @foreach($listPegawai as $pegawai)
-          <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id, $kelompok->pluck('ketua_id')->toArray()))>
+          <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id, $kelompok->pluck('id_ketua')->toArray()))>
             {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
           </option>
           @endforeach
@@ -28,7 +28,7 @@
         <select name="anggota[]" id="anggota"
           class="form-control placeholder-multiple @error('anggota') is-invalid @enderror" multiple="multiple">
           @foreach($listPegawai as $pegawai)
-          @if($pegawai->id != $kelompok->ketua_id)
+          @if($pegawai->id != $kelompok->id_ketua)
           <option value="{{ $pegawai->id }}" @selected(in_array($pegawai->id,
             $kelompok->anggota->pluck('id')->toArray()))>
             {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}

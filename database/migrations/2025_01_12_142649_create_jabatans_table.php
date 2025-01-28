@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendidikan_has_estimasis', function (Blueprint $table) {
+        Schema::create('jabatans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('data_pendidikan_id');
-            $table->foreignId('estimasi_pendidikan_id');
+            $table->string('jabatan');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pendidikan_has_estimasis');
+        Schema::dropIfExists('jabatans');
     }
 };

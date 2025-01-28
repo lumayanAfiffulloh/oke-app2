@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('rencana_pembelajarans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('data_pegawai_id');
+            $table->foreignId('data_pendidikan_id');
+            $table->foreignId('data_pelatihan_id');
+            $table->foreignId('bentuk_jalur_id');
+            $table->foreignId('jenis_pendidikan_id');
+            $table->foreignId('region_id');
+            $table->string('klasifikasi');
             $table->year('tahun');
-            $table->enum('klasifikasi',['pelatihan', 'pendidikan']);
-            $table->string('kategori');
-            $table->string('bentuk_jalur');
-            $table->string('nama_pelatihan');
-            $table->integer('jam_pelajaran');
-            $table->enum('regional', ['nasional', 'internasional']);
-            $table->integer('anggaran');
-            $table->enum('prioritas', ['rendah', 'sedang', 'tinggi']);
+            $table->integer('anggaran_rencana');
+            $table->string('prioritas');
             $table->timestamps();
         });
     }

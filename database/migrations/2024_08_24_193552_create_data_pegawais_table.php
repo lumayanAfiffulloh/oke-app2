@@ -16,13 +16,12 @@ return new class extends Migration
             $table->string('nama');
             $table->string('nppu')->unique();
             $table->string('status');
-            $table->string('jabatan');
-            $table->string('unit_kerja');
-            $table->string('pendidikan');
-            $table->string('jurusan_pendidikan');
+            $table->foreignId('pendidikan_terakhir_id');
             $table->string('jenis_kelamin');
             $table->string('nomor_telepon')->nullable();
             $table->string('foto')->nullable();
+            $table->foreignId('unit_kerja_id');
+            $table->foreignId('jabatan_id');
             $table->foreignId('user_id');
             $table->foreignId('kelompok_id');
             $table->timestamps();

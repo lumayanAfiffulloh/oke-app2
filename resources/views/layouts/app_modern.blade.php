@@ -130,6 +130,54 @@
     allowClear: true,
     dropdownParent:'#createPelatihanModal'
     });
+
+    $(".bentuk-jalur-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Bentuk Jalur --",
+    allowClear: true,
+    });
+    
+    $(".kategori-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Kategori --",
+    allowClear: true
+    });
+    
+    $(".jenjang-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Jenjang --",
+    allowClear: true
+    });
+
+    $(".rumpun-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Rumpun --",
+    allowClear: true
+    });
+
+    $(".jurusan-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Jurusan --",
+    allowClear: true
+    });
+    
+    $(".nama-pelatihan-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Nama Pelatihan --",
+    allowClear: true
+    });
+
+    $(".jenis-pendidikan-single").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Jenis Pendidikan --",
+    allowClear: true
+    });
+
+    $(".rumpun-single-pelatihan").select2({
+    theme: 'bootstrap4',
+    placeholder: "-- Pilih Rumpun --",
+    allowClear: true
+    });
   </script>
 
 

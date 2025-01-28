@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         Gate::define('admin', function(User $user) {
-            // Mengecek apakah 'admin' ada dalam string akses
-            return Str::contains($user->akses, 'admin');
+            // Mengecek apakah user memiliki role 'admin' dalam relasi roles
+            return $user->roles->contains('role', 'admin');
         });
     }
 }

@@ -23,7 +23,6 @@ class User extends Authenticatable implements CanResetPassword
      */
     protected $fillable = [
         'name',
-        'akses',
         'email',
         'password',
     ];
@@ -54,5 +53,10 @@ class User extends Authenticatable implements CanResetPassword
     public function dataPegawai() : HasOne
     {
         return $this->hasOne(DataPegawai::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_has_roles');
     }
 }

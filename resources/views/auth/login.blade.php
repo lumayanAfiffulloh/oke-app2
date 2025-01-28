@@ -16,7 +16,7 @@
 							<div class="row logo-img text-end py-3">
 								<div class="col-12 col-md-6 order-md-1 order-1 text-center text-md-end">
 									<a href="/">
-										<img src="{{ asset('img/dashboard.png') }}" width="180" alt="">
+										<img src="{{ asset('img/dashboard1.png') }}" width="180" alt="">
 									</a>
 								</div>
 								<div class="col-12 col-md-6 order-md-2 order-2 text-center text-md-start my-auto">

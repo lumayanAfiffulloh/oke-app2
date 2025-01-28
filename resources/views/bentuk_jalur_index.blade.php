@@ -72,9 +72,6 @@
 	</div>
 </div>
 
-
-
-
 {{-- UNTUK MEMUNCULKAN DATA YANG AKAN DIEDIT PADA MODAL --}}
 <script>
 	document.addEventListener('DOMContentLoaded', function () {

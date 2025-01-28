@@ -91,7 +91,7 @@
 					<tr>
 						<td class="text-center py-3"> {{ $loop->iteration }} </td>
 						<td class="py-3">{{ ucwords($item->kode) }}</td>
-						<td class="py-3">{{ ucwords($item->rumpun) }}</td>
+						<td class="py-3">{{ ucwords($item->rumpun->rumpun) }}</td>
 						<td class="py-3">{{ ucwords($item->nama_pelatihan) }}</td>
 						<td class="py-3">{{ ($item->jp) }} Jam</td>
 						<td class="py-3">

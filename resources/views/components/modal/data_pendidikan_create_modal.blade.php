@@ -45,7 +45,6 @@
           <br><span class="text-danger">{{ $errors->first('jenjang') }}</span>
         </div>
 
-
         {{-- JURUSAN --}}
         <div class="form-group mt-1 mb-3">
           <label for="jurusan" class="fw-bolder">Jurusan<span class="text-danger">*</span></label>
@@ -56,6 +55,8 @@
           <span class="text-danger">{{ $errors->first('jurusan') }}</span>
         </div>
       </div>
+
+
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

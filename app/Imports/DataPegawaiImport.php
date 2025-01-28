@@ -2,63 +2,72 @@
 
 namespace App\Imports;
 
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Jabatan;
+use App\Models\UnitKerja;
 use App\Models\DataPegawai;
-use App\Models\User; 
-use Illuminate\Support\Facades\Hash; 
+use App\Models\JenjangTerakhir;
+use App\Models\PendidikanTerakhir;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class DataPegawaiImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
     public function model(array $row)
-
     {
-        $akun = User::whereEmail($row['email'])->first();
-        if($akun){
-            $akun->update([
-                'name' => $row['nama_lengkap'],
-                'akses' => 'pegawai',
-                // Tidak perlu update password jika tidak ingin mengubahnya
-            ]);
+        // Cari atau buat role "pegawai"
+        $rolePegawai = Role::firstOrCreate(['role' => 'pegawai']);
 
-            // Update atau buat data pegawai yang terkait
-            $dataPegawai = DataPegawai::updateOrCreate(
-                ['user_id' => $akun->id], // Cari data pegawai berdasarkan user_id
-                [
-                    'nama' => $row['nama_lengkap'],
-                    'nppu' => $row['nppu'],
-                    'status' => 'aktif',
-                    'jabatan' => $row['jabatan'],
-                    'unit_kerja' => $row['unit_es_ii'],
-                    'pendidikan' => $row['pendidikan'],
-                    'jurusan_pendidikan' => $row['jurusan'],
-                    'jenis_kelamin' => $row['jns_kel'],
-                ]);
-            return $dataPegawai;
+        // Cari atau buat user
+        $akun = User::firstOrCreate(
+            ['email' => $row['email']],
+            [
+                'name' => $row['nama_lengkap'],
+                'password' => Hash::make('password'), // Password default
+            ]
+        );
+
+        // Tambahkan role "pegawai" jika belum ada
+        if (!$akun->roles->contains($rolePegawai->id)) {
+            $akun->roles()->attach($rolePegawai->id);
         }
 
-        $user = User::create([
-            'name' => $row['nama_lengkap'],
-            'email' => $row['email'],
-            'akses' => 'pegawai',
-            'password' => Hash::make('password'), // Hash password
+        // Cari atau buat unit kerja
+        $unitKerja = UnitKerja::firstOrCreate([
+            'unit_kerja' => $row['unit_es_ii'],
         ]);
 
-        return new DataPegawai([
-            'nama' => $row['nama_lengkap'],
-            'nppu' => $row['nppu'],
-            'status' => 'aktif',
+        // Cari atau buat jabatan
+        $jabatan = Jabatan::firstOrCreate([
             'jabatan' => $row['jabatan'],
-            'unit_kerja' => $row['unit_es_ii'],
-            'pendidikan' => $row['pendidikan'],
-            'jurusan_pendidikan' => $row['jurusan'],
-            'jenis_kelamin' => $row['jns_kel'],
-            'user_id' => $user->id, // Ambil id dari user yang baru dibuat
         ]);
+
+        // Cari atau buat jenjang pendidikan terakhir
+        $jenjangTerakhir = JenjangTerakhir::firstOrCreate([
+            'jenjang_terakhir' => $row['pendidikan'],
+        ]);
+
+        // Cari atau buat pendidikan terakhir
+        $pendidikanTerakhir = PendidikanTerakhir::firstOrCreate([
+            'jenjang_terakhir_id' => $jenjangTerakhir->id,
+            'jurusan' => $row['jurusan'],
+        ]);
+
+        // Update atau buat data pegawai
+        return DataPegawai::updateOrCreate(
+            ['user_id' => $akun->id],
+            [
+                'nama' => $row['nama_lengkap'],
+                'nppu' => $row['nppu'],
+                'status' => 'aktif', // Status default
+                'unit_kerja_id' => $unitKerja->id,
+                'jabatan_id' => $jabatan->id,
+                'pendidikan_terakhir_id' => $pendidikanTerakhir->id,
+                'jenis_kelamin' => $row['jns_kel'],
+                'nomor_telepon' => $row['nomor_telepon'] ?? null,
+            ]
+        );
     }
 }

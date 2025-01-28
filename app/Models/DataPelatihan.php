@@ -13,8 +13,18 @@ class DataPelatihan extends Model
 
     protected $guarded=[];
 
-    public function estimasiHarga(): HasMany
+    public function anggaranPelatihan()
     {
-        return $this->hasMany(EstimasiHarga::class, 'pelatihan_id');
+        return $this->hasMany(AnggaranPelatihan::class, 'data_pelatihan_id');
+    }
+
+    public function rumpun()
+    {
+        return $this->belongsTo(Rumpun::class);
+    }
+
+    public function rencanaPembelajaran()
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
     }
 }

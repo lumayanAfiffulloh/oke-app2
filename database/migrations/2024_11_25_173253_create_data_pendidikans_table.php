@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('data_pendidikans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jurusan_id');
+            $table->string('jurusan');
             $table->timestamps();
         });
     }
