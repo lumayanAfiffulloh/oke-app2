@@ -95,6 +95,19 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">Rencana Pembelajaran (RPP)</span>
         </li>
+
+        @can('admin')
+        <li class="sidebar-item {{ Request::is('tenggat_waktu*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/tenggat_waktu" aria-expanded="false">
+            <span>
+              <i class="ti ti-calendar"></i>
+            </span>
+            <span class="hide-menu">Atur Tenggat Waktu</span>
+          </a>
+        </li>
+        @endcan
+
         <li class="sidebar-item {{ Request::is('rencana_pembelajaran*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
             href="/rencana_pembelajaran" aria-expanded="false">
@@ -113,6 +126,32 @@
               <i class="ti ti-file-alert "></i>
             </span>
             <span class="hide-menu">RPP Isidental</span>
+          </a>
+        </li>
+        @endcan
+
+        @can('ketua_kelompok')
+        {{-- KELOMPOK --}}
+        <li class="nav-small-cap mt-2">
+          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+          <span class="hide-menu">Kelompok</span>
+        </li>
+        <li class="sidebar-item {{ Request::is('anggota_kelompok*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/anggota_kelompok" aria-expanded="false">
+            <span>
+              <i class="ti ti-sitemap"></i>
+            </span>
+            <span class="hide-menu">Kelompok Anda</span>
+          </a>
+        </li>
+        <li class="sidebar-item {{ Request::is('verifikasi_kelompok*') ? 'selected' : '' }}">
+          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
+            href="/verifikasi_kelompok" aria-expanded="false">
+            <span>
+              <i class="ti ti-checklist"></i>
+            </span>
+            <span class="hide-menu">Verifikasi RPP Kelompok</span>
           </a>
         </li>
         @endcan

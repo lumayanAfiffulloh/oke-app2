@@ -5,7 +5,7 @@
     <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pendidikan</div>
     <div class="row my-3">
       <div class="col-md-12">
-        <button class="position-relative ">
+        <button class="position-relative">
           <a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
             data-bs-target="#createPendidikanModal">
             <span class="me-1">
@@ -160,7 +160,6 @@
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <script>

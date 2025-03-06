@@ -27,7 +27,7 @@ class RencanaPembelajaran extends Model
     }
 
     public function dataPelatihan()
-    {
+{
         return $this->belongsTo(DataPelatihan::class)->withDefault();
     }
 
@@ -44,5 +44,15 @@ class RencanaPembelajaran extends Model
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function jenjang()
+    {
+        return $this->belongsTo(Jenjang::class);
+    }
+
+    public function verifikasiKelompok()
+    {
+        return $this->hasOne(KelompokCanVerifying::class, 'rencana_pembelajaran_id');
     }
 }

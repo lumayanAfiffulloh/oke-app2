@@ -35,10 +35,16 @@
 								<i class="ti ti-user fs-6 me-2"></i>
 								<p class="fs-3">Profil Saya</p>
 							</a>
-							<a href="ganti_password" class="d-flex dropdown-item mb-2">
+							<a href="ganti_password" class="d-flex dropdown-item @can('ketua_kelompok') @else mb-2 @endcan">
 								<i class="ti ti-settings fs-6 me-2"></i>
 								<p class="fs-3">Ganti Password</p>
 							</a>
+							@can('ketua_kelompok')
+							<a href="nomor_telepon" class="d-flex dropdown-item mb-2">
+								<i class="ti ti-plus fs-6 me-2"></i>
+								<p class="fs-3">Tambah Link Grup Whatsapp Kelompok</p>
+							</a>
+							@endcan
 							<a href="{{ route('logout') }}" class="d-block btn btn-outline-danger mx-2"
 								onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 								<p class=" fs-3">Logout</p>

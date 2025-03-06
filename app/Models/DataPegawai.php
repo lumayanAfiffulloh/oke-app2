@@ -40,7 +40,7 @@ class DataPegawai extends Model
 
     public function kelompok()
     {
-        return $this->belongsTo(Kelompok::class)->withDefault();
+        return $this->belongsTo(Kelompok::class);
     }
 
     public function unitKerja()

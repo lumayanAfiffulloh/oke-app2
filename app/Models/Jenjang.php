@@ -20,4 +20,9 @@ class Jenjang extends Model
     {
         return $this->hasMany(AnggaranPendidikan::class);
     }
+
+    public function rencanaPendidikan()
+    {
+        return $this->hasMany(RencanaPembelajaran::class);
+    }
 }

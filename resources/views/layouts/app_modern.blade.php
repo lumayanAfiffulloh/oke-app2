@@ -92,9 +92,21 @@
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
+  {{-- UMUM --}}
   <script>
     $(document).ready(function(){
       $('#myTable').DataTable({
+        "language":{
+          "url":"{{asset('modern/src/assets/js/datatables_custom.json') }}",
+          "sEmptyTable":"Data Tidak Tersedia"
+        }
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('.datatables').DataTable({
         "language":{
           "url":"{{asset('modern/src/assets/js/datatables_custom.json') }}",
           "sEmptyTable":"Data Tidak Tersedia"
@@ -118,8 +130,17 @@
       placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
       allowClear: true
     });
+    $(".placeholder-single-edit").select2({
+      theme: 'bootstrap4',
+      placeholder: "-- Pilih Ketua Kelompok -- (Ketik untuk mencari pegawai!)",
+      allowClear: true
+    });
     $(".placeholder-multiple").select2({
       dropdownParent: $('#createKelompokModal'),
+      theme: 'bootstrap4',
+      placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
+    });
+    $(".placeholder-multiple-edit").select2({
       theme: 'bootstrap4',
       placeholder: "-- Pilih Anggota Kelompok -- (Ketik untuk mencari pegawai!)"
     });
@@ -141,6 +162,14 @@
     theme: 'bootstrap4',
     placeholder: "-- Pilih Kategori --",
     allowClear: true
+    });
+
+    $(".kategori-edit-single").select2({
+    theme: 'bootstrap4',
+    });
+
+    $(".bentuk-jalur-single-edit").select2({
+    theme: 'bootstrap4',
     });
     
     $(".jenjang-single").select2({
@@ -183,6 +212,17 @@
 
   {{-- SWEET ALERT --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  {{-- SWEET ALERT HALAMAN RENCANA PEMBELAJARAN / CREATE --}}
+  @stack('alert-rencana')
+
+  {{-- ALERT UNTUK VERIFIKASI KELOMPOK --}}
+  @stack('alert-verifikasi-kelompok')
+  @stack('alert-setujui-tolak')
+
+  {{-- ALERT UNTUK AJUKAN VERIFIKASI --}}
+  @stack('alert-ajukan-verifikasi')
+
   {{-- SWEET ALERT UNTUK CREATE --}}
   <script>
     document.getElementById('createAlert').onclick = function(event){
@@ -213,7 +253,7 @@
                   text: "Data Akan Dihapus Permanen dari Basis Data!",
                   icon: "warning",
                   showCancelButton: true,
-                  cancelButtonColor: "#d33",
+                  cancelButtonColor: "#ff695e",
                   confirmButtonText: "Ya, Hapus!",
                   cancelButtonText: "Batal"
               }).then((result) => {

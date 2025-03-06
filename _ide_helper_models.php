@@ -258,6 +258,8 @@ namespace App\Models{
  * @property-read int|null $anggaran_pendidikan_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DataPendidikan> $dataPendidikan
  * @property-read int|null $data_pendidikan_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RencanaPembelajaran> $rencanaPendidikan
+ * @property-read int|null $rencana_pendidikan_count
  * @method static \Illuminate\Database\Eloquent\Builder|Jenjang newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Jenjang newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Jenjang query()
@@ -317,6 +319,17 @@ namespace App\Models{
 /**
  * 
  *
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu query()
+ */
+	class KategoriTenggatWaktu extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
  * @property int $id
  * @property int $id_ketua
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -324,6 +337,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DataPegawai> $anggota
  * @property-read int|null $anggota_count
  * @property-read \App\Models\DataPegawai|null $ketua
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\kelompokCanVerifying> $verifikasiKelompok
+ * @property-read int|null $verifikasi_kelompok_count
  * @method static \Database\Factories\KelompokFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newQuery()
@@ -396,10 +411,13 @@ namespace App\Models{
  * @property int $bentuk_jalur_id
  * @property int $jenis_pendidikan_id
  * @property int $region_id
+ * @property int $jenjang_id
  * @property string $klasifikasi
  * @property string $tahun
+ * @property int $jam_pelajaran
  * @property int $anggaran_rencana
  * @property string $prioritas
+ * @property string $status_pengajuan
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\BentukJalur|null $bentukJalur
@@ -407,7 +425,9 @@ namespace App\Models{
  * @property-read \App\Models\DataPelatihan|null $dataPelatihan
  * @property-read \App\Models\DataPendidikan|null $dataPendidikan
  * @property-read \App\Models\JenisPendidikan|null $jenisPendidikan
+ * @property-read \App\Models\Jenjang|null $jenjang
  * @property-read \App\Models\Region|null $region
+ * @property-read \App\Models\kelompokCanVerifying|null $verifikasiKelompok
  * @method static \Database\Factories\RencanaPembelajaranFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran newQuery()
@@ -419,10 +439,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereDataPelatihanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereDataPendidikanId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereJamPelajaran($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereJenisPendidikanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereJenjangId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereKlasifikasi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran wherePrioritas($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereRegionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereStatusPengajuan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereTahun($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereUpdatedAt($value)
  */
@@ -469,6 +492,17 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rumpun whereUpdatedAt($value)
  */
 	class Rumpun extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu query()
+ */
+	class TenggatWaktu extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -523,6 +557,85 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
 	class User extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $kelompok_id
+ * @property int $rencana_pembelajaran_id
+ * @property string $status
+ * @property string $catatan
+ * @property string $status_revisi
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Kelompok|null $kelompok
+ * @property-read \App\Models\RencanaPembelajaran|null $rencanaPembelajaran
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying query()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereKelompokId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereRencanaPembelajaranId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereStatusRevisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereUpdatedAt($value)
+ */
+	class kelompokCanVerifying extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $data_pegawai_id
+ * @property int $rencana_pembelajaran_id
+ * @property string $status
+ * @property string $catatan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving query()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereDataPegawaiId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereRencanaPembelajaranId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereUpdatedAt($value)
+ */
+	class pegawaiCanApproving extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $data_pegawai_id
+ * @property int $rencana_pembelajaran_id
+ * @property string $status
+ * @property string $catatan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying query()
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereDataPegawaiId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereRencanaPembelajaranId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereUpdatedAt($value)
+ */
+	class pegawaiCanVerifying extends \Eloquent {}
 }
 
 namespace App\Models{

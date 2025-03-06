@@ -29,5 +29,10 @@ class AppServiceProvider extends ServiceProvider
             // Mengecek apakah user memiliki role 'admin' dalam relasi roles
             return $user->roles->contains('role', 'admin');
         });
+
+        Gate::define('ketua_kelompok', function(User $user) {
+            // Mengecek apakah user memiliki role 'ketua_kelompok' dalam relasi roles
+            return $user->roles->contains('role', 'ketua_kelompok');
+        });
     }
 }

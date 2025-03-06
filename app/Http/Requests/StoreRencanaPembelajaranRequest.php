@@ -35,6 +35,7 @@ class StoreRencanaPembelajaranRequest extends FormRequest
             'jenis_pendidikan' => 'required_if:klasifikasi,pendidikan|exists:jenis_pendidikans,id',
             'nama_pelatihan' => 'required_if:klasifikasi,pelatihan|exists:data_pelatihans,id',
             'tahun' => 'required|digits:4',
+            'jam_pelajaran' => 'required',
             'anggaran_rencana' => ['required', 'integer', $this->validateAnggaran()],
             'regional' => 'required|exists:regions,id',
             'prioritas' => 'required|in:rendah,sedang,tinggi',

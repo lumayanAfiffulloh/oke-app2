@@ -23,4 +23,9 @@ class Kelompok extends Model
 		return $this->hasMany(DataPegawai::class, 'kelompok_id');
 	}
 
+	public function verifikasiKelompok()
+	{
+		return $this->hasMany(KelompokCanVerifying::class);
+	}
+
 }

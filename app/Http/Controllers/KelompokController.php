@@ -42,34 +42,39 @@ class KelompokController extends Controller
     public function store(StoreKelompokRequest $request)
     {
         $request->validated();
-
+    
         $ketuaId = $request->id_ketua;
-
-        // Cek apakah ketua juga dipilih sebagai anggota
-        if (in_array($ketuaId, $request->anggota)) {
-            return back()->withErrors(['anggota' => 'Ketua kelompok tidak boleh dipilih sebagai anggota.']);
-        }
-
+    
         // Buat kelompok baru
         $kelompok = Kelompok::create([
             'id_ketua' => $ketuaId,
         ]);
-
+    
         // Update kelompok_id untuk ketua dan anggota
         DataPegawai::where('id', $ketuaId)->update(['kelompok_id' => $kelompok->id]);
         DataPegawai::whereIn('id', $request->anggota)->update(['kelompok_id' => $kelompok->id]);
-
+    
         // Tambahkan role 'ketua_kelompok' ke user ketua
-        $user = User::find($ketuaId);
-        if ($user) {
-            $roleKetua = Role::where('role', 'ketua_kelompok')->first();
-            if ($roleKetua && !$user->roles->contains($roleKetua->id)) {
-                $user->roles()->attach($roleKetua->id);
-            }
+        $dataPegawai = DataPegawai::find($ketuaId);
+        $user = User::find($dataPegawai->user_id);
+    
+        $roleKetua = Role::firstOrCreate(['role' => 'ketua_kelompok']);
+        if ($user && !$user->roles->contains($roleKetua->id)) {
+            $user->roles()->attach($roleKetua->id);
         }
-
+    
         flash('Kelompok berhasil dibuat.')->success();
         return redirect()->route('kelompok.index');
+    }
+
+    public function edit(Kelompok $kelompok)
+    {
+        $listPegawai = DataPegawai::where(function ($query) use ($kelompok) {
+            $query->where('kelompok_id', 0) // Pegawai yang belum memiliki kelompok
+                ->orWhere('id', $kelompok->ketua_id)
+                ->orWhere('kelompok_id', $kelompok->id);
+            })->orderBy('nama', 'asc')->get();
+        return view('kelompok_edit', compact('kelompok', 'listPegawai'));
     }
 
     /**

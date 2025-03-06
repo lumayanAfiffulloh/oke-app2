@@ -11,7 +11,7 @@
 			</span>
 			Buat Rencana Pembelajaran
 		</div>
-		<form action="/rencana_pembelajaran" method="POST" class="px-4 py-2">
+		<form action="/rencana_pembelajaran" method="POST" class="px-4 py-2" id="createRencanaFormID">
 			@csrf
 
 			{{-- TAHUN --}}
@@ -19,7 +19,7 @@
 				<label for="tahun" class="fw-semibold">Tahun</label>
 				<div class="col-md-3">
 					<input type="number" max="2099" step="1" value="{{ old('tahun', 2024) }}"
-						class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun">
+						class="form-control @error('tahun') is-invalid @enderror" id="tahun" name="tahun" required>
 				</div>
 				<span class="text-danger">{{ $errors->first('tahun') }}</span>
 			</div>
@@ -29,12 +29,12 @@
 				<label for="klasifikasi" class="fw-semibold">Klasifikasi</label><br>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="klasifikasi" id="pendidikan" value="pendidikan" {{
-						old('klasifikasi')==='pendidikan' ? 'checked' : '' }}>
+						old('klasifikasi')==='pendidikan' ? 'checked' : '' }} required>
 					<label class="form-check-label" for="pendidikan">Pendidikan</label>
 				</div>
 				<div class="form-check form-check-inline">
 					<input class="form-check-input" type="radio" name="klasifikasi" id="pelatihan" value="pelatihan" {{
-						old('klasifikasi')==='pelatihan' ? 'checked' : '' }}>
+						old('klasifikasi')==='pelatihan' ? 'checked' : '' }} required>
 					<label class="form-check-label" for="pelatihan">Pelatihan</label>
 				</div>
 				<span class="text-danger">{{ $errors->first('klasifikasi') }}</span>
@@ -44,13 +44,15 @@
 				<div class="col-md-6">
 					{{-- KATEGORI --}}
 					<div class="form-group mb-3">
-						<label for="kategori" class="fw-semibold">Kategori</label>
+						<label for="kategori" class="fw-semibold">Kategori
+							<span id="spinner-container-kategori" class="d-none ms-1">
+								<div class="spinner-border spinner-border-sm" role="status">
+									<span class="visually-hidden">Loading...</span>
+								</div>
+							</span>
+						</label>
 						<select class="form-select kategori-single" id="kategori" name="kategori" onchange="updateCategoryOptions()"
-							disabled>
-							<option value=""></option>
-							@foreach ($kategori as $kategori)
-							<option value="{{ $kategori->id }}">{{ ucwords($kategori->kategori) }}</option>
-							@endforeach
+							disabled required>
 						</select>
 						<span class="text-danger">{{ $errors->first('kategori') }}</span>
 					</div>
@@ -68,7 +70,7 @@
 					{{-- BENTUK JALUR --}}
 					<div class="form-group mb-3 d-none">
 						<select name="bentuk_jalur" id="bentuk_jalur" class="form-control bentuk-jalur-single" disabled
-							onchange="updateRumpunOptions(this.value)">
+							onchange="updateRumpunOptions(this.value)" required>
 							<option value=""></option>
 						</select>
 						@error('bentuk_jalur')
@@ -80,7 +82,8 @@
 
 					{{-- JENJANG --}}
 					<div class="form-group mb-3 d-none">
-						<select name="jenjang" id="jenjang" class="form-control jenjang-single" disabled onchange="loadJurusan()">
+						<select name="jenjang" id="jenjang" class="form-control jenjang-single" disabled onchange="loadJurusan()"
+							required>
 							<option value=""></option>
 						</select>
 						@error('jenjang')
@@ -102,7 +105,8 @@
 
 			{{-- RUMPUN --}}
 			<div class="form-group mb-3 d-none">
-				<select name="rumpun" id="rumpun" class="form-control rumpun-single" disabled onchange="loadNamaPelatihan()">
+				<select name="rumpun" id="rumpun" class="form-control rumpun-single" disabled onchange="loadNamaPelatihan()"
+					required>
 					<option value=""></option>
 				</select>
 				@error('rumpun')
@@ -115,7 +119,7 @@
 			{{-- JURUSAN --}}
 			<div class="form-group mb-3 d-none">
 				<select name="jurusan" id="jurusan" class="form-control jurusan-single" disabled
-					onchange="loadJenisPendidikan()">
+					onchange="loadJenisPendidikan()" required>
 					<option value=""></option>
 				</select>
 				@error('jurusan')
@@ -136,7 +140,7 @@
 				</label>
 				<div class="col">
 					<select name="nama_pelatihan" id="nama_pelatihan" class="form-control nama-pelatihan-single" disabled
-						onchange="loadPelatihanInfo()">
+						onchange="loadPelatihanInfo()" required>
 						<option value=""></option>
 					</select>
 				</div>
@@ -161,7 +165,8 @@
 					</span>
 				</label>
 				<div class="col">
-					<select name="jenis_pendidikan" id="jenis_pendidikan" class="form-control jenis-pendidikan-single" disabled>
+					<select name="jenis_pendidikan" id="jenis_pendidikan" class="form-control jenis-pendidikan-single" disabled
+						required>
 						<option value=""></option>
 					</select>
 				</div>
@@ -175,7 +180,8 @@
 					<div class="form-group mt-1 mb-3">
 						<label for="jam_pelajaran" class="fw-semibold">Jam Pelajaran</label>
 						<input type="number" max="50" step="1" value="{{ old('jam_pelajaran', 0) }}"
-							class="form-control @error('jam_pelajaran') is-invalid @enderror" id="jam_pelajaran" name="jam_pelajaran">
+							class="form-control @error('jam_pelajaran') is-invalid @enderror" id="jam_pelajaran" name="jam_pelajaran"
+							required readonly>
 						<span class="text-danger">{{ $errors->first('jam_pelajaran') }}</span>
 					</div>
 
@@ -185,7 +191,7 @@
 						@foreach ($region as $region)
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="regional" id="{{ $region->id }}"
-								value="{{ $region->id }}" {{ old('regional')==$region->id ? 'checked' : '' }}>
+								value="{{ $region->id }}" {{ old('regional')==$region->id ? 'checked' : '' }} required>
 							<label class="form-check-label" for="{{ $region->id }}">
 								{{ ucfirst($region->region) }}
 							</label>
@@ -209,7 +215,7 @@
 						<label for="prioritas" class="fw-semibold">Prioritas</label><br>
 						<div class="btn-group" role="group" aria-label="Default button group">
 							<input class="btn-check" type="radio" name="prioritas" id="rendah" value="rendah" {{
-								old('prioritas')==='rendah' ? 'checked' : '' }} autocomplete="off">
+								old('prioritas')==='rendah' ? 'checked' : '' }} autocomplete="off" required>
 							<label class="btn btn-outline-success" for="rendah">Rendah</label>
 
 							<input class="btn-check" type="radio" name="prioritas" id="sedang" value="sedang" {{
@@ -222,7 +228,7 @@
 						</div>
 						<span class="text-danger">{{ $errors->first('prioritas') }}</span>
 					</div>
-					<button type="submit" class="btn btn-primary mb-2">SIMPAN</button>
+					<button type="submit" class="btn btn-primary mb-2" id="createRencanaAlert">SIMPAN</button>
 				</div>
 
 				{{-- TABEL DETAIL RANGE ANGGARAN --}}
@@ -280,6 +286,100 @@
 </div>
 @endsection
 
+{{-- SWEET ALERT UNTUK VALIDASI --}}
+@push('alert-rencana')
+<script>
+	$(document).ready(function() {
+    $("#createRencanaAlert").click(function(event) {
+      event.preventDefault();
+
+      let klasifikasi = $("input[name='klasifikasi']:checked").val();
+      let kategori = $("#kategori").val();
+      let regional = $("input[name='regional']:checked").val();
+      let bentuk_jalur = $("#bentuk_jalur").val();
+      let jenjang = $("#jenjang").val();
+      let nama_pelatihan = $("#nama_pelatihan").val();
+      let anggaran_rencana = $("#anggaran_rencana").val().replace(/\D/g, '');
+      let tahun = $("#tahun").val();
+      let jam_pelajaran = $("#jam_pelajaran").val();
+      let prioritas = $("input[name='prioritas']:checked").val();
+      let jurusan = $("#jurusan").val();
+      let jenis_pendidikan = $("#jenis_pendidikan").val();
+      let rumpun = $("#rumpun").val();
+
+			if (
+				!klasifikasi ||
+				(!kategori && klasifikasi === "pelatihan") ||
+				!regional ||
+				(!bentuk_jalur && klasifikasi === "pelatihan") ||
+				(!jenjang && klasifikasi === "pendidikan") ||
+				(!nama_pelatihan && klasifikasi === "pelatihan") ||
+				!anggaran_rencana ||
+				!tahun ||
+				!jam_pelajaran ||
+				!prioritas ||
+				(!jurusan && klasifikasi === "pendidikan") ||
+				(!jenis_pendidikan && klasifikasi === "pendidikan") ||
+				(!rumpun && klasifikasi === "pelatihan")
+			) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Semua kolom form wajib diisi!',
+					allowOutsideClick: true,
+				});
+				return;
+			}
+
+      $.ajax({
+        url: "/validasi-anggaran",
+        type: "POST",
+        data: {
+          _token: "{{ csrf_token() }}",
+          klasifikasi: klasifikasi,
+          regional: regional,
+          kategori: kategori,
+          bentuk_jalur: bentuk_jalur,
+          jenjang: jenjang,
+          nama_pelatihan: nama_pelatihan,
+          anggaran_rencana: anggaran_rencana
+        },
+        success: function(response) {
+					if (response.status === "valid") {
+						Swal.fire({
+							title: "Konfirmasi Data",
+							text: "Pastikan data yang anda isikan sudah benar!",
+							icon: "warning",
+							showCancelButton: true,
+							confirmButtonText: "Simpan",
+							cancelButtonText: "Batal"
+						}).then((result) => {
+							if (result.isConfirmed){
+								$("#createRencanaFormID").submit();
+							}
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Validasi Gagal!',
+							text: response.message,
+						});
+					}
+				},
+        error: function(xhr) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Terjadi kesalahan dalam validasi.',
+          });
+        }
+      });
+    });
+  });
+</script>
+
+@endpush
+
 {{-- FORMAT HURUF BESAR --}}
 <script>
 	function ucwords(str) {
@@ -329,6 +429,7 @@
     }
 </script>
 
+{{-- MEMUNCULKAN SEMUA SEMUA --}}
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
   // Fungsi untuk menangani perubahan klasifikasi
@@ -340,6 +441,7 @@
 			const jurusanSelect = document.getElementById('jurusan');
 			const namaPelatihanSelect = document.getElementById('nama_pelatihan');
 			const jenisPendidikanSelect = document.getElementById('jenis_pendidikan');
+			const jamPelajaran = document.getElementById('jam_pelajaran');
 			const bentukJalurGroup = document.querySelector('.bentuk-jalur-single').closest('.form-group');
 			const anggaranPendidikanGroup = document.getElementById('anggaran-pendidikan-container');
 			const anggaranPelatihanGroup = document.getElementById('anggaran-pelatihan-container');
@@ -356,8 +458,9 @@
 			if (klasifikasi) {
 				if (klasifikasi.value === 'pelatihan') {
 					// Aktifkan dropdown dan isi opsi kategori
-					kategoriSelect.removeAttribute('disabled');
+					$('#spinner-container-kategori').removeClass('d-none');
 					jurusanSelect.setAttribute('disabled', true);
+					jamPelajaran.setAttribute('readonly', true);
 					jenisPendidikanSelect.setAttribute('disabled', true);
 					namaPelatihanGroup.classList.remove('d-none');
 					jenjangGroup.classList.add('d-none');
@@ -367,14 +470,28 @@
 
 					kategoriSelect.innerHTML = `
 						<option value=""></option>
-						<option value="1">Klasikal</option>
-						<option value="2">Non-Klasikal</option>
 					`;
+
+					$.ajax({
+							type: 'GET',
+							url: '/get-kategori-by-klasifikasi',
+							dataType: 'json',
+							success: function(response) {
+									kategoriSelect.removeAttribute('disabled');
+									kategoriSelect.innerHTML = '<option value=""></option>';
+									$.each(response, function(key, value) {
+											kategoriSelect.innerHTML += '<option value="' + value.id + '">' + ucwords(value.kategori) + '</option>';
+									});
+									$('#spinner-container-kategori').addClass('d-none');
+							}
+					});
 
 					jurusanSelect.innerHTML = `<option value=""></option>`;
 					jenisPendidikanSelect.innerHTML = `<option value=""></option>`;
+					
 				} else if (klasifikasi.value === 'pendidikan') {
 					// Nonaktifkan dropdown dan isi otomatis kategori
+					jamPelajaran.removeAttribute('readonly');
 					kategoriSelect.setAttribute('disabled', true);
 					rumpunSelect.setAttribute('disabled', true);
 					namaPelatihanSelect.setAttribute('disabled', true);
@@ -388,7 +505,7 @@
 					jenisPendidikanGroup.classList.remove('d-none');
 
 					kategoriSelect.innerHTML = `
-						<option value="">Pendidikan</option>
+						<option value="0">Pendidikan</option>
 					`;
 
 					bentukJalurSelect.innerHTML = `<option value=""></option>`;
@@ -415,7 +532,6 @@
 	function updateCategoryOptions() {
 		var kategoriId = document.getElementById('kategori').value;
 		var bentukJalurSelect = document.getElementById('bentuk_jalur');
-		var oldBentukJalur = "{{ old('bentuk_jalur') }}";
 
 		// Tampilkan spinner
 		$('#spinner-container-bj').removeClass('d-none');
@@ -432,7 +548,7 @@
 
 					// Isi dropdown dengan data baru
 					data.bentuk_jalur.forEach(function(item) {
-						bentukJalurSelect.append('<option value="' + item.id + '" ' + (oldBentukJalur == item.id ? 'selected' : '') + '>' + item.bentuk_jalur + '</option>');
+						bentukJalurSelect.append('<option value="' + item.id + '">' + item.bentuk_jalur + '</option>');
 					});
 
 					// Inisialisasi ulang Select2 setelah data dimuat
@@ -462,7 +578,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const klasifikasiRadios = document.querySelectorAll('input[name="klasifikasi"]');
   const jenjangSelect = document.getElementById('jenjang');
-  const oldKlasifikasi = "{{ old('klasifikasi') }}";
 
   klasifikasiRadios.forEach((radio) => {
     radio.addEventListener('change', function () {
@@ -485,9 +600,8 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch('/get-jenjang')
           .then(response => response.json())
           .then(data => {
-            const oldJenjangId = "{{ old('jenjang') }}"; // Ambil nilai lama dari backend
             const jenjangOptions = data.jenjang.map(jenjang =>
-              `<option value="${jenjang.id}" ${oldJenjangId == jenjang.id ? 'selected' : ''}>${jenjang.jenjang}</option>`
+              `<option value="${jenjang.id}">${jenjang.jenjang}</option>`
             ).join('');
             jenjangSelect.innerHTML += jenjangOptions;
 
@@ -546,8 +660,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					$('#jurusan').prop('disabled', false);
 
 					data.forEach(function (jurusan) {
-						const isSelected = "{{ old('jurusan') }}" == jurusan.id ? 'selected' : '';
-						$('#jurusan').append('<option value="' + jurusan.id + '" ' + isSelected + '>' + jurusan.jurusan + '</option>');
+						$('#jurusan').append('<option value="' + jurusan.id + '" >' + jurusan.jurusan + '</option>');
 					});
 
 					$('#jurusan').select2({
@@ -627,7 +740,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// MENAMPILKAN RUMPUN
 	function updateRumpunOptions(bentukJalurId) {
 		var bentukJalurId = $('#bentuk_jalur').val();
-		var oldRumpun = "{{ old('rumpun') }}"; // Nilai lama dari server
 
 		if (!bentukJalurId) {
 			$('#rumpun').prop('disabled', true); // Disable jurusan if no jenjang is selected
@@ -653,8 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				if (data.length > 0) {
 					// Isi dropdown dengan data baru
 					data.forEach(function(rumpun) {
-						var selected = oldRumpun == rumpun.id ? 'selected' : ''; // Tandai opsi yang sesuai dengan old value
-						$('#rumpun').append('<option value="' + rumpun.id + '" ' + selected + '>' + rumpun.rumpun + '</option>');
+						$('#rumpun').append('<option value="' + rumpun.id + '">' + rumpun.rumpun + '</option>');
 					});
 				} else {
 					$('#rumpun').append('<option value="">Tidak ada rumpun</option>');
@@ -672,7 +783,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	// MEMUNCULKAN NAMA PELATIHAN
 	function loadNamaPelatihan() {
 		var rumpunId = $('#rumpun').val();
-		var oldNamaPelatihan = "{{ old('nama_pelatihan') }}"; // Ambil nilai lama dari server
 
 		// Tampilkan spinner
 		$('#spinner-container-namaPelatihan').removeClass('d-none');
@@ -693,13 +803,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				// Isi dropdown dengan data baru
 				$.each(data, function(key, value) {
 					$('#nama_pelatihan').append(
-						'<option value="' +
-						value.id +
-						'" ' +
-						(oldNamaPelatihan == value.id ? 'selected' : '') + // Tandai sebagai selected jika cocok dengan nilai lama
-						'>' +
-						value.nama_pelatihan +
-						'</option>'
+						'<option value= "' + value.id + '" >' + value.nama_pelatihan + '</option>'
 					);
 				});
 
@@ -741,11 +845,7 @@ function loadJenisPendidikan() {
 
       // Isi dropdown dengan data baru
       $.each(data, function(key, value) {
-        var selected = '';
-        if ("{{ old('jenis_pendidikan') }}" == value.id) {
-          selected = 'selected';
-        }
-        $('#jenis_pendidikan').append('<option value="' + value.id + '" ' + selected + '>' +
+        $('#jenis_pendidikan').append('<option value="' + value.id + '" >' +
           ucwords(value.jenis_pendidikan) + ' (' + ucwords(value.keterangan) + ')</option>');
       });
 
@@ -781,6 +881,15 @@ function loadJenisPendidikan() {
 					$('#selected-nama-pelatihan').text(data.nama_pelatihan);
 					$('#deskripsi-pelatihan').text(data.deskripsi || 'Tidak ada deskripsi tersedia.');
 					$('#pelatihan-info-card').removeClass('d-none');
+
+					// MENAMBAHKAN LOGIKA UNTUK MENGISI JAM PELAJARAN SECARA OTOMATIS
+					if (data.jp) {
+						$('#jam_pelajaran').val(data.jp); // Isi otomatis dengan jp
+						console.log("Jam Pelajaran diisi dengan:", data.jp);
+					} else {
+						$('#jam_pelajaran').val(""); // Kosongkan jika tidak ada jp
+						console.log("Data pelatihan tidak memiliki jp.");
+					}
 				},
 				error: function(xhr, status, error) {
 					console.error('Error:', error);
@@ -840,6 +949,7 @@ function loadJenisPendidikan() {
 		} else {
 			$('#pelatihan-info-card').addClass('d-none');
 			$('#anggaran-pelatihan-container').addClass('d-none');
+			$('#jam_pelajaran').val(""); // Kosongkan jika tidak ada pelatihan
 		}
 	}
 

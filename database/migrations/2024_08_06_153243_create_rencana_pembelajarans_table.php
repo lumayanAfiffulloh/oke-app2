@@ -19,10 +19,13 @@ return new class extends Migration
             $table->foreignId('bentuk_jalur_id');
             $table->foreignId('jenis_pendidikan_id');
             $table->foreignId('region_id');
+            $table->foreignId('jenjang_id');
             $table->string('klasifikasi');
             $table->year('tahun');
+            $table->integer('jam_pelajaran');
             $table->integer('anggaran_rencana');
             $table->string('prioritas');
+            $table->string('status_pengajuan')->default('draft');
             $table->timestamps();
         });
     }

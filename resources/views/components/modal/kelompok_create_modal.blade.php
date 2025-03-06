@@ -16,7 +16,7 @@
             <option value=""></option>
             @foreach($listPegawai as $pegawai)
             <option value="{{ $pegawai->id }}" @selected(old('id_ketua'))>
-              {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
+              {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unitKerja->unit_kerja }}
             </option>
             @endforeach
           </select>
@@ -33,8 +33,8 @@
             class="form-control placeholder-multiple @error('anggota') is-invalid @enderror" multiple="multiple"
             required>
             @foreach($listPegawai as $pegawai)
-            <option value="{{ $pegawai->id }}" @selected(old('anggota', []))>
-              {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unit_kerja }}
+            <option value="{{ $pegawai->id }}" {{ in_array($pegawai->id, old('anggota', [])) ? 'selected' : '' }}>
+              {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unitKerja->unit_kerja }}
             </option>
             @endforeach
           </select>
