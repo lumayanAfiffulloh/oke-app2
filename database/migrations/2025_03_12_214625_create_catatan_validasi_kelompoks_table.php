@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenggat_waktu', function (Blueprint $table) {
+        Schema::create('catatan_validasi_kelompoks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kategori_rentang_id');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            $table->foreignId('kelompok_can_validating_id');
+            $table->string('catatan');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenggat_waktu');
+        Schema::dropIfExists('catatan_validasi_kelompoks');
     }
 };

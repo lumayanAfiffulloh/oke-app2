@@ -98,6 +98,28 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property int $kelompok_can_validating_id
+ * @property string $catatan
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\kelompokCanValidating|null $kelompokCanValidating
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereKelompokCanValidatingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereUpdatedAt($value)
+ */
+	class CatatanValidasiKelompok extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $nama
  * @property string $nppu
  * @property string $status
@@ -336,9 +358,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\DataPegawai> $anggota
  * @property-read int|null $anggota_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\kelompokCanValidating> $kelompokCanValidating
+ * @property-read int|null $kelompok_can_validating_count
  * @property-read \App\Models\DataPegawai|null $ketua
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\kelompokCanVerifying> $verifikasiKelompok
- * @property-read int|null $verifikasi_kelompok_count
  * @method static \Database\Factories\KelompokFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok newQuery()
@@ -426,8 +448,8 @@ namespace App\Models{
  * @property-read \App\Models\DataPendidikan|null $dataPendidikan
  * @property-read \App\Models\JenisPendidikan|null $jenisPendidikan
  * @property-read \App\Models\Jenjang|null $jenjang
+ * @property-read \App\Models\kelompokCanValidating|null $kelompokCanValidating
  * @property-read \App\Models\Region|null $region
- * @property-read \App\Models\kelompokCanVerifying|null $verifikasiKelompok
  * @method static \Database\Factories\RencanaPembelajaranFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran newQuery()
@@ -567,25 +589,25 @@ namespace App\Models{
  * @property int $kelompok_id
  * @property int $rencana_pembelajaran_id
  * @property string $status
- * @property string $catatan
  * @property string $status_revisi
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\CatatanValidasiKelompok> $catatanValidasiKelompok
+ * @property-read int|null $catatan_validasi_kelompok_count
  * @property-read \App\Models\Kelompok|null $kelompok
  * @property-read \App\Models\RencanaPembelajaran|null $rencanaPembelajaran
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying query()
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereCatatan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereKelompokId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereRencanaPembelajaranId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereStatusRevisi($value)
- * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanVerifying whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating query()
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereKelompokId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereRencanaPembelajaranId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereStatusRevisi($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereUpdatedAt($value)
  */
-	class kelompokCanVerifying extends \Eloquent {}
+	class kelompokCanValidating extends \Eloquent {}
 }
 
 namespace App\Models{

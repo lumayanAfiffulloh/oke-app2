@@ -41,12 +41,12 @@ class RencanaPembelajaranController extends Controller
         $dataPegawai = $user->dataPegawai;
     
         // Ambil rencana pembelajaran terkait dengan pegawai, urutkan berdasarkan tahun
-        $rencana_pembelajaran = $dataPegawai->rencanaPembelajaran()->with(['bentukJalur', 'jenisPendidikan', 'region', 'dataPelatihan', 'dataPendidikan', 'verifikasiKelompok'])->latest()->get();
+        $rencana_pembelajaran = $dataPegawai->rencanaPembelajaran()->with(['bentukJalur', 'jenisPendidikan', 'region', 'dataPelatihan', 'dataPendidikan', 'kelompokCanValidating'])->latest()->get();
 
-        // Cek apakah ada rencana pembelajaran yang telah diverifikasi
+        // Cek apakah ada rencana pembelajaran yang telah divalidasi
         $notifikasi = [
-            'disetujui' => $rencana_pembelajaran->where('verifikasiKelompok.status', 'disetujui')->count(),
-            'ditolak' => $rencana_pembelajaran->where('verifikasiKelompok.status', 'ditolak')->count(),
+            'disetujui' => $rencana_pembelajaran->where('kelompokCanValidating.status', 'disetujui')->count(),
+            'direvisi' => $rencana_pembelajaran->where('kelompokCanValidating.status', 'direvisi')->count(),
         ];
     
         return view('rencana_pembelajaran_index', compact('rencana_pembelajaran', 'notifikasi'));
@@ -58,7 +58,7 @@ class RencanaPembelajaranController extends Controller
 
         if ($rencana->status_pengajuan === 'draft') {
             $rencana->update(['status_pengajuan' => 'diajukan']);
-            flash('Rencana Pembelajaran berhasil diajukan untuk diverifikasi!')->success();
+            flash('Rencana Pembelajaran berhasil diajukan untuk divalidasi!')->success();
             return redirect()->route('rencana_pembelajaran.index');
         }
 
@@ -70,10 +70,10 @@ class RencanaPembelajaranController extends Controller
         $rencana = RencanaPembelajaran::find($id);
 
         // Periksa apakah status revisi saat ini adalah sedang_direvisi
-        if ($rencana->verifikasiKelompok->status_revisi == 'sedang_direvisi') {
+        if ($rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi') {
             // Ubah status revisi menjadi sudah_direvisi
-            $rencana->verifikasiKelompok->status_revisi = 'sudah_direvisi';
-            $rencana->verifikasiKelompok->save();
+            $rencana->kelompokCanValidating->status_revisi = 'sudah_direvisi';
+            $rencana->kelompokCanValidating->save();
 
             flash('Revisi berhasil dikirim')->success();
         } else {
@@ -173,11 +173,11 @@ class RencanaPembelajaranController extends Controller
      */
     public function edit(RencanaPembelajaran $rencanaPembelajaran)
     {
-        if ($rencanaPembelajaran->verifikasiKelompok && $rencanaPembelajaran->verifikasiKelompok->status == 'disetujui') {
+        if ($rencanaPembelajaran->kelompokCanValidating && $rencanaPembelajaran->kelompokCanValidating->status == 'disetujui') {
             flash('Rencana pembelajaran ini telah disetujui dan tidak dapat diedit.')->error();
             return redirect()->back();
         }
-        if ($rencanaPembelajaran->verifikasiKelompok->status_revisi == 'sudah_direvisi') {
+        if ($rencanaPembelajaran->kelompokCanValidating->status_revisi == 'sudah_direvisi') {
             flash('Revisi sudah selesai dan tidak dapat diubah lagi')->error();
             return redirect()->back();
         }
@@ -258,10 +258,10 @@ class RencanaPembelajaranController extends Controller
         // Periksa apakah status pengajuan masih draft
         if ($rencana->status_pengajuan !== 'draft') {
             // Periksa apakah status revisi sudah sedang_direvisi
-            if ($rencana->verifikasiKelompok->status_revisi != 'sedang_direvisi') {
+            if ($rencana->kelompokCanValidating->status_revisi != 'sedang_direvisi') {
                 // Ubah status revisi menjadi sedang_direvisi
-                $rencana->verifikasiKelompok->status_revisi = 'sedang_direvisi';
-                $rencana->verifikasiKelompok->save();
+                $rencana->kelompokCanValidating->status_revisi = 'sedang_direvisi';
+                $rencana->kelompokCanValidating->save();
             }
         } 
     
@@ -329,7 +329,7 @@ class RencanaPembelajaranController extends Controller
      */
     public function destroy(RencanaPembelajaran $rencanaPembelajaran)
     {
-        if ($rencanaPembelajaran->verifikasiKelompok && $rencanaPembelajaran->verifikasiKelompok->status == 'disetujui') {
+        if ($rencanaPembelajaran->kelompokCanValidating && $rencanaPembelajaran->kelompokCanValidating->status == 'disetujui') {
             flash('Rencana pembelajaran ini telah disetujui dan tidak dapat dihapus.')->error();
             return redirect()->back();
         }

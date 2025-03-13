@@ -145,13 +145,13 @@
             <span class="hide-menu">Kelompok Anda</span>
           </a>
         </li>
-        <li class="sidebar-item {{ Request::is('verifikasi_kelompok*') ? 'selected' : '' }}">
+        <li class="sidebar-item {{ Request::is('validasi_kelompok*') ? 'selected' : '' }}">
           <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/verifikasi_kelompok" aria-expanded="false">
+            href="/validasi_kelompok" aria-expanded="false">
             <span>
               <i class="ti ti-checklist"></i>
             </span>
-            <span class="hide-menu">Verifikasi RPP Kelompok</span>
+            <span class="hide-menu">Validasi RPP Kelompok</span>
           </a>
         </li>
         @endcan

@@ -51,8 +51,8 @@ class RencanaPembelajaran extends Model
         return $this->belongsTo(Jenjang::class);
     }
 
-    public function verifikasiKelompok()
+    public function kelompokCanValidating()
     {
-        return $this->hasOne(KelompokCanVerifying::class, 'rencana_pembelajaran_id');
+        return $this->hasOne(KelompokCanValidating::class, 'rencana_pembelajaran_id');
     }
 }

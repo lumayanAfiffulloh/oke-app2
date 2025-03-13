@@ -216,12 +216,12 @@
   {{-- SWEET ALERT HALAMAN RENCANA PEMBELAJARAN / CREATE --}}
   @stack('alert-rencana')
 
-  {{-- ALERT UNTUK VERIFIKASI KELOMPOK --}}
-  @stack('alert-verifikasi-kelompok')
+  {{-- ALERT UNTUK validasi KELOMPOK --}}
+  @stack('alert-validasi-kelompok')
   @stack('alert-setujui-tolak')
 
-  {{-- ALERT UNTUK AJUKAN VERIFIKASI --}}
-  @stack('alert-ajukan-verifikasi')
+  {{-- ALERT UNTUK AJUKAN validasi --}}
+  @stack('alert-ajukan-validasi')
 
   {{-- SWEET ALERT UNTUK CREATE --}}
   <script>

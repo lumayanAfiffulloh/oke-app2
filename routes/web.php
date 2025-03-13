@@ -12,7 +12,7 @@ use App\Http\Controllers\TenggatWaktuController;
 use App\Http\Controllers\DataPelatihanController;
 use App\Http\Controllers\DataPendidikanController;
 use App\Http\Controllers\AnggotaKelompokController;
-use App\Http\Controllers\VerifikasiKelompokController;
+use App\Http\Controllers\kelompokCanValidatingController;
 use App\Http\Controllers\RencanaPembelajaranController;
 
 Route::middleware([Authenticate::class, 'check.default.password'])->group(function () {
@@ -61,9 +61,11 @@ Route::middleware([Authenticate::class, 'check.default.password'])->group(functi
 
     Route::post('/profil/ganti_foto', [ProfilController::class, 'processFoto']);
 
-    Route::resource('verifikasi_kelompok', VerifikasiKelompokController::class);
-    Route::post('/verifikasi/setujui', [VerifikasiKelompokController::class, 'setujui'])->name('verifikasi.setujui');
-    Route::post('/verifikasi/tolak', [VerifikasiKelompokController::class, 'tolak'])->name('verifikasi.tolak');
+    Route::resource('validasi_kelompok', kelompokCanValidatingController::class);
+    Route::post('/validasi-kelompok/setujui/{rencana}', [kelompokCanValidatingController::class, 'setujui'])->name('validasi.setujui');
+    Route::post('/validasi-kelompok/revisi/{rencana}', [kelompokCanValidatingController::class, 'revisi'])->name('validasi.revisi');
+    Route::post('/validasi-kelompok/setujui-dari-revisi/{id}', [kelompokCanValidatingController::class, 'setujuiDariRevisi'])->name('rencana.setujuiDariRevisi');
+    Route::post('/validasi-kelompok/tambah-revisi/{rencana}', [kelompokCanValidatingController::class, 'tambahRevisi'])->name('validasi.tambah-revisi');
     
     Route::resource('anggota_kelompok', AnggotaKelompokController::class);
 

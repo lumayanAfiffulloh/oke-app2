@@ -22,7 +22,7 @@
 						<th class="align-middle" rowspan="2">Tahun <br> Kode</th>
 						<th class="align-middle" rowspan="2">Bentuk</th>
 						<th class="align-middle" rowspan="2">Kegiatan</th>
-						<th class="align-middle" colspan="3">Verifikasi & Validasi</th>
+						<th class="align-middle" colspan="3">validasi & Validasi</th>
 						<th class="align-middle" rowspan="2">Rencana</th>
 						<th class="align-middle" rowspan="2">Keterangan</th>
 						<th class="align-middle" rowspan="2">AKSI</th>
@@ -37,11 +37,15 @@
 					@foreach ($rencana_pembelajaran as $index => $rencana)
 					<tr>
 						<td class="px-2 text-center">{{ $index + 1 }}</td>
+
+						{{-- TAHUN DAN KODE --}}
 						<td class="px-2 text-center">{{ $rencana->tahun }}
 							@if ($rencana->klasifikasi == 'pelatihan')
 							<br> <span class="fw-semibold">{{ ucwords($rencana->dataPelatihan->kode) }}</span>
 							@endif
 						</td>
+
+						{{-- BENTUK --}}
 						<td class="px-2">
 							@if ($rencana->klasifikasi == 'pelatihan')
 							@if ($rencana->bentukJalur->kategori->kategori == "klasikal")
@@ -64,6 +68,8 @@
 							{{ $rencana->jenjang->jenjang ?? '' }}
 							@endif
 						</td>
+
+						{{-- KEGIATAN --}}
 						<td class="px-2">
 							@if($rencana->klasifikasi == 'pelatihan')
 							<span class="fw-semibold">Nama Pelatihan: </span><br>
@@ -73,26 +79,45 @@
 							{{ $rencana->dataPendidikan->jurusan ?? '-' }}
 							@endif
 						</td>
+
+						{{-- VERIFIKASI DAN VALIDASI--}}
+
+						{{-- Validasi Kelompok --}}
 						<td class="px-2">
-							@if($rencana->verifikasiKelompok)
-							@if($rencana->verifikasiKelompok->status == 'disetujui')
+							@if($rencana->kelompokCanValidating)
+							@if($rencana->kelompokCanValidating->status == 'disetujui')
 							<span class="badge text-bg-success" style="font-size: 0.7rem">Disetujui</span>
-							@elseif($rencana->verifikasiKelompok->status == 'ditolak')
-							<span class="badge text-bg-danger" style="font-size: 0.7rem">Ditolak</span>
+							@elseif($rencana->kelompokCanValidating->status == 'direvisi')
+							<span class="badge text-bg-warning" style="font-size: 0.7rem">Perlu Revisi</span>
 							@endif
 							<br>
-							<span class="fw-semibold">Catatan:</span> {{ $rencana->verifikasiKelompok->catatan ?? '-' }}
+							@if ($rencana->kelompokCanValidating->catatanValidasiKelompok->count() > 0)
+							<span class="fw-semibold">Catatan:</span>
+							<ul>
+								@foreach ($rencana->kelompokCanValidating->catatanValidasiKelompok as $catatan)
+								<li>{{ $catatan->catatan }}</li>
+								@endforeach
+							</ul>
+							@endif
 							@else
 							<span style="font-size: 0.7rem">-</span>
 							@endif
 						</td>
-						<td class="px-2">-</td> {{-- Verifikasi Satker --}}
-						<td class="px-2">-</td> {{-- Verifikasi Biro SDM --}}
+
+						{{-- validasi Satker --}}
+						<td class="px-2">-</td>
+
+						{{-- validasi Biro SDM --}}
+						<td class="px-2">-</td>
+
+						{{-- RENCANA --}}
 						<td class="px-2">
 							<span class="fw-semibold">Region: </span>{{ ucwords($rencana->region->region) ?? '-' }} <br>
 							<span class="fw-semibold">JP: </span>{{ $rencana->jam_pelajaran }} JP <br>
 							<span class="fw-semibold">Anggaran: </span>Rp{{ number_format($rencana->anggaran_rencana, 0, ',', '.') }}
 						</td>
+
+						{{-- KETERANGAN --}}
 						<td class="px-2">
 							<span class="fw-semibold">Prioritas:</span>
 							@if ($rencana->prioritas == 'rendah')
@@ -106,21 +131,26 @@
 							{{ ucwords($rencana->status_pengajuan) }}
 
 						</td>
+
+						{{-- AKSI --}}
 						<td class="px-2">
-							@if($rencana->verifikasiKelompok)
-							@if($rencana->verifikasiKelompok->status == 'disetujui')
+							@if($rencana->kelompokCanValidating)
+							@if($rencana->kelompokCanValidating->status == 'disetujui')
 							<div class="fw-bold">*Rencana yang disetujui tidak bisa dihapus atau diedit</div>
 							@else
-							@if($rencana->verifikasiKelompok->status_revisi != 'sudah_direvisi')
+							@if($rencana->kelompokCanValidating->status_revisi != 'sudah_direvisi')
 							<div class="btn-group" role="group">
+								{{-- Revisi --}}
 								<a href="/rencana_pembelajaran/{{ $rencana->id }}/edit" class="btn btn-warning btn-sm"
 									style="font-size: 0.8rem" title="Revisi"><span class="ti ti-scissors"></span></a>
 
+								{{-- Kirim Revisi --}}
 								<form action="{{ route('rencana_pembelajaran.kirim_revisi', $rencana->id) }}" method="POST"
-									id="kirimRevisiForm">
+									id="kirimRevisiForm-{{ $rencana->id }}">
 									@csrf
-									<button type="submit" class="btn btn-success btn-sm rounded-end-1"
-										style="font-size: 0.8rem; border-radius: 0" title="Kirim Revisi" id="kirimRevisiAlert">
+									<button type="submit" class="btn btn-success btn-sm rounded-end-1 kirimRevisiAlert"
+										data-form-id="kirimRevisiForm-{{ $rencana->id }}" style="font-size: 0.8rem; border-radius: 0"
+										title="Kirim Revisi">
 										<span class="ti ti-script"></span>
 									</button>
 								</form>
@@ -128,21 +158,23 @@
 							@else
 							<div class="fw-bold">*Rencana yang sudah dikirim revisinya tidak bisa diedit.</div>
 							@endif
-							@if($rencana->verifikasiKelompok->status_revisi)
+							@if($rencana->kelompokCanValidating->status_revisi)
 							<br>
 							<span class="fw-semibold">Status Revisi:</span>
 							<span
-								class="badge {{ $rencana->verifikasiKelompok->status_revisi == 'belum_direvisi' ? 'text-bg-danger' : ($rencana->verifikasiKelompok->status_revisi == 'sedang_direvisi' ? 'text-bg-warning' : 'text-bg-success') }} fs-1">
-								{{ $rencana->verifikasiKelompok->status_revisi == 'sedang_direvisi' ? 'Revisi perlu dikirim' :
-								ucwords(str_replace("_", " ", $rencana->verifikasiKelompok->status_revisi)) }}
+								class="badge {{ $rencana->kelompokCanValidating->status_revisi == 'belum_direvisi' ? 'text-bg-danger' : ($rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi' ? 'text-bg-warning' : 'text-bg-success') }} fs-1">
+								{{ $rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi' ? 'Revisi perlu dikirim' :
+								ucwords(str_replace("_", " ", $rencana->kelompokCanValidating->status_revisi)) }}
 							</span>
 							@endif
 							@endif
 							@elseif($rencana->status_pengajuan === 'draft')
 							<div class="btn-group" role="group">
+								{{-- Tombol Edit --}}
 								<a href="/rencana_pembelajaran/{{ $rencana->id }}/edit" class="btn btn-warning btn-sm"
 									style="font-size: 0.8rem" title="Edit"><span class="ti ti-pencil"></span></a>
 
+								{{-- Tombol Hapus --}}
 								<form action="/rencana_pembelajaran/{{ $rencana->id }}" method="POST" class="d-inline deleteForm">
 									@csrf
 									@method('delete')
@@ -152,16 +184,19 @@
 									</button>
 								</form>
 
-								<form action="{{ route('rencana.ajukan', $rencana->id) }}" method="POST" id="ajukanForm">
+								{{-- Tombol Ajukan --}}
+								<form action="{{ route('rencana.ajukan', $rencana->id) }}" method="POST"
+									id="ajukanForm-{{ $rencana->id }}">
 									@csrf
-									<button type="submit" class="btn btn-success btn-sm rounded-end-1"
-										style="font-size: 0.8rem; border-radius: 0" title="Ajukan Verifikasi" id="ajukanAlert">
+									<button type="submit" class="btn btn-success btn-sm rounded-end-1 ajukanAlert"
+										style="font-size: 0.8rem; border-radius: 0" title="Ajukan validasi"
+										data-form-id="ajukanForm-{{ $rencana->id }}">
 										<span class="ti ti-check"></span>
 									</button>
 								</form>
 							</div>
 							@else
-							<div class="fw-bold">*Rencana tidak bisa dihapus atau diedit selama sedang diverifikasi</div>
+							<div class="fw-bold">*Rencana tidak bisa dihapus atau diedit selama sedang divalidasi</div>
 							@endif
 						</td>
 					</tr>
@@ -173,7 +208,7 @@
 </div>
 @endsection
 
-@push('alert-verifikasi-kelompok')
+@push('alert-validasi-kelompok')
 @if($notifikasi['disetujui'] > 0)
 <script>
 	Swal.fire({
@@ -183,63 +218,72 @@
 	});
 </script>
 @endif
-
-@if($notifikasi['ditolak'] > 0)
+@if($notifikasi['direvisi'] > 0)
 <script>
 	Swal.fire({
-		icon: 'error',
-		title: 'Waduh.. Ada Rencana Ditolak!',
-		text: 'Ada {{ $notifikasi["ditolak"] }} rencana pembelajaran Anda ditolak. Silakan lakukan revisi.',
+		icon: 'warning',
+		title: 'Waduh.. Ada Rencana yang Perlu Revisi!',
+		text: 'Ada {{ $notifikasi["direvisi"] }} rencana pembelajaran Anda diberi revisi. Silakan lakukan revisi.',
 	});
 </script>
 @endif
 
 <script>
-	document.getElementById('ajukanAlert').onclick = function(event){
-    event.preventDefault();
-    var form = document.getElementById('ajukanForm');
-    if (form.checkValidity()) {
+	document.querySelectorAll('.ajukanAlert').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+      let formId = button.getAttribute('data-form-id');
       Swal.fire({
         title: "Konfirmasi Data",
-        text: "Pastikan kembali rencana pembelajaran yang anda canangkan benar! Data rencana anda akan tidak bisa dihapus atau diedit saat dalam proses verifikasi.",
+        text: "Data rencana anda akan tidak bisa dihapus atau diedit saat dalam proses validasi!",
         icon: "warning",
         showCancelButton: true,
+        confirmButtonColor: "#13DEB9",
         confirmButtonText: "Ajukan",
         cancelButtonText: "Batal"
-      }).then((result) => {
-        if (result.isConfirmed){
-          // Submit form atau aksi lain setelah konfirmasi
-          form.submit();
+      }).then(result => {
+        if (result.isConfirmed) {
+          document.getElementById(formId).submit();
         }
       });
-    } else {
-      form.reportValidity();
-    }
-  }
+    });
+  });
 </script>
 
 <script>
-	document.getElementById('kirimRevisiAlert').onclick = function(event){
-    event.preventDefault();
-    var form = document.getElementById('kirimRevisiForm');
-    if (form.checkValidity()) {
-      Swal.fire({
-        title: "Konfirmasi Data",
-        text: "Pastikan kembali rencana pembelajaran sudah anda revisi dengan benar menurut catatan penolakan! Data rencana anda akan tidak bisa diedit saat dalam proses verifikasi.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Ajukan",
-        cancelButtonText: "Batal"
-      }).then((result) => {
-        if (result.isConfirmed){
-          // Submit form atau aksi lain setelah konfirmasi
-          form.submit();
-        }
-      });
-    } else {
-      form.reportValidity();
-    }
-  }
+	document.querySelectorAll('.kirimRevisiAlert').forEach(button => {
+    button.addEventListener('click', event => {
+      event.preventDefault();
+
+      let formId = button.getAttribute('data-form-id');
+      let row = button.closest('tr');
+      let statusRevisiElement = row.querySelector('.badge.text-bg-danger');
+
+      if (statusRevisiElement && statusRevisiElement.textContent.trim() === 'Belum Direvisi') {
+        Swal.fire({
+          title: "Pengiriman Diblokir!",
+          text: "Anda tidak dapat mengirim revisi sebelum melakukan perubahan.",
+          icon: "error",
+          confirmButtonColor: "#FA896B",
+          confirmButtonText: "MENGERTI"
+        });
+      } else {
+        Swal.fire({
+          title: "Konfirmasi Pengiriman",
+          text: "Setelah dikirim, revisi tidak dapat diubah atau dihapus.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#13DEB9",
+          confirmButtonText: "Kirim",
+          cancelButtonText: "Batal"
+        }).then(result => {
+          if (result.isConfirmed) {
+            document.getElementById(formId).submit();
+          }
+        });
+      }
+    });
+  });
 </script>
 
 
