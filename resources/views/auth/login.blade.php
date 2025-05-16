@@ -1,26 +1,25 @@
 @extends('auth.layout')
 @section('title', 'Login | ' . config('app.name'))
-<!-- Set page title -->
 
 @section('content')
-<!--  Body Wrapper -->
+<!-- Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
 	data-sidebar-position="fixed" data-header-position="fixed">
 	<div
 		class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
 		<div class="d-flex align-items-center justify-content-center w-100">
 			<div class="row justify-content-center w-100">
-				<div class="col-md-12 col-lg-6 col-xl-6 col-xxl-5">
+				<div class="col-md-10 col-lg-8 col-xl-6 col-xxl-5">
 					<div class="card mb-0">
-						<div class="card-body">
-							<div class="row logo-img text-end py-3">
-								<div class="col-12 col-md-6 order-md-1 order-1 text-center text-md-end">
+						<div class="card-body px-5 py-4">
+							<div class="row logo-img align-items-center py-3 pt-0">
+								<div class="col-md-6 text-center text-md-end">
 									<a href="/">
 										<img src="{{ asset('img/dashboard1.png') }}" width="180" alt="">
 									</a>
 								</div>
-								<div class="col-12 col-md-6 order-md-2 order-2 text-center text-md-start my-auto">
-									<p class="display-3 fw-bolder mb-0">Santi</p>
+								<div class="col-md-6 text-center text-md-start my-auto">
+									<p class="display-4 fw-bolder mb-0">Santi</p>
 									<hr class="mt-0 mb-1 border-2 mx-auto mx-md-0" style="width: 60%; color: #3773e2">
 									<p class="mb-0">Sistem Informasi Perencanaan</p>
 									<p>Pengembangan Kompetensi</p>
@@ -29,44 +28,53 @@
 
 							<form method="POST" action="{{ route('login') }}">
 								@csrf
-								<div class="row mb-3">
-									<label for="login" class="col-md-4 col-form-label text-md-end">Masukkan Email/NIP/NPPU</label>
-									<div class="col-md-6">
-										<input id="login" class="form-control @error('login') is-invalid @enderror" name="login"
-											value="{{ old('login') }}">
-										@if ($errors->has('login'))
-										<span class="invalid-feedback">
-											<strong>{{ $errors->first('login') }}</strong>
+								<div class="mb-4">
+									<label for="login" class="form-label">Masukkan Email/NIP/NPPU</label>
+									<input id="login" type="text" class="form-control @error('login') is-invalid @enderror" name="login"
+										value="{{ old('login') }}" autocomplete="username">
+									@error('login')
+									<div class="invalid-feedback">
+										<strong>{{ $message }}</strong>
+									</div>
+									@enderror
+								</div>
+
+								<div class="mb-4">
+									<label for="password" class="form-label">{{ __('Password') }}</label>
+									<div class="position-relative">
+										<input type="password" class="form-control @error('password') is-invalid @enderror"
+											id="password_login" name="password" autocomplete="current-password">
+										<span class="position-absolute end-0 top-50 translate-middle-y me-3 text-dark text-opacity-25"
+											id="togglePasswordLogin" style="cursor: pointer;">
+											<i class="ti ti-eye" id="toggleIconLogin"></i>
 										</span>
-										@endif
+										@error('password')
+										<div class="invalid-feedback">
+											<strong>{{ $message }}</strong>
+										</div>
+										@enderror
 									</div>
 								</div>
 
-								<div class="row mb-3">
-									<label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-									<div class="col-md-6">
-										<input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-											name="password">
-										@if ($errors->has('password'))
-										<span class="invalid-feedback">
-											<strong>{{ $errors->first('password') }}</strong>
-										</span>
-										@endif
+								<div class="d-flex justify-content-between align-items-center mb-4">
+									<div class="form-check">
+										<input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember')
+											? 'checked' : '' }}>
+										<label class="form-check-label" for="remember">
+											{{ __('Remember Me') }}
+										</label>
 									</div>
+									@if (Route::has('password.request'))
+									<a class="text-primary" href="{{ route('password.request') }}">
+										Lupa Password Anda?
+									</a>
+									@endif
 								</div>
 
-								<div class="row mb-4">
-									<div class="col-md-8 offset-md-4">
-										<button type="submit" class="btn btn-primary">
-											{{ __('Login') }}
-										</button>
-
-										@if (Route::has('password.request'))
-										<a class="btn btn-link" href="{{ route('password.request') }}">
-											Lupa Password Anda?
-										</a>
-										@endif
-									</div>
+								<div class="d-grid mb-2">
+									<button type="submit" class="btn btn-primary btn-lg">
+										{{ __('Login') }}
+									</button>
 								</div>
 							</form>
 						</div>
@@ -77,3 +85,29 @@
 	</div>
 </div>
 @endsection
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const togglePassword = document.getElementById('togglePasswordLogin');
+		const passwordInput = document.getElementById('password_login');
+		const toggleIcon = document.getElementById('toggleIconLogin');
+
+		togglePassword.addEventListener('mousedown', function() {
+			passwordInput.type = 'text';
+			toggleIcon.classList.remove('ti-eye');
+			toggleIcon.classList.add('ti-eye-off');
+		});
+
+		togglePassword.addEventListener('mouseup', function() {
+			passwordInput.type = 'password';
+			toggleIcon.classList.remove('ti-eye-off');
+			toggleIcon.classList.add('ti-eye');
+		});
+
+		togglePassword.addEventListener('mouseleave', function() {
+			passwordInput.type = 'password';
+			toggleIcon.classList.remove('ti-eye-off');
+			toggleIcon.classList.add('ti-eye');
+		});
+	});
+</script>

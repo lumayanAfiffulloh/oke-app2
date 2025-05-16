@@ -1,14 +1,12 @@
-@extends('layouts.app_modern', ['title'=>'Tambah Data Pegawai'])
+@extends('layouts.main_layout', ['title'=>'Tambah Data Pegawai'])
 @section('content')
 <div class="card bg-white">
 	<div class="card-body p-0">
-		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
+		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;" id="breadcrumbs">
 			<span class="me-2">
-				<a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2"></a>
+				<a href="/data_pegawai" class="ti ti-arrow-left fw-bolder ms-2 text-dark text-opacity-50 link-custom"></a>
 			</span>
-			<span class="text-dark text-opacity-50">
-				<a href="/data_pegawai">Data Pegawai / </a>
-			</span>
+			<a href="/data_pegawai" class="text-dark text-opacity-50 link-custom">Data Pegawai / </a>
 			Form Tambah Pegawai
 		</div>
 		<form action="/data_pegawai" method="POST" enctype="multipart/form-data" class="px-4 py-2" id="createFormID">

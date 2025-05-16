@@ -1,3 +1,18 @@
+<style>
+	.notification-item:hover {
+		background-color: #f8f9fa;
+		transition: background-color 0.2s;
+	}
+
+	.avatar {
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
+
 <header class="app-header">
 	<nav class="navbar navbar-expand-lg navbar-light">
 		<ul class="navbar-nav">
@@ -6,7 +21,18 @@
 					<i class="ti ti-menu-2"></i>
 				</a>
 			</li>
+
+
+			{{-- TOMBOL NOTIFIKASI --}}
+			@auth
+			@include('partials.notification_dropdown', [
+			'notifications' => auth()->user()->unreadNotifications()->orderBy('created_at', 'desc')->take(10)->get(),
+			'unreadCount' => auth()->user()->unreadNotifications()->count()
+			])
+			@endauth
 		</ul>
+
+		{{-- TOMBOL PROFIL POJOK KANAN ATAS --}}
 		<div class="navbar-collapse justify-content-end px-0" id="navbarNav">
 			<ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
 
@@ -31,23 +57,23 @@
 
 					<div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
 						<div class="message-body">
-							<a href="profil" class="d-flex dropdown-item">
-								<i class="ti ti-user fs-6 me-2"></i>
-								<p class="fs-3">Profil Saya</p>
+							<a href="profil" class="d-flex align-items-center gap-2 dropdown-item">
+								<i class="ti ti-user fs-6"></i>
+								<p class="mb-0 fs-3">Profil Saya</p>
 							</a>
-							<a href="ganti_password" class="d-flex dropdown-item @can('ketua_kelompok') @else mb-2 @endcan">
-								<i class="ti ti-settings fs-6 me-2"></i>
-								<p class="fs-3">Ganti Password</p>
+							<a href="ganti_password" class="d-flex align-items-center gap-2 dropdown-item">
+								<i class="ti ti-settings fs-6"></i>
+								<p class="mb-0 fs-3">Ganti Password</p>
 							</a>
 							@can('ketua_kelompok')
-							<a href="nomor_telepon" class="d-flex dropdown-item mb-2">
-								<i class="ti ti-plus fs-6 me-2"></i>
-								<p class="fs-3">Tambah Link Grup Whatsapp Kelompok</p>
+							<a href="nomor_telepon" class="d-flex align-items-center gap-2 dropdown-item">
+								<i class="ti ti-plus fs-6"></i>
+								<p class="mb-0 fs-3">Tambah Link Grup Whatsapp Kelompok</p>
 							</a>
 							@endcan
-							<a href="{{ route('logout') }}" class="d-block btn btn-outline-danger mx-2"
+							<a href="{{ route('logout') }}" class="btn btn-outline-danger mx-3 mt-2 d-block"
 								onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-								<p class=" fs-3">Logout</p>
+								Logout
 							</a>
 							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
 								@csrf

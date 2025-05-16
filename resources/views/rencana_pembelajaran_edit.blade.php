@@ -1,17 +1,17 @@
-@extends('layouts.app_modern', ['title' => $rencana->status_pengajuan == 'draft' ? 'Edit Rencana Pembelajaran' : 'Revisi
+@extends('layouts.main_layout', ['title' => $rencana->status_pengajuan == 'draft' ? 'Edit Rencana Pembelajaran' :
+'Revisi
 Rencana Pembelajaran'])
 @section('content')
 <div class="card mb-3 bg-white">
 	<div class="card-body p-0 ">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
 			<span class="me-2">
-				<a href="/rencana_pembelajaran" class="ti ti-arrow-left fw-bolder ms-2"></a>
+				<a href="/rencana_pembelajaran"
+					class="ti ti-arrow-left fw-bolder ms-2 text-dark text-opacity-50 link-custom"></a>
 			</span>
-			<span class="text-dark text-opacity-50">
-				<a href="/rencana_pembelajaran">Rencana Pembelajaran / </a>
-			</span>
+			<a href="/rencana_pembelajaran" class="text-dark text-opacity-50 link-custom">Rencana Pembelajaran / </a>
 			{{ $rencana->status_pengajuan == 'draft' ? 'Edit' : 'Revisi' }} Rencana Pembelajaran <span
-				class="fw-bolder tw-text-blue-500">{{ ucwords($rencana->klasifikasi) }}</span>
+				class="fw-bolder text-primary">{{ ucwords($rencana->klasifikasi) }}</span>
 		</div>
 		<form action="/rencana_pembelajaran/{{ $rencana->id }}" method="POST" class="px-4 py-2" id="editRencanaFormID">
 			@csrf
@@ -430,7 +430,7 @@ Rencana Pembelajaran'])
         success: function(response) {
 					if (response.status === "valid") {
 						Swal.fire({
-							title: "Konfirmasi Data",
+							title: "Konfirmasi Data!",
 							text: "Pastikan data yang anda isikan sudah benar!",
 							icon: "warning",
 							showCancelButton: true,

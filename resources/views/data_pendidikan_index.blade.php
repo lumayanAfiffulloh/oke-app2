@@ -1,19 +1,17 @@
-@extends('layouts.app_modern', ['title' => 'Data Pendidikan'])
+@extends('layouts.main_layout', ['title' => 'Data Pendidikan'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
   <div class="card-body px-0 py-0">
     <div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pendidikan</div>
     <div class="row my-3">
       <div class="col-md-12">
-        <button class="position-relative">
-          <a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
-            data-bs-target="#createPendidikanModal">
-            <span class="me-1">
-              <i class="ti ti-clipboard-plus"></i>
-            </span>
-            <span>Tambah Data Pendidikan</span>
-          </a>
-        </button>
+        <a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
+          data-bs-target="#createPendidikanModal">
+          <span class="me-1">
+            <i class="ti ti-clipboard-plus"></i>
+          </span>
+          <span>Tambah Data Pendidikan</span>
+        </a>
 
         {{-- MODAL TAMBAH Data Pendidikan --}}
         <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createPendidikanModal">
@@ -21,22 +19,20 @@
         </div>
 
         {{-- IMPORT EXCEL --}}
-        <button class="px-0 text-start ms-2" type="button">
-          <a href="#" class="btn btn-outline-success" style="font-size: 0.9rem" data-bs-toggle="modal"
-            data-bs-target="#excelModal">
-            <span>
-              <i class="ti ti-table-import"></i>
-            </span>
-            <span>Import Excel</span>
-          </a>
-        </button>
+        <a href="#" class="btn btn-outline-success ms-2" style="font-size: 0.9rem" data-bs-toggle="modal"
+          data-bs-target="#excelModal">
+          <span>
+            <i class="ti ti-table-import"></i>
+          </span>
+          <span>Import Excel</span>
+        </a>
 
         {{-- MODAL IMPORT EXCEL DATA Pendidikan --}}
         <div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title tw-text-[20px] fw-semibold">
+                <h1 class="modal-title fs-5 fw-semibold">
                   Import Data Pendidikan dari Excel
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

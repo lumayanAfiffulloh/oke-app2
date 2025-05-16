@@ -59,4 +59,12 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->belongsToMany(Role::class, 'user_has_roles');
     }
+
+    use Notifiable;
+
+    public function routeNotificationForDatabase()
+    {
+        return $this->notifications();
+    }
+
 }

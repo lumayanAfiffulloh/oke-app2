@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori_rentangs', function (Blueprint $table) {
+        Schema::create('kategori_tenggats', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori_rentang');
+            $table->string('kategori_tenggat');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_rentangs');
+        Schema::dropIfExists('kategori_tenggats');
     }
 };

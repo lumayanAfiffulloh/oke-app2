@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Middleware\CheckDefaultPassword;
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Application;
+use Illuminate\Console\Scheduling\Schedule;
+use App\Http\Middleware\CheckDefaultPassword;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -12,14 +14,20 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Tambahkan ini:
+        $middleware->web(append: [
+            //
+        ]);
+        
+        // Middleware existing Anda:
         $middleware->alias([
-            'checkrole' => \App\Http\Middleware\CheckRole::class,
+            'checkrole' => CheckRole::class,
+            'check.default.password' => CheckDefaultPassword::class,
         ]);
     })
-    ->withMiddleware(function (Middleware $middleware) {
-        $middleware->alias([
-            'check.default.password' => CheckDefaultPassword::class]);
-    })
+    ->withProviders([
+        App\Providers\ViewComposerServiceProvider::class, 
+    ])
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

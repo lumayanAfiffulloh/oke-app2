@@ -208,7 +208,7 @@
       event.preventDefault();
       let formId = button.getAttribute('data-form-id');
       Swal.fire({
-        title: "Konfirmasi Data",
+        title: "Konfirmasi Data!",
         text: "Pastikan data yang anda isikan sudah benar!",
         icon: "warning",
         showCancelButton: true,
@@ -230,7 +230,7 @@
       event.preventDefault();
       let formId = button.getAttribute('data-form-id');
       Swal.fire({
-        title: "Konfirmasi Data",
+        title: "Konfirmasi Data!",
         text: "Pastikan data yang anda isikan sudah benar!",
         icon: "warning",
         showCancelButton: true,

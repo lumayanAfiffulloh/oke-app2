@@ -1,9 +1,9 @@
-@extends('layouts.app_modern', ['title' => 'Anggota Kelompok'])
+@extends('layouts.main_layout', ['title' => 'Anggota Kelompok'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Anggota Kelompok
-			<span class="fw-bolder tw-text-blue-600">{{ Auth::user()->name }}</span>
+			<span class="fw-bolder text-primary">{{ Auth::user()->name }}</span>
 		</div>
 		<hr class="my-0">
 		<div class="table-responsive">
@@ -54,8 +54,8 @@
 								<div class="modal-dialog modal-lg">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
-												Detail Pegawai <span class="fw-semibold tw-text-blue-500">{{ $item->nama }}</span>
+											<h1 class="modal-title fs-5 fw-semibold" id="staticBackdropLabel{{ $item->id }}">
+												Detail Pegawai <span class="fw-semibold text-primary">{{ $item->nama }}</span>
 											</h1>
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
@@ -64,25 +64,25 @@
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Nama</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nama) }} </span>
+														<span class="text-secondary fw-bold">: {{ ucwords($item->nama) }} </span>
 													</h2>
 												</li>
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">NPPU</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nppu) }}</span>
+														<span class="text-secondary fw-bold">: {{ ucwords($item->nppu) }}</span>
 													</h2>
 												</li>
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Email</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ($item->user->email) }} </span>
+														<span class="text-secondary fw-bold">: {{ ($item->user->email) }} </span>
 													</h2>
 												</li>
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Status</span>
-														<span class="tw-text-sky-500 fw-bold">: @if ($item->status === 'aktif')
+														<span class="text-secondary fw-bold">: @if ($item->status === 'aktif')
 															<span class="badge rounded-pill bg-success">Aktif</span>
 															@else
 															<span class="badge rounded-pill bg-danger">Non-Aktif</span>
@@ -92,20 +92,20 @@
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Unit Kerja</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unitKerja->unit_kerja) }}
+														<span class="text-secondary fw-bold">: {{ ucwords($item->unitKerja->unit_kerja) }}
 														</span>
 													</h2>
 												</li>
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Jabatan</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan->jabatan) }}</span>
+														<span class="text-secondary fw-bold">: {{ ucwords($item->jabatan->jabatan) }}</span>
 													</h2>
 												</li>
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Pendidikan</span>
-														<span class="tw-text-sky-500 fw-bold">: {{
+														<span class="text-secondary fw-bold">: {{
 															ucwords($item->pendidikanTerakhir->jenjangTerakhir->jenjang_terakhir) }}
 														</span>
 													</h2>
@@ -113,7 +113,7 @@
 												<li class="list-group-item">
 													<h2 class="fs-5 d-inline">
 														<span style="display:inline-block; width:200px;">Jurusan Pendidikan</span>
-														<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikanTerakhir->jurusan)
+														<span class="text-secondary fw-bold">: {{ ucwords($item->pendidikanTerakhir->jurusan)
 															}} </span>
 													</h2>
 												</li>

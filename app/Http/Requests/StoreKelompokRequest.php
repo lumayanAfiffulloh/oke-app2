@@ -37,7 +37,12 @@ class StoreKelompokRequest extends FormRequest
             $unitKerjaAnggota = DataPegawai::whereIn('id', $anggota)->pluck('unit_kerja_id')->unique();
 
             if ($unitKerjaAnggota->count() > 1 || $unitKerjaAnggota->first() != $unitKerjaKetua) {
-                $validator->errors()->add('id_ketua', 'Ketua kelompok dan anggota harus memiliki unit kerja yang sama.');
+                $validator->errors()->add('id_ketua', 'Ketua kelompok dan semua anggota harus memiliki unit kerja yang sama.');
+            }
+
+            // Validasi tambahan untuk memastikan ketua tidak ada di dalam anggota
+            if (in_array($this->input('id_ketua'), $anggota)) {
+                $validator->errors()->add('anggota', 'Ketua kelompok tidak bisa dimasukkan sebagai anggota.');
             }
         });
     }

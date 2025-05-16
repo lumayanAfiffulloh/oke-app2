@@ -1,19 +1,17 @@
-@extends('layouts.app_modern', ['title'=>'Data Kelompok'])
+@extends('layouts.main_layout', ['title'=>'Data Kelompok'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Kelompok</div>
 		<div class="row my-3">
 			<div class="col-md-12 d-flex">
-				<button class="position-relative me-2">
-					<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
-						data-bs-target="#createKelompokModal">
-						<span class="me-1">
-							<i class="ti ti-file-plus"></i>
-						</span>
-						<span>Buat Kelompok Baru</span>
-					</a>
-				</button>
+				<a href="#" class="btn btn-outline-primary ms-3" style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#createKelompokModal">
+					<span class="me-1">
+						<i class="ti ti-file-plus"></i>
+					</span>
+					<span>Buat Kelompok Baru</span>
+				</a>
 
 				{{-- MODAL CREATE KELOMPOK --}}
 				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createKelompokModal">
@@ -23,7 +21,7 @@
 				<form action="/kelompok/reset" method="POST"
 					onsubmit="return confirm('Apakah Anda yakin ingin mereset semua kelompok? Semua pegawai akan dikeluarkan dari kelompok mereka.')">
 					@csrf
-					<button type="submit" class="btn btn-warning">Reset</button>
+					<button type="submit" class="btn btn-warning ms-2">Reset</button>
 				</form>
 			</div>
 		</div>
@@ -55,7 +53,7 @@
 									<div class="modal-dialog modal-xl">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
+												<h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel{{ $item->id }}">
 													Detail Kelompok <span class="text-primary">{{ $item->ketua->nama }}</span>
 												</h1>
 												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

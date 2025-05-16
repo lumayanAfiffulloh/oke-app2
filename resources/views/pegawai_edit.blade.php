@@ -1,4 +1,4 @@
-@extends('layouts.app_modern', ['title'=>'Edit Data Pegawai'])
+@extends('layouts.main_layout', ['title'=>'Edit Data Pegawai'])
 @section('content')
 <div class="card mb-3 bg-white">
 	<div class="card-body p-0 ">
@@ -10,7 +10,7 @@
 				<a href="/data_pegawai">Data Pegawai / </a>
 			</span>
 			Edit Data Pegawai
-			<span class="fw-bolder tw-text-blue-500">
+			<span class="fw-bolder text-primary">
 				{{ $data_pegawai->nama }}
 			</span>
 		</div>
@@ -217,7 +217,7 @@
 	document.getElementById('editAlert').onclick = function(event){
         event.preventDefault();
         Swal.fire({
-            title: "Konfirmasi Data",
+            title: "Konfirmasi Data!",
             text: "Pastikan Data yang Anda Edit Sudah Benar",
             icon: "warning",
             showCancelButton: true,

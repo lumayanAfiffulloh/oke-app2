@@ -87,6 +87,7 @@
 
         {{-- AKSI --}}
         <td class="px-2 text-center">
+          @if($isWithinDeadline)
           <div class="btn-group" role="group">
             {{-- Tombol Revisi --}}
             <a href="#" class="btn btn-warning btn-sm" title="Beri Revisi" data-bs-toggle="modal"
@@ -101,6 +102,12 @@
             </a>
 
           </div>
+          @else
+          <span class="badge bg-light text-muted fs-sm fw-normal">
+            <i class="ti ti-clock fs-5 align-middle me-1"></i>
+            Waktu validasi belum dimulai
+          </span>
+          @endif
         </td>
 
         <!-- Modal Revisi -->
@@ -174,7 +181,7 @@
       event.preventDefault();
       let formId = button.getAttribute('data-form-id');
       Swal.fire({
-        title: "Konfirmasi Data",
+        title: "Konfirmasi Data!",
         text: "Pastikan data yang anda isikan sudah benar!",
         icon: "warning",
         showCancelButton: true,
@@ -196,7 +203,7 @@
       event.preventDefault();
       let formId = button.getAttribute('data-form-id');
       Swal.fire({
-        title: "Konfirmasi Data",
+        title: "Konfirmasi Data!",
         text: "Pastikan data yang anda isikan sudah benar!",
         icon: "warning",
         showCancelButton: true,

@@ -1,4 +1,4 @@
-@extends('layouts.app_modern', ['title'=>'Edit Kelompok'])
+@extends('layouts.main_layout', ['title'=>'Edit Kelompok'])
 @section('content')
 <div class="card mb-3 bg-white">
   <div class="card-body p-0 ">
@@ -9,7 +9,7 @@
       <span class="text-dark text-opacity-50">
         <a href="/kelompok">Data Kelompok / </a>
       </span>
-      Edit Kelompok <span class="fw-bolder tw-text-blue-500">{{ $kelompok->ketua->nama }}</span>
+      Edit Kelompok <span class="fw-bolder text-primary">{{ $kelompok->ketua->nama }}</span>
     </div>
     <form action="/kelompok/{{ $kelompok->id }}" method="POST" class="px-4 py-2" id="editFormID">
       @method('PUT')

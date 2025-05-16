@@ -1,35 +1,29 @@
-@extends('layouts.app_modern', ['title' => 'Data Pegawai'])
+@extends('layouts.main-layout', ['title' => 'Data Pegawai'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0 ">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pegawai</div>
 		<div class="row my-3">
 			<div class="col-md-12">
-				<button class="position-relative">
-					<a href="/data_pegawai/create" class="btn btn-outline-primary ms-3" style="font-size: 0.9rem">
-						<span>
-							<i class="ti ti-user-plus"></i>
-						</span>
-						<span>Tambah Pegawai</span>
-					</a>
-				</button>
+				<!-- Tambah Pegawai -->
+				<a href="/data_pegawai/create" class="btn btn-outline-primary ms-3" style="font-size: 0.9rem">
+					<i class="ti ti-user-plus"></i>
+					<span>Tambah Pegawai</span>
+				</a>
 
-				{{-- IMPORT EXCEL --}}
-				<button class="px-0 text-start ms-2" type="button">
-					<a href="#" class="btn btn-outline-success" style="font-size: 0.9rem" data-bs-toggle="modal"
-						data-bs-target="#excelModal">
-						<span>
-							<i class="ti ti-table-import"></i>
-						</span>
-						<span>Import Excel</span>
-					</a>
-				</button>
+				<!-- Import Excel -->
+				<a href="#" class="btn btn-outline-success ms-2" style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#excelModal">
+					<i class="ti ti-table-import"></i>
+					<span>Import Excel</span>
+				</a>
+
 				{{-- MODAL IMPORT EXCEL --}}
 				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title tw-text-[20px] fw-semibold">
+								<h1 class="modal-title fs-5 fw-semibold">
 									Import Data Pegawai dari Excel
 								</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -113,8 +107,8 @@
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
-													Detail Pegawai <span class="fw-semibold tw-text-blue-500">{{ $item->nama }}</span>
+												<h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel{{ $item->id }}">
+													Detail Pegawai <span class="fw-semibold text-primary">{{ $item->nama }}</span>
 												</h1>
 												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
@@ -123,25 +117,25 @@
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Nama</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nama) }} </span>
+															<span class="text-secondary fw-bold">: {{ ucwords($item->nama) }} </span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">NPPU</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->nppu) }}</span>
+															<span class="text-secondary fw-bold">: {{ ucwords($item->nppu) }}</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Email</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ($item->user->email) }} </span>
+															<span class="text-secondary fw-bold">: {{ ($item->user->email) }} </span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Status</span>
-															<span class="tw-text-sky-500 fw-bold">: @if ($item->status === 'aktif')
+															<span class="text-secondary fw-bold">: @if ($item->status === 'aktif')
 																<span class="badge rounded-pill bg-success">Aktif</span>
 																@else
 																<span class="badge rounded-pill bg-danger">Non-Aktif</span>
@@ -151,20 +145,20 @@
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Unit Kerja</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->unitKerja->unit_kerja) }}
+															<span class="text-secondary fw-bold">: {{ ucwords($item->unitKerja->unit_kerja) }}
 															</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jabatan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->jabatan->jabatan) }}</span>
+															<span class="text-secondary fw-bold">: {{ ucwords($item->jabatan->jabatan) }}</span>
 														</h2>
 													</li>
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{
+															<span class="text-secondary fw-bold">: {{
 																ucwords($item->pendidikanTerakhir->jenjangTerakhir->jenjang_terakhir) }}
 															</span>
 														</h2>
@@ -172,7 +166,7 @@
 													<li class="list-group-item">
 														<h2 class="fs-5 d-inline">
 															<span style="display:inline-block; width:200px;">Jurusan Pendidikan</span>
-															<span class="tw-text-sky-500 fw-bold">: {{ ucwords($item->pendidikanTerakhir->jurusan)
+															<span class="text-secondary fw-bold">: {{ ucwords($item->pendidikanTerakhir->jurusan)
 																}} </span>
 														</h2>
 													</li>

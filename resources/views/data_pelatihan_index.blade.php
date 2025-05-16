@@ -1,49 +1,44 @@
-@extends('layouts.app_modern', ['title' => 'Data Pelatihan'])
+@extends('layouts.main_layout', ['title' => 'Data Pelatihan'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">Data Pelatihan</div>
 		<div class="row my-3">
 			<div class="col-md-12">
-				<button class="position-relative ">
-					<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
-						data-bs-target="#createPelatihanModal">
-						<span class="me-1">
-							<i class="ti ti-clipboard-plus"></i>
-						</span>
-						<span>Tambah Data Pelatihan</span>
-					</a>
-				</button>
+				<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#createPelatihanModal">
+					<span>
+						<i class="ti ti-clipboard-plus"></i>
+					</span>
+					<span>Tambah Data Pelatihan</span>
+				</a>
 
 				{{-- MODAL TAMBAH Data Pelatihan --}}
 				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createPelatihanModal">
 					@include('components.modal.data_pelatihan_create_modal')
 				</div>
 
-				<button class="position-relative">
-					<a href="/bentuk_jalur" class="btn btn-outline-warning ms-3 mt-2 mt-sm-0 ms-sm-1" style="font-size: 0.9rem">
-						<span class="me-1">
-							<i class="ti ti-shape"></i>
-						</span>
-						<span>Kelola Bentuk Jalur Pelatihan</span>
-					</a>
-				</button>
+				<a href="/bentuk_jalur" class="btn btn-outline-warning ms-3 mt-2 mt-sm-0 ms-sm-1" style="font-size: 0.9rem">
+					<span>
+						<i class="ti ti-shape"></i>
+					</span>
+					<span>Kelola Bentuk Jalur Pelatihan</span>
+				</a>
+
 				{{-- IMPORT EXCEL --}}
-				<button class="px-0 text-start ms-2" type="button">
-					<a href="#" class="btn btn-outline-success" style="font-size: 0.9rem" data-bs-toggle="modal"
-						data-bs-target="#excelModal">
-						<span>
-							<i class="ti ti-table-import"></i>
-						</span>
-						<span>Import Excel</span>
-					</a>
-				</button>
+				<a href="#" class="btn btn-outline-success ms-2 ms-sm-1" style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#excelModal">
+					<span>
+						<i class="ti ti-table-import"></i>
+					</span>
+					<span>Import Excel</span>
+				</a>
 				{{-- MODAL IMPORT EXCEL DATA PELATIHAN --}}
 				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="excelModal">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h1 class="modal-title tw-text-[20px] fw-semibold">
+								<h1 class="modal-title fs-5 fw-semibold">
 									Import Data Pelatihan dari Excel
 								</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

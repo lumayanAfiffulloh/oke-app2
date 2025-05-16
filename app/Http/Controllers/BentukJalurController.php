@@ -49,22 +49,6 @@ class BentukJalurController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(BentukJalur $bentukJalur)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BentukJalur $bentukJalur)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateBentukJalurRequest $request, BentukJalur $bentukJalur)

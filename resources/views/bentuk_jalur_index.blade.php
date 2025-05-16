@@ -1,27 +1,23 @@
-@extends('layouts.app_modern', ['title' => 'Bentuk Jalur'])
+@extends('layouts.main_layout', ['title' => 'Bentuk Jalur'])
 @section('content')
 <div class="card pb-4 bg-white">
 	<div class="card-body px-0 py-0">
 		<div class="card-header p-3 fs-5 fw-bolder" style="background-color: #ececec;">
 			<span>
-				<a href="/data_pelatihan" class="ti ti-arrow-left fw-bolder mx-2"></a>
+				<a href="/data_pelatihan" class="ti ti-arrow-left fw-bolder mx-2 text-dark text-opacity-50 link-custom"></a>
 			</span>
-			<span class="text-dark text-opacity-50">
-				<a href="/data_pelatihan">Data Pelatihan / </a>
-			</span>
+			<a href="/data_pelatihan" class="text-dark text-opacity-50 link-custom">Data Pelatihan / </a>
 			Bentuk Jalur
 		</div>
 		<div class=" row my-3">
 			<div class="col d-flex">
-				<button class="position-relative ">
-					<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
-						data-bs-target="#createJalurModal">
-						<span class="me-1">
-							<i class="ti ti-clipboard-plus"></i>
-						</span>
-						<span>Tambah Bentuk Jalur</span>
-					</a>
-				</button>
+				<a href="#" class="btn btn-outline-primary ms-3 " style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#createJalurModal">
+					<span class="me-1">
+						<i class="ti ti-clipboard-plus"></i>
+					</span>
+					<span>Tambah Bentuk Jalur</span>
+				</a>
 				{{-- MODAL TAMBAH BENTUK JALUR --}}
 				<div class="modal fade" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" id="createJalurModal">
 					@include('components.modal.bentuk_jalur_create_modal')
@@ -42,7 +38,7 @@
 					@foreach ($bentuk_jalur as $item)
 					<tr>
 						<td class="text-center">{{ $loop->iteration }}</td>
-						<td>{{ ucwords($item->kategori) }}</td>
+						<td>{{ ucwords($item->kategori->kategori) }}</td>
 						<td>{{ ucwords($item->bentuk_jalur) }}</td>
 						<td>
 							<a href="#" class="btn btn-warning btn-sm editButton" data-id="{{ $item->id }}"

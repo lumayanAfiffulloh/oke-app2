@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CatatanValidasiKelompok;
 use App\Models\Kelompok;
-use App\Models\KelompokCanValidating;
-use App\Models\RencanaPembelajaran;
 use Illuminate\Http\Request;
+use App\Services\DeadlineService;
+use App\Models\RencanaPembelajaran;
 use Illuminate\Support\Facades\Auth;
+use App\Models\KelompokCanValidating;
+use App\Models\CatatanValidasiKelompok;
 
 class kelompokCanValidatingController extends Controller
 {
-    public function __construct()
+    protected $deadlineService;
+
+    public function __construct(DeadlineService $deadlineService)
     {
         $this->middleware('can:ketua_kelompok');
+        $this->deadlineService = $deadlineService;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -22,6 +27,10 @@ class kelompokCanValidatingController extends Controller
     {
         // Ambil ketua kelompok (user yang sedang login)
         $ketuaKelompok = Auth::user()->dataPegawai;
+
+        // Dapatkan informasi deadline
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
     
         // Ambil kelompok yang dipimpin oleh ketua kelompok beserta anggota dan validasinya
         $kelompok = Kelompok::with(['anggota', 'kelompokCanValidating'])
@@ -53,6 +62,7 @@ class kelompokCanValidatingController extends Controller
             'rencanaDirevisi' => $rencanaDirevisi,
             'rencanaBelumDivalidasi' => $rencanaBelumDivalidasi,
             'kelompok' => $kelompok,
+            'isWithinDeadline' => $isWithinDeadline
         ]);
     }
     
@@ -61,6 +71,15 @@ class kelompokCanValidatingController extends Controller
     {
         $rencana = RencanaPembelajaran::findOrFail($id);
     
+        // Cek tenggat waktu
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
+        
+        if (!$isWithinDeadline) {
+            flash('Tidak dapat menyetujui rencana pembelajaran di luar tenggat waktu yang ditentukan.')->error();
+            return redirect()->route('validasi_kelompok.index');
+        }
+
         // Ambil ketua kelompok yang sedang login
         $ketuaKelompok = Auth::user()->dataPegawai;
         
@@ -95,6 +114,15 @@ class kelompokCanValidatingController extends Controller
     {
         $rencana = RencanaPembelajaran::findOrFail($id);
     
+        // Cek tenggat waktu
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
+        
+        if (!$isWithinDeadline) {
+            flash('Tidak dapat merevisi rencana pembelajaran di luar tenggat waktu yang ditentukan.')->error();
+            return redirect()->route('validasi_kelompok.index');
+        }
+
         // Ambil ketua kelompok yang sedang login
         $ketuaKelompok = Auth::user()->dataPegawai;
         
@@ -128,6 +156,15 @@ class kelompokCanValidatingController extends Controller
         // Cari data validasi berdasarkan ID rencana
         $validasi = KelompokCanValidating::where('rencana_pembelajaran_id', $id)->first();
     
+        // Cek tenggat waktu
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
+        
+        if (!$isWithinDeadline) {
+            flash('Tidak dapat menyetujui rencana pembelajaran di luar tenggat waktu yang ditentukan.')->error();
+            return redirect()->route('validasi_kelompok.index');
+        }
+
         if (!$validasi) {
             flash('Data validasi tidak ditemukan.')->error();
             return redirect()->back();
@@ -170,6 +207,15 @@ class kelompokCanValidatingController extends Controller
     
         // Cari rencana pembelajaran berdasarkan ID
         $rencana = RencanaPembelajaran::findOrFail($id);
+
+        // Cek tenggat waktu
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
+        
+        if (!$isWithinDeadline) {
+            flash('Tidak dapat menambah revisi rencana pembelajaran di luar tenggat waktu yang ditentukan.')->error();
+            return redirect()->route('validasi_kelompok.index');
+        }
     
         // Ambil ketua kelompok yang sedang login
         $ketuaKelompok = Auth::user()->dataPegawai;
@@ -214,6 +260,16 @@ class kelompokCanValidatingController extends Controller
     public function destroy($id)
     {
         $validasi = KelompokCanValidating::find($id);
+        
+        // Cek tenggat waktu
+        $deadlineInfo = $this->deadlineService->getDeadlineInfo('validasi_kelompok');
+        $isWithinDeadline = $deadlineInfo['is_within_deadline'] ?? false;
+        
+        if (!$isWithinDeadline) {
+            flash('Tidak dapat mengedit validasi rencana pembelajaran di luar tenggat waktu yang ditentukan.')->error();
+            return redirect()->route('validasi_kelompok.index');
+        }
+
         $catatan = CatatanValidasiKelompok::where('kelompok_can_validating_id', $validasi->id);
         if ($validasi) {
             $validasi->delete();

@@ -1,5 +1,15 @@
 @auth
-<aside class="left-sidebar">
+<style>
+  .css-hover-animation {
+    transition: transform 200ms ease-in-out;
+  }
+
+  .css-hover-animation:hover {
+    transform: translateX(8px);
+    /* kira-kira setara dengan translate-x-2 di Tailwind */
+  }
+</style>
+<aside class="left-sidebar with-vertical">
   <!-- Sidebar scroll-->
   <div>
     <div class="brand-logo d-flex align-items-center justify-content-between mt-2" style="padding-left: 20px">
@@ -18,17 +28,40 @@
         {{-- PROFIL --}}
         <li class="nav-small-cap mt-1">
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-          <span class="hide-menu">Dashboard</span>
+          <span class="hide-menu">HALAMAN UTAMA</span>
         </li>
         <li class="sidebar-item {{ Request::is('ganti_password') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/profil"
-            aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/profil" aria-expanded="false">
             <span>
-              <i class="ti ti-user-circle"></i>
+              <i class="ti ti-home-2"></i>
             </span>
-            <span class="hide-menu">Profil Anda</span>
+            <span class="hide-menu">Dashboard</span>
           </a>
         </li>
+
+        @can('admin')
+
+        <li class="nav-small-cap mt-2">
+          <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+          <span class="hide-menu">KELOLA PERENCANAAN</span>
+        </li>
+        <li class="sidebar-item {{ Request::is('tenggat_rencana*') ? 'selected' : '' }}">
+          <a class="sidebar-link css-hover-animation" href="/tenggat_rencana" aria-expanded="false">
+            <span>
+              <i class="ti ti-calendar"></i>
+            </span>
+            <span class="hide-menu">Atur Tenggat</span>
+          </a>
+        </li>
+        <li class="sidebar-item {{ Request::is('kelompok*') ? 'selected' : '' }}">
+          <a class="sidebar-link css-hover-animation" href="/kelompok" aria-expanded="false">
+            <span>
+              <i class="ti ti-users"></i>
+            </span>
+            <span class="hide-menu">Atur Kelompok</span>
+          </a>
+        </li>
+        @endcan
 
         @can('admin')
         {{-- PEGAWAI --}}
@@ -36,27 +69,17 @@
           <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
           <span class="hide-menu">KELOLA DATA PEGAWAI</span>
         </li>
+
         <li class="sidebar-item {{ Request::is('data_pegawai*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/data_pegawai"
-            aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/data_pegawai" aria-expanded="false">
             <span>
               <i class="ti ti-user"></i>
             </span>
             <span class="hide-menu">Data Pegawai</span>
           </a>
         </li>
-        <li class="sidebar-item {{ Request::is('kelompok*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/kelompok"
-            aria-expanded="false">
-            <span>
-              <i class="ti ti-users"></i>
-            </span>
-            <span class="hide-menu">Kelompok</span>
-          </a>
-        </li>
         <li class="sidebar-item {{ Request::is('edit_akses*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/edit_akses"
-            aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/edit_akses" aria-expanded="false">
             <span>
               <i class="ti ti-accessible"></i>
             </span>
@@ -70,8 +93,7 @@
           <span class="hide-menu">DATABASE PEMBELAJARAN</span>
         </li>
         <li class="sidebar-item {{ Request::is('data_pelatihan*') || Request::is('bentuk_jalur*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/data_pelatihan" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/data_pelatihan" aria-expanded="false">
             <span>
               <i class="ti ti-file-stack"></i>
             </span>
@@ -79,8 +101,7 @@
           </a>
         </li>
         <li class="sidebar-item {{ Request::is('data_pendidikan*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/data_pendidikan" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/data_pendidikan" aria-expanded="false">
             <span>
               <i class="ti ti-book"></i>
             </span>
@@ -96,21 +117,8 @@
           <span class="hide-menu">Rencana Pembelajaran (RPP)</span>
         </li>
 
-        @can('admin')
-        <li class="sidebar-item {{ Request::is('tenggat_waktu*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/tenggat_waktu" aria-expanded="false">
-            <span>
-              <i class="ti ti-calendar"></i>
-            </span>
-            <span class="hide-menu">Atur Tenggat Waktu</span>
-          </a>
-        </li>
-        @endcan
-
         <li class="sidebar-item {{ Request::is('rencana_pembelajaran*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/rencana_pembelajaran" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/rencana_pembelajaran" aria-expanded="false">
             <span>
               <i class="ti ti-bookmarks "></i>
             </span>
@@ -120,8 +128,7 @@
         @can('admin')
 
         <li class="sidebar-item {{ Request::is('rpp_isidental*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/rpp_isidental" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/rpp_isidental" aria-expanded="false">
             <span>
               <i class="ti ti-file-alert "></i>
             </span>
@@ -137,8 +144,7 @@
           <span class="hide-menu">Kelompok</span>
         </li>
         <li class="sidebar-item {{ Request::is('anggota_kelompok*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/anggota_kelompok" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/anggota_kelompok" aria-expanded="false">
             <span>
               <i class="ti ti-sitemap"></i>
             </span>
@@ -146,8 +152,7 @@
           </a>
         </li>
         <li class="sidebar-item {{ Request::is('validasi_kelompok*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200"
-            href="/validasi_kelompok" aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/validasi_kelompok" aria-expanded="false">
             <span>
               <i class="ti ti-checklist"></i>
             </span>
@@ -162,18 +167,42 @@
           <span class="hide-menu">Laporan</span>
         </li>
         <li class="sidebar-item {{ Request::is('laporan*') ? 'selected' : '' }}">
-          <a class="sidebar-link tw-ease-in-out tw-delay-10 hover:tw-translate-x-2 tw-duration-200" href="/analisa_jp"
-            aria-expanded="false">
+          <a class="sidebar-link css-hover-animation" href="/analisa_jp" aria-expanded="false">
             <span>
               <i class="ti ti-clock "></i>
             </span>
             <span class="hide-menu">Analisa JP</span>
           </a>
         </li>
-
-
       </ul>
     </nav>
   </div>
 </aside>
 @endauth
+
+{{-- AUTO SCROLL --}}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sidebar = document.querySelector(".scroll-sidebar"); // Pastikan selector sesuai
+    const activeMenu = document.querySelector(".sidebar-item.selected"); // Menu aktif
+    const scrollPosition = localStorage.getItem("sidebar-scroll");
+
+    // Menunggu hingga sidebar benar-benar termuat sebelum menerapkan scroll
+    setTimeout(() => {
+        // Mengembalikan posisi scroll sebelumnya jika ada
+        if (scrollPosition) {
+            sidebar.scrollTop = scrollPosition;
+        }
+
+        // Jika ada menu aktif, scroll agar menu tersebut terlihat
+        if (activeMenu) {
+            activeMenu.scrollIntoView({ behavior: "auto", block: "center" });
+        }
+    }, 50); // Delay untuk memastikan elemen tersedia
+
+    // Menyimpan posisi scroll saat sidebar digulir
+    sidebar.addEventListener("scroll", function () {
+        localStorage.setItem("sidebar-scroll", sidebar.scrollTop);
+    });
+  });
+</script>

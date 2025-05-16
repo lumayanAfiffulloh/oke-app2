@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title tw-text-[20px] fw-bold">
+      <h1 class="modal-title fs-5 fw-bold">
         Buat Kelompok
       </h1>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -15,7 +15,7 @@
             class="form-control placeholder-single @error('id_ketua') is-invalid @enderror" required>
             <option value=""></option>
             @foreach($listPegawai as $pegawai)
-            <option value="{{ $pegawai->id }}" @selected(old('id_ketua'))>
+            <option value="{{ $pegawai->id }}" {{ old('id_ketua')==$pegawai->id ? 'selected' : '' }}>
               {{ $pegawai->nppu }} - {{ $pegawai->nama }} | {{ $pegawai->unitKerja->unit_kerja }}
             </option>
             @endforeach

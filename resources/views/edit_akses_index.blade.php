@@ -1,4 +1,4 @@
-@extends('layouts.app_modern', ['title' => 'Hak Akses'])
+@extends('layouts.main_layout', ['title' => 'Hak Akses'])
 @section('content')
 
 <div class="card mb-4 pb-4 bg-white">
@@ -28,12 +28,11 @@
 						</td>
 						<td class="py-2">
 							<!-- Tombol untuk memunculkan modal -->
-							<button class="col px-0" type="button">
-								<a href="#" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-									data-bs-target="#editAksesModal{{ $user->id }}">
-									<span>Edit Akses</span>
-								</a>
-							</button>
+							<a href="#" class="btn btn-warning btn-sm col" data-bs-toggle="modal"
+								data-bs-target="#editAksesModal{{ $user->id }}">
+								<span class="ti ti-pencil"></span>
+							</a>
+
 
 							<!-- Modal Bootstrap -->
 							<div class="modal fade" id="editAksesModal{{ $user->id }}" aria-labelledby="editAksesModalLabel"
@@ -41,7 +40,7 @@
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h1 class="modal-title tw-text-[20px] fw-bolder">
+											<h1 class="modal-title fs-5 fw-bolder">
 												Edit Akses <span class="text-primary">{{ $user->name }}</span>
 											</h1>
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -67,8 +66,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-												<button type="submit" class="btn btn-primary" id="editAlert{{$user->id}}">Simpan
-													Perubahan</button>
+												<button type="submit" class="btn btn-warning" id="editAlert{{$user->id}}">Simpan</button>
 											</div>
 										</form>
 									</div>

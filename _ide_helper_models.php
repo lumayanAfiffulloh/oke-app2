@@ -341,11 +341,21 @@ namespace App\Models{
 /**
  * 
  *
- * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggatWaktu query()
+ * @property int $id
+ * @property string $kategori_tenggat
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TenggatRencana> $tenggatRencana
+ * @property-read int|null $tenggat_rencana_count
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat query()
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereKategoriTenggat($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereUpdatedAt($value)
  */
-	class KategoriTenggatWaktu extends \Eloquent {}
+	class KategoriTenggat extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -520,11 +530,28 @@ namespace App\Models{
 /**
  * 
  *
- * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|TenggatWaktu query()
+ * @property int $id
+ * @property int $kategori_tenggat_id
+ * @property string $tanggal_mulai
+ * @property string $jam_mulai
+ * @property string $tanggal_selesai
+ * @property string $jam_selesai
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\KategoriTenggat|null $kategoriTenggat
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereJamMulai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereJamSelesai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereKategoriTenggatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereTanggalMulai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereTanggalSelesai($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereUpdatedAt($value)
  */
-	class TenggatWaktu extends \Eloquent {}
+	class TenggatRencana extends \Eloquent {}
 }
 
 namespace App\Models{

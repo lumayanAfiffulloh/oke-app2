@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
-      <h1 class="modal-title tw-text-[20px] fw-bold" id="staticBackdropLabel{{ $item->id }}">
+      <h1 class="modal-title fs-5 fw-bold" id="staticBackdropLabel{{ $item->id }}">
         Detail Pelatihan <span class="text-primary fw-bolder">{{ ucwords($item->nama_pelatihan) }}</span>
       </h1>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -16,7 +16,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->kode) }}</span>
+                <span class="text-secondary fw-bold">{{ ucwords($item->kode) }}</span>
               </div>
             </div>
           </h2>
@@ -29,7 +29,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->rumpun->rumpun) }}</span>
+                <span class="text-secondary fw-bold">{{ ucwords($item->rumpun->rumpun) }}</span>
               </div>
             </div>
           </h2>
@@ -42,7 +42,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ ucwords($item->nama_pelatihan) }}</span>
+                <span class="text-secondary fw-bold">{{ ucwords($item->nama_pelatihan) }}</span>
               </div>
             </div>
           </h2>
@@ -55,7 +55,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->deskripsi) }}</span>
+                <span class="text-secondary fw-bold lh-base">{{ ucwords($item->deskripsi) }}</span>
               </div>
             </div>
           </h2>
@@ -68,7 +68,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold">{{ $item->jp }} Jam</span>
+                <span class="text-secondary fw-bold">{{ $item->jp }} Jam</span>
               </div>
             </div>
           </h2>
@@ -81,7 +81,7 @@
                 <p class="fw-bold">:</p>
               </div>
               <div class="col-md-8">
-                <span class="tw-text-sky-500 fw-bold lh-base">{{ ucwords($item->materi) }}</span>
+                <span class="text-secondary fw-bold lh-base">{{ ucwords($item->materi) }}</span>
               </div>
             </div>
           </h2>
