@@ -65,12 +65,6 @@
 								<i class="ti ti-settings fs-6"></i>
 								<p class="mb-0 fs-3">Ganti Password</p>
 							</a>
-							@can('ketua_kelompok')
-							<a href="nomor_telepon" class="d-flex align-items-center gap-2 dropdown-item">
-								<i class="ti ti-plus fs-6"></i>
-								<p class="mb-0 fs-3">Tambah Link Grup Whatsapp Kelompok</p>
-							</a>
-							@endcan
 							<a href="{{ route('logout') }}" class="btn btn-outline-danger mx-3 mt-2 d-block"
 								onclick="event.preventDefault();document.getElementById('logout-form').submit();">
 								Logout

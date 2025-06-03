@@ -14,6 +14,7 @@ return new class extends Migration
 		Schema::create('kelompoks', function (Blueprint $table) {
 			$table->id();
 			$table->foreignId('id_ketua');
+			$table->string('link_grup_whatsapp')->nullable();
 			$table->timestamps();
 		});
 	}

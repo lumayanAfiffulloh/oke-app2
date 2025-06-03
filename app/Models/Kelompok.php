@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,23 +8,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kelompok extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $guarded=[];
+    protected $guarded = [];
 
-	public function ketua(): BelongsTo
-	{
-		return $this->belongsTo(DataPegawai::class, 'id_ketua');
-	}
+    public function ketua(): BelongsTo
+    {
+        return $this->belongsTo(DataPegawai::class, 'id_ketua');
+    }
 
-	public function anggota(): HasMany
-	{
-		return $this->hasMany(DataPegawai::class, 'kelompok_id');
-	}
+    public function anggota(): HasMany
+    {
+        return $this->hasMany(DataPegawai::class, 'kelompok_id');
+    }
 
-	public function kelompokCanValidating()
-	{
-		return $this->hasMany(KelompokCanValidating::class);
-	}
+    public function kelompokCanValidating()
+    {
+        return $this->hasMany(KelompokCanValidating::class);
+    }
+
+    public function pegawaiCanVerifying()
+    {
+        return $this->hasMany(pegawaiCanVerifying::class);
+    }
 
 }

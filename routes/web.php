@@ -17,6 +17,7 @@ use App\Http\Controllers\TenggatRencanaController;
 use App\Http\Controllers\AnggotaKelompokController;
 use App\Http\Controllers\RencanaPembelajaranController;
 use App\Http\Controllers\kelompokCanValidatingController;
+use App\Http\Controllers\pegawaiCanVerifyingController;
 
 Route::middleware([Authenticate::class, 'check.default.password'])->group(function () {
     
@@ -60,6 +61,7 @@ Route::middleware([Authenticate::class, 'check.default.password'])->group(functi
     Route::resource('kelompok', KelompokController::class);
     Route::post('/kelompok/reset', [KelompokController::class, 'reset']);
     
+    
     // PROFIL/DASHBOARD
     Route::get('/profil', [ProfilController::class, 'show'])->name('profil');
     Route::post('/profil/tambah_foto', [ProfilController::class, 'processFoto']);
@@ -74,6 +76,10 @@ Route::middleware([Authenticate::class, 'check.default.password'])->group(functi
     
     // CEK ANGGOTA KELOMPOK
     Route::resource('anggota_kelompok', AnggotaKelompokController::class);
+    Route::post('anggota_kelompok/update-whatsapp-link', [AnggotaKelompokController::class, 'updateWhatsAppLink'])->name('update-whatsapp-link');
+
+    // VERIFIKASI (UNIT KERJA)
+    Route::resource('verifikasi', pegawaiCanVerifyingController::class);
 
     // ATUR TENGGAT RENCANA (ADMIN)
     Route::resource('tenggat_rencana', TenggatRencanaController::class);   

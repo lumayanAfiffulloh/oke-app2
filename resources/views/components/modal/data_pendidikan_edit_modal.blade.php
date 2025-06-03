@@ -1,7 +1,8 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title fs-5 fw-bold">Edit Data Pendidikan <span id="jurusanName" class="text-primary"></span></h5>
+      <h5 class="modal-title fs-5 fw-bold">Edit Data Pendidikan <span id="jurusanName" class="text-primary"></span>
+      </h5>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <form id="editFormID" method="POST" action="{{ route('data_pendidikan.update', $item->id) }}">

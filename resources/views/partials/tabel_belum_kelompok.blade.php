@@ -103,8 +103,8 @@
 
           </div>
           @else
-          <span class="badge bg-light text-muted fs-sm fw-normal">
-            <i class="ti ti-clock fs-5 align-middle me-1"></i>
+          <span class="badge bg-light text-muted fs-2">
+            <i class="ti ti-clock fs-2 align-middle me-1"></i>
             Waktu validasi belum dimulai
           </span>
           @endif

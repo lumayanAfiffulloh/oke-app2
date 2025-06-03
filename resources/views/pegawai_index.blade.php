@@ -1,4 +1,4 @@
-@extends('layouts.main-layout', ['title' => 'Data Pegawai'])
+@extends('layouts.main_layout', ['title' => 'Data Pegawai'])
 @section('content')
 <div class="card mb-4 pb-4 bg-white">
 	<div class="card-body px-0 py-0 ">
@@ -11,6 +11,13 @@
 					<span>Tambah Pegawai</span>
 				</a>
 
+				<!-- Import Excel -->
+				<a href="#" class="btn btn-outline-success ms-2" style="font-size: 0.9rem" data-bs-toggle="modal"
+					data-bs-target="#excelModal">
+					<i class="ti ti-table-import"></i>
+					<span>Import Excel</span>
+				</a>
+				
 				<!-- Import Excel -->
 				<a href="#" class="btn btn-outline-success ms-2" style="font-size: 0.9rem" data-bs-toggle="modal"
 					data-bs-target="#excelModal">

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 
@@ -53,6 +51,11 @@ class RencanaPembelajaran extends Model
 
     public function kelompokCanValidating()
     {
-        return $this->hasOne(KelompokCanValidating::class, 'rencana_pembelajaran_id');
+        return $this->hasOne(kelompokCanValidating::class, 'rencana_pembelajaran_id');
+    }
+
+    public function pegawaiCanVerifying()
+    {
+        return $this->hasOne(pegawaiCanVerifying::class, 'rencana_pembelajaran_id');
     }
 }

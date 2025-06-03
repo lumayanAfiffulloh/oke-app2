@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pegawai_can_verifyings', function (Blueprint $table) {
+        Schema::create('catatan_verifikasis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('data_pegawai_id');
-            $table->foreignId('rencana_pembelajaran_id');
-            $table->string('status');
-            $table->string('status_revisi');
+            $table->foreignId('pegawai_can_verifying_id');
+            $table->string('catatan');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pegawai_can_verifyings');
+        Schema::dropIfExists('catatan_verifikasis');
     }
 };
