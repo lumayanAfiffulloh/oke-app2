@@ -12,12 +12,12 @@ class Kelompok extends Model
 
     protected $guarded = [];
 
-    public function ketua(): BelongsTo
+    public function ketua()
     {
         return $this->belongsTo(DataPegawai::class, 'id_ketua');
     }
 
-    public function anggota(): HasMany
+    public function anggota()
     {
         return $this->hasMany(DataPegawai::class, 'kelompok_id');
     }
@@ -27,9 +27,9 @@ class Kelompok extends Model
         return $this->hasMany(KelompokCanValidating::class);
     }
 
-    public function pegawaiCanVerifying()
+    public function unitKerjaCanVerifying()
     {
-        return $this->hasMany(pegawaiCanVerifying::class);
+        return $this->hasMany(unitKerjaCanVerifying::class);
     }
 
 }

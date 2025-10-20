@@ -10,10 +10,9 @@
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  */
 
-
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $data_pelatihan_id
@@ -38,12 +37,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|AnggaranPelatihan whereRegionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AnggaranPelatihan whereUpdatedAt($value)
  */
-	class AnggaranPelatihan extends \Eloquent {}
+    class AnggaranPelatihan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $jenjang_id
@@ -65,12 +65,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|AnggaranPendidikan whereRegionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|AnggaranPendidikan whereUpdatedAt($value)
  */
-	class AnggaranPendidikan extends \Eloquent {}
+    class AnggaranPendidikan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $kategori_id
@@ -90,12 +91,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereKategoriId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BentukJalur whereUpdatedAt($value)
  */
-	class BentukJalur extends \Eloquent {}
+    class BentukJalur extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $kelompok_can_validating_id
@@ -112,12 +114,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereKelompokCanValidatingId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CatatanValidasiKelompok whereUpdatedAt($value)
  */
-	class CatatanValidasiKelompok extends \Eloquent {}
+    class CatatanValidasiKelompok extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $nama
@@ -160,12 +163,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPegawai whereUserId($value)
  */
-	class DataPegawai extends \Eloquent {}
+    class DataPegawai extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $rumpun_id
@@ -195,12 +199,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereRumpunId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPelatihan whereUpdatedAt($value)
  */
-	class DataPelatihan extends \Eloquent {}
+    class DataPelatihan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $jurusan
@@ -221,12 +226,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereJurusan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DataPendidikan whereUpdatedAt($value)
  */
-	class DataPendidikan extends \Eloquent {}
+    class DataPendidikan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $jabatan
@@ -242,12 +248,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Jabatan whereJabatan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Jabatan whereUpdatedAt($value)
  */
-	class Jabatan extends \Eloquent {}
+    class Jabatan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $jenis_pendidikan
@@ -265,12 +272,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|JenisPendidikan whereKeterangan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JenisPendidikan whereUpdatedAt($value)
  */
-	class JenisPendidikan extends \Eloquent {}
+    class JenisPendidikan extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $jenjang
@@ -290,12 +298,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereJenjang($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Jenjang whereUpdatedAt($value)
  */
-	class Jenjang extends \Eloquent {}
+    class Jenjang extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $jenjang_terakhir
@@ -311,12 +320,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|JenjangTerakhir whereJenjangTerakhir($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JenjangTerakhir whereUpdatedAt($value)
  */
-	class JenjangTerakhir extends \Eloquent {}
+    class JenjangTerakhir extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $kategori
@@ -334,12 +344,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Kategori whereKategori($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kategori whereUpdatedAt($value)
  */
-	class Kategori extends \Eloquent {}
+    class Kategori extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $kategori_tenggat
@@ -355,12 +366,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereKategoriTenggat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|KategoriTenggat whereUpdatedAt($value)
  */
-	class KategoriTenggat extends \Eloquent {}
+    class KategoriTenggat extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $id_ketua
@@ -380,12 +392,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereIdKetua($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Kelompok whereUpdatedAt($value)
  */
-	class Kelompok extends \Eloquent {}
+    class Kelompok extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $jenjang_terakhir_id
@@ -404,12 +417,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PendidikanTerakhir whereJurusan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PendidikanTerakhir whereUpdatedAt($value)
  */
-	class PendidikanTerakhir extends \Eloquent {}
+    class PendidikanTerakhir extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $region
@@ -429,12 +443,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereRegion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Region whereUpdatedAt($value)
  */
-	class Region extends \Eloquent {}
+    class Region extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $data_pegawai_id
@@ -481,12 +496,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereTahun($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RencanaPembelajaran whereUpdatedAt($value)
  */
-	class RencanaPembelajaran extends \Eloquent {}
+    class RencanaPembelajaran extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $role
@@ -502,12 +518,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  */
-	class Role extends \Eloquent {}
+    class Role extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $rumpun
@@ -523,12 +540,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Rumpun whereRumpun($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Rumpun whereUpdatedAt($value)
  */
-	class Rumpun extends \Eloquent {}
+    class Rumpun extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $kategori_tenggat_id
@@ -551,12 +569,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereTanggalSelesai($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TenggatRencana whereUpdatedAt($value)
  */
-	class TenggatRencana extends \Eloquent {}
+    class TenggatRencana extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $unit_kerja
@@ -572,12 +591,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UnitKerja whereUnitKerja($value)
  * @method static \Illuminate\Database\Eloquent\Builder|UnitKerja whereUpdatedAt($value)
  */
-	class UnitKerja extends \Eloquent {}
+    class UnitKerja extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -605,12 +625,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+    class User extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $kelompok_id
@@ -634,12 +655,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereStatusRevisi($value)
  * @method static \Illuminate\Database\Eloquent\Builder|kelompokCanValidating whereUpdatedAt($value)
  */
-	class kelompokCanValidating extends \Eloquent {}
+    class kelompokCanValidating extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $data_pegawai_id
@@ -659,12 +681,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanApproving whereUpdatedAt($value)
  */
-	class pegawaiCanApproving extends \Eloquent {}
+    class pegawaiCanApproving extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $data_pegawai_id
@@ -673,34 +696,36 @@ namespace App\Models{
  * @property string $catatan
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying query()
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereCatatan($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereDataPegawaiId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereRencanaPembelajaranId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|pegawaiCanVerifying whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying query()
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereCatatan($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereDataPegawaiId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereRencanaPembelajaranId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|unitKerjaCanVerifying whereUpdatedAt($value)
  */
-	class pegawaiCanVerifying extends \Eloquent {}
+    class unitKerjaCanVerifying extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasEstimasi query()
  */
-	class pendidikanHasEstimasi extends \Eloquent {}
+    class pendidikanHasEstimasi extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $data_pendidikan_id
@@ -716,12 +741,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasJenjang whereJenjangId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|pendidikanHasJenjang whereUpdatedAt($value)
  */
-	class pendidikanHasJenjang extends \Eloquent {}
+    class pendidikanHasJenjang extends \Eloquent
+    {}
 }
 
-namespace App\Models{
+namespace App\Models {
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -737,6 +763,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|userHasRole whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|userHasRole whereUserId($value)
  */
-	class userHasRole extends \Eloquent {}
+    class userHasRole extends \Eloquent
+    {}
 }
-

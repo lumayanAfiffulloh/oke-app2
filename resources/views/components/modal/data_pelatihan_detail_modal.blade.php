@@ -95,29 +95,29 @@
                 <span>:</span>
               </div>
             </div>
-            @if($item->anggaranPelatihan->count() > 0)
-            <table class="table table-bordered">
-              <thead>
-                <tr class="fs-4">
-                  <th>Region</th>
-                  <th>Kategori</th>
-                  <th>Anggaran Min</th>
-                  <th>Anggaran Maks</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($item->anggaranPelatihan as $estimasi)
-                <tr class="fs-4">
-                  <td>{{ ucwords($estimasi->region->region) }}</td> {{-- Menampilkan region --}}
-                  <td>{{ ucwords($estimasi->kategori->kategori) }}</td> {{-- Menampilkan kategori --}}
-                  <td>{{ 'Rp' . number_format($estimasi->anggaran_min, 0, ',', '.') }}</td>
-                  <td>{{ 'Rp' . number_format($estimasi->anggaran_maks, 0, ',', '.') }}</td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table>
+            @if ($item->anggaranPelatihan->count() > 0)
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="fs-4">
+                    <th>Region</th>
+                    <th>Kategori</th>
+                    <th>Anggaran Min</th>
+                    <th>Anggaran Maks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach ($item->anggaranPelatihan as $estimasi)
+                    <tr class="fs-4">
+                      <td>{{ ucwords($estimasi->region->region) }}</td> {{-- Menampilkan region --}}
+                      <td>{{ ucwords($estimasi->kategori->kategori) }}</td> {{-- Menampilkan kategori --}}
+                      <td>{{ 'Rp' . number_format($estimasi->anggaran_min, 0, ',', '.') }}</td>
+                      <td>{{ 'Rp' . number_format($estimasi->anggaran_maks, 0, ',', '.') }}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+              </table>
             @else
-            <span class="text-muted">Estimasi harga tidak tersedia.</span>
+              <span class="text-muted">Estimasi harga tidak tersedia.</span>
             @endif
           </h2>
         </li>
@@ -125,7 +125,7 @@
       </ol>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+      <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
       <a href="/data_pelatihan/{{ $item->id }}/edit" class="btn btn-warning" style="font-size: 0.8rem">Edit</a>
     </div>
   </div>

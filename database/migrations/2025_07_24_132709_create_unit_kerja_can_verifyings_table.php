@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pegawai_can_verifyings', function (Blueprint $table) {
+        Schema::create('unit_kerja_can_verifyings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('data_pegawai_id');
             $table->foreignId('rencana_pembelajaran_id');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pegawai_can_verifyings');
+        Schema::dropIfExists('unit_kerja_can_verifyings');
     }
 };

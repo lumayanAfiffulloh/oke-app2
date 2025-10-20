@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Imports;
 
-use App\Models\User;
-use App\Models\Role;
-use App\Models\Jabatan;
-use App\Models\UnitKerja;
 use App\Models\DataPegawai;
+use App\Models\Jabatan;
 use App\Models\JenjangTerakhir;
 use App\Models\PendidikanTerakhir;
+use App\Models\Role;
+use App\Models\UnitKerja;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -24,13 +23,13 @@ class DataPegawaiImport implements ToModel, WithHeadingRow
         $akun = User::firstOrCreate(
             ['email' => $row['email']],
             [
-                'name' => $row['nama_lengkap'],
+                'name'     => $row['nama_lengkap'],
                 'password' => Hash::make('password'), // Password default
             ]
         );
 
         // Tambahkan role "pegawai" jika belum ada
-        if (!$akun->roles->contains($rolePegawai->id)) {
+        if (! $akun->roles->contains($rolePegawai->id)) {
             $akun->roles()->attach($rolePegawai->id);
         }
 
@@ -52,21 +51,21 @@ class DataPegawaiImport implements ToModel, WithHeadingRow
         // Cari atau buat pendidikan terakhir
         $pendidikanTerakhir = PendidikanTerakhir::firstOrCreate([
             'jenjang_terakhir_id' => $jenjangTerakhir->id,
-            'jurusan' => $row['jurusan'],
+            'jurusan'             => $row['jurusan'],
         ]);
 
         // Update atau buat data pegawai
         return DataPegawai::updateOrCreate(
             ['user_id' => $akun->id],
             [
-                'nama' => $row['nama_lengkap'],
-                'nppu' => $row['nppu'],
-                'status' => 'aktif', // Status default
-                'unit_kerja_id' => $unitKerja->id,
-                'jabatan_id' => $jabatan->id,
+                'nama'                   => $row['nama_lengkap'],
+                'nppu'                   => $row['nppu'],
+                'status'                 => 'aktif', // Status default
+                'unit_kerja_id'          => $unitKerja->id,
+                'jabatan_id'             => $jabatan->id,
                 'pendidikan_terakhir_id' => $pendidikanTerakhir->id,
-                'jenis_kelamin' => $row['jns_kel'],
-                'nomor_telepon' => $row['nomor_telepon'] ?? null,
+                'jenis_kelamin'          => $row['jns_kel'],
+                'nomor_telepon'          => $row['nomor_telepon'] ?? null,
             ]
         );
     }

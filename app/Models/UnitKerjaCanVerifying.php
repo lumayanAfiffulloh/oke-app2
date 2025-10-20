@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class pegawaiCanVerifying extends Model
+class unitKerjaCanVerifying extends Model
 {
     use HasFactory;
 
@@ -22,6 +22,6 @@ class pegawaiCanVerifying extends Model
 
     public function catatanVerifikasi()
     {
-        return $this->hasMany(CatatanVerifikasi::class, 'kelompok_can_validating_id');
+        return $this->hasMany(CatatanVerifikasi::class, 'unit_kerja_can_verifying_id');
     }
 }

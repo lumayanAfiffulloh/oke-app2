@@ -1,17 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
-use App\Models\Region;
-use App\Models\Rumpun;
-use App\Models\Kategori;
-use Illuminate\Http\Request;
-use App\Models\DataPelatihan;
-use App\Models\AnggaranPelatihan;
-use Illuminate\Support\Facades\DB;
-use App\Imports\DataPelatihanImport;
-use Maatwebsite\Excel\Facades\Excel;
+
 use App\Http\Requests\StoreDataPelatihanRequest;
 use App\Http\Requests\UpdateDataPelatihanRequest;
+use App\Imports\DataPelatihanImport;
+use App\Models\AnggaranPelatihan;
+use App\Models\DataPelatihan;
+use App\Models\Kategori;
+use App\Models\Region;
+use App\Models\Rumpun;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
 class DataPelatihanController extends Controller
@@ -48,43 +48,43 @@ class DataPelatihanController extends Controller
 
             // Simpan data pelatihan
             $dataPelatihan = DataPelatihan::create([
-                'rumpun_id' => $rumpun->id,
-                'kode' => $requestData['kode'],
+                'rumpun_id'      => $rumpun->id,
+                'kode'           => $requestData['kode'],
                 'nama_pelatihan' => $requestData['nama_pelatihan'],
-                'deskripsi' => $requestData['deskripsi'],
-                'jp' => $requestData['jp'],
-                'materi' => $requestData['materi'],
+                'deskripsi'      => $requestData['deskripsi'],
+                'jp'             => $requestData['jp'],
+                'materi'         => $requestData['materi'],
             ]);
 
             // Data anggaran harga nasional dan internasional
             $anggaranPelatihanData = [
                 [
                     'data_pelatihan_id' => $dataPelatihan->id,
-                    'region_id' => Region::where('region', 'nasional')->first()->id, // Ambil ID region nasional
-                    'kategori_id' => Kategori::where('kategori', 'klasikal')->first()->id, // Ambil ID kategori klasikal
-                    'anggaran_min' => $requestData['nasional_klasikal_min'] ?? null,
-                    'anggaran_maks' => $requestData['nasional_klasikal_maks'] ?? null,
+                    'region_id'         => Region::where('region', 'nasional')->first()->id,     // Ambil ID region nasional
+                    'kategori_id'       => Kategori::where('kategori', 'klasikal')->first()->id, // Ambil ID kategori klasikal
+                    'anggaran_min'      => $requestData['nasional_klasikal_min'] ?? null,
+                    'anggaran_maks'     => $requestData['nasional_klasikal_maks'] ?? null,
                 ],
                 [
                     'data_pelatihan_id' => $dataPelatihan->id,
-                    'region_id' => Region::where('region', 'nasional')->first()->id, // Ambil ID region nasional
-                    'kategori_id' => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
-                    'anggaran_min' => $requestData['nasional_non-klasikal_min'] ?? null,
-                    'anggaran_maks' => $requestData['nasional_non-klasikal_maks'] ?? null,
+                    'region_id'         => Region::where('region', 'nasional')->first()->id,         // Ambil ID region nasional
+                    'kategori_id'       => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
+                    'anggaran_min'      => $requestData['nasional_non-klasikal_min'] ?? null,
+                    'anggaran_maks'     => $requestData['nasional_non-klasikal_maks'] ?? null,
                 ],
                 [
                     'data_pelatihan_id' => $dataPelatihan->id,
-                    'region_id' => Region::where('region', 'internasional')->first()->id, // Ambil ID region internasional
-                    'kategori_id' => Kategori::where('kategori', 'klasikal')->first()->id, // Ambil ID kategori klasikal
-                    'anggaran_min' => $requestData['internasional_klasikal_min'] ?? null,
-                    'anggaran_maks' => $requestData['internasional_klasikal_maks'] ?? null,
+                    'region_id'         => Region::where('region', 'internasional')->first()->id, // Ambil ID region internasional
+                    'kategori_id'       => Kategori::where('kategori', 'klasikal')->first()->id,  // Ambil ID kategori klasikal
+                    'anggaran_min'      => $requestData['internasional_klasikal_min'] ?? null,
+                    'anggaran_maks'     => $requestData['internasional_klasikal_maks'] ?? null,
                 ],
                 [
                     'data_pelatihan_id' => $dataPelatihan->id,
-                    'region_id' => Region::where('region', 'internasional')->first()->id, // Ambil ID region internasional
-                    'kategori_id' => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
-                    'anggaran_min' => $requestData['internasional_non-klasikal_min'] ?? null,
-                    'anggaran_maks' => $requestData['internasional_non-klasikal_maks'] ?? null,
+                    'region_id'         => Region::where('region', 'internasional')->first()->id,    // Ambil ID region internasional
+                    'kategori_id'       => Kategori::where('kategori', 'non-klasikal')->first()->id, // Ambil ID kategori non-klasikal
+                    'anggaran_min'      => $requestData['internasional_non-klasikal_min'] ?? null,
+                    'anggaran_maks'     => $requestData['internasional_non-klasikal_maks'] ?? null,
                 ],
             ];
 
@@ -96,11 +96,8 @@ class DataPelatihanController extends Controller
             }
         });
 
-        // Flash message sukses
-        flash('Data pelatihan dan anggaran harga berhasil ditambahkan')->success();
-
-        // Redirect ke halaman index
-        return redirect()->route('data_pelatihan.index');
+        return redirect()->route('data_pelatihan.index')
+            ->with('success', 'Data pelatihan dan anggaran harga berhasil ditambahkan!');
     }
 
     /**
@@ -117,7 +114,7 @@ class DataPelatihanController extends Controller
     public function edit(string $id)
     {
         $dataPelatihan = DataPelatihan::with(['rumpun', 'anggaranPelatihan'])->findOrFail($id);
-        $rumpuns = Rumpun::all();
+        $rumpuns       = Rumpun::all();
 
         return view('data_pelatihan_edit', compact('dataPelatihan', 'rumpuns'));
     }
@@ -132,12 +129,12 @@ class DataPelatihanController extends Controller
 
         // Update data pelatihan
         $dataPelatihan->update([
-            'kode' => $request->kode,
-            'rumpun_id' => $request->rumpun_id,
+            'kode'           => $request->kode,
+            'rumpun_id'      => $request->rumpun_id,
             'nama_pelatihan' => $request->nama_pelatihan,
-            'deskripsi' => $request->deskripsi,
-            'jp' => $request->jp,
-            'materi' => $request->materi,
+            'deskripsi'      => $request->deskripsi,
+            'jp'             => $request->jp,
+            'materi'         => $request->materi,
         ]);
 
         // Update data anggaran pelatihan
@@ -145,20 +142,15 @@ class DataPelatihanController extends Controller
             foreach ($request->anggaran as $anggaranId => $anggaranData) {
                 $anggaran = AnggaranPelatihan::findOrFail($anggaranId);
                 $anggaran->update([
-                    'anggaran_min' => (int) str_replace('.', '', $anggaranData['anggaran_min']),
+                    'anggaran_min'  => (int) str_replace('.', '', $anggaranData['anggaran_min']),
                     'anggaran_maks' => (int) str_replace('.', '', $anggaranData['anggaran_maks']),
                 ]);
             }
         }
 
-        // Flash message sukses
-        flash('Data pelatihan berhasil diupdate')->success();
-
-        // Redirect ke halaman index
-        return redirect()->route('data_pelatihan.index');
+        return redirect()->route('data_pelatihan.index')
+            ->with('success', 'Data pelatihan berhasil diupdate!');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -166,8 +158,9 @@ class DataPelatihanController extends Controller
     public function destroy(DataPelatihan $dataPelatihan)
     {
         $dataPelatihan->delete();
-        flash('Data berhasil dihapus!')->error();
-        return redirect()->route('data_pelatihan.index');
+
+        return redirect()->route('data_pelatihan.index')
+            ->with('error', 'Data berhasil dihapus!');
     }
 
     public function importExcelData(Request $request)
@@ -176,32 +169,34 @@ class DataPelatihanController extends Controller
             'importDataPelatihan' => [
                 'required',
                 'file',
-                'mimes:xlsx,xls,csv', // Validasi tipe file
+                'mimes:xlsx,xls,csv',
             ],
         ], [
             'importDataPelatihan.required' => 'File impor wajib diunggah.',
-            'importDataPelatihan.file' => 'Berkas harus berupa file.',
-            'importDataPelatihan.mimes' => 'Format file harus berupa xlsx, xls, atau csv.',
+            'importDataPelatihan.file'     => 'Berkas harus berupa file.',
+            'importDataPelatihan.mimes'    => 'Format file harus berupa xlsx, xls, atau csv.',
         ]);
 
         try {
-            // Gunakan import class yang sudah dibuat
             Excel::import(new DataPelatihanImport, $request->file('importDataPelatihan'));
 
-            flash('Data berhasil diimport!')->success();
+            return redirect()->route('data_pelatihan.index')
+                ->with('success', 'Data berhasil diimpor!');
+
         } catch (ValidationException $e) {
-            $failures = $e->failures();
+            $failures     = $e->failures();
             $errorMessage = "Gagal mengimpor data. Periksa file Anda.";
 
             foreach ($failures as $failure) {
                 $errorMessage .= " Baris: {$failure->row()}, Kolom: " . implode(', ', $failure->attribute());
             }
 
-            flash($errorMessage)->error();
-        } catch (\Exception $e) {
-            flash('Import File Gagal. Pastikan format file sesuai dengan template!')->error();
-        }
+            return redirect()->route('data_pelatihan.index')
+                ->with('error', $errorMessage);
 
-        return redirect()->route('data_pelatihan.index');
+        } catch (\Exception $e) {
+            return redirect()->route('data_pelatihan.index')
+                ->with('error', 'Impor file gagal. Pastikan format file sesuai dengan template!');
+        }
     }
 }

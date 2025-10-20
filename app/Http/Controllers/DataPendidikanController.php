@@ -1,15 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Jenjang;
-use App\Models\Jurusan;
-use Illuminate\Http\Request;
-use App\Models\DataPendidikan;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\DataPendidikanImport;
 use App\Http\Requests\StoreDataPendidikanRequest;
 use App\Http\Requests\UpdateDataPendidikanRequest;
+use App\Imports\DataPendidikanImport;
+use App\Models\DataPendidikan;
+use App\Models\Jenjang;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
 class DataPendidikanController extends Controller
@@ -21,8 +19,8 @@ class DataPendidikanController extends Controller
     {
         // Ambil semua DataPendidikan dengan relasi 'jenjangs', dan 'jurusan'
         $dataPendidikan = DataPendidikan::with(['jenjangs'])->latest()->get();
-        $jenjangs = Jenjang::whereIn('jenjang', ['S1', 'S2', 'S3'])->get();
-        $jenjangsAll = Jenjang::all();
+        $jenjangs       = Jenjang::whereIn('jenjang', ['S1', 'S2', 'S3'])->get();
+        $jenjangsAll    = Jenjang::all();
         return view('data_pendidikan_index', compact('dataPendidikan', 'jenjangs', 'jenjangsAll'));
     }
 
@@ -38,20 +36,15 @@ class DataPendidikanController extends Controller
             'jurusan' => $requestData['jurusan'],
         ]);
 
-        // Simpan relasi jenjang
-        foreach ($requestData['jenjang'] as $jenjang) {
-            // Cek atau buat data jenjang jika belum ada
-            $jenjangObj = Jenjang::firstOrCreate(['jenjang' => $jenjang]);
+        $jenjangIds = Jenjang::whereIn('jenjang', $requestData['jenjang'])
+            ->pluck('id')
+            ->toArray();
 
-            // Tambahkan relasi ke tabel pivot
-            $dataPendidikan->jenjangs()->attach($jenjangObj->id);
-        }
+        // Tambahkan relasi ke tabel pivot
+        $dataPendidikan->jenjangs()->attach($jenjangIds);
 
-        // Flash message sukses
-        flash('Data pendidikan berhasil ditambahkan')->success();
-
-        // Redirect ke halaman index
-        return redirect()->route('data_pendidikan.index');
+        return redirect()->route('data_pendidikan.index')
+            ->with('success', 'Data pendidikan berhasil ditambahkan!');
     }
 
     /**
@@ -61,47 +54,41 @@ class DataPendidikanController extends Controller
     {
         // Validasi data yang dikirim
         $validatedData = $request->validated();
-    
+
         // Hapus kolom 'jenjang' dari array validatedData
         unset($validatedData['jenjang']);
-    
+
         // Perbarui data pendidikan
         $dataPendidikan->update($validatedData);
-    
+
         // Perbarui data jenjang
-        if (isset($request->jenjang)) {
-            // Ambil atau buat jenjang baru, lalu sinkronkan dengan data pendidikan
-            $jenjangIds = [];
-            foreach ($request->jenjang as $jenjang) {
-                $jenjangObj = Jenjang::firstOrCreate(['jenjang' => $jenjang]);
-                $jenjangIds[] = $jenjangObj->id;
-            }
+        if (! empty($request->jenjang)) {
+            // Ambil ID jenjang dari database (tanpa membuat baru)
+            $jenjangIds = Jenjang::whereIn('jenjang', $request->jenjang)
+                ->pluck('id')
+                ->toArray();
+
+            // Sinkronkan relasi
             $dataPendidikan->jenjangs()->sync($jenjangIds);
         } else {
             // Jika jenjang kosong, hapus semua relasi jenjang
             $dataPendidikan->jenjangs()->detach();
         }
-    
-        // Flash message sukses
-        flash('Data pendidikan berhasil diperbarui')->success();
-    
-        // Redirect ke halaman index
-        return redirect()->route('data_pendidikan.index');
+
+        return redirect()->route('data_pendidikan.index')
+            ->with('success', 'Data pendidikan berhasil diperbarui!');
     }
 
     public function destroy(DataPendidikan $dataPendidikan)
     {
         // Menghapus relasi many-to-many dengan tabel jenjangs
         $dataPendidikan->jenjangs()->detach();
-    
+
         // Menghapus data pendidikan
         $dataPendidikan->delete();
-    
-        // Flash message sukses
-        flash('Data pendidikan berhasil dihapus')->error();
-    
-        // Redirect ke halaman index
-        return redirect()->route('data_pendidikan.index');
+
+        return redirect()->route('data_pendidikan.index')
+            ->with('error', 'Data pendidikan berhasil dihapus!');
     }
 
     public function importExcelData(Request $request)
@@ -115,33 +102,29 @@ class DataPendidikanController extends Controller
             ],
         ], [
             'importDataPendidikan.required' => 'File impor wajib diunggah.',
-            'importDataPendidikan.file' => 'Berkas harus berupa file.',
-            'importDataPendidikan.mimes' => 'Format file harus berupa xlsx, xls, atau csv.',
+            'importDataPendidikan.file'     => 'Berkas harus berupa file.',
+            'importDataPendidikan.mimes'    => 'Format file harus berupa xlsx, xls, atau csv.',
         ]);
-    
+
         try {
             // Gunakan class import yang sudah dibuat
             Excel::import(new DataPendidikanImport, $request->file('importDataPendidikan'));
-    
-            flash('Data pendidikan berhasil diimpor!')->success();
+
+            return redirect()->route('data_pendidikan.index')->with('success', 'Data pendidikan berhasil diimpor!');
         } catch (ValidationException $e) {
             // Tangani kesalahan validasi dan tampilkan baris serta kolom yang gagal
-            $failures = $e->failures();
+            $failures     = $e->failures();
             $errorMessage = "Gagal mengimpor data. Periksa file Anda.";
-    
+
             foreach ($failures as $failure) {
                 $errorMessage .= " Baris: {$failure->row()}, Kolom: " . implode(', ', $failure->attribute());
             }
-    
-            flash($errorMessage)->error();
+
+            return redirect()->route('data_pendidikan.index')->with('error', $errorMessage);
         } catch (\Exception $e) {
             // Tangani kesalahan lain (misalnya kesalahan format file)
-            flash('Import file gagal. Pastikan format file sesuai dengan template!')->error();
+            return redirect()->route('data_pendidikan.index')->with('error', 'Impor file gagal. Pastikan format file sesuai dengan template!');
         }
-    
-        // Kembali ke halaman sebelumnya
-        return redirect()->route('data_pendidikan.index');
     }
-    
 
 }

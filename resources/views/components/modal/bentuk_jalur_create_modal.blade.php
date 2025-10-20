@@ -15,9 +15,9 @@
           <div class="col-md-6">
             <select class="form-select" id="kategori" name="kategori">
               <option value="" selected disabled id="pilih">-- Pilih Kategori --</option>
-              <option value="klasikal" {{ old('kategori')==='klasikal' ? 'selected' : '' }} id="kategori-klasikal">
+              <option value="klasikal" {{ old('kategori') === 'klasikal' ? 'selected' : '' }} id="kategori-klasikal">
                 Klasikal</option>
-              <option value="non-klasikal" {{ old('kategori')==='non-klasikal' ? 'selected' : '' }}
+              <option value="non-klasikal" {{ old('kategori') === 'non-klasikal' ? 'selected' : '' }}
                 id="kategori-non-klasikal">Non-Klasikal</option>
             </select>
             <span class="text-danger">{{ $errors->first('kategori') }}</span>
@@ -32,8 +32,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-warning" id="createAlert">Simpan</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary" id="createAlert">Simpan</button>
       </div>
     </form>
   </div>

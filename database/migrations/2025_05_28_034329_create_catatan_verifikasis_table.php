@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('catatan_verifikasis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pegawai_can_verifying_id');
+            $table->foreignId('unit_kerja_can_verifying_id');
             $table->string('catatan');
             $table->timestamps();
         });

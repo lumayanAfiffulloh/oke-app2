@@ -174,6 +174,22 @@
             </li>
           @endcan
 
+          @can('approver')
+            {{-- VERIFIKATOR --}}
+            <li class="nav-small-cap mt-2">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">RPP PEGAWAI</span>
+            </li>
+            <li class="sidebar-item {{ Request::is('approval*') ? 'selected' : '' }}">
+              <a class="sidebar-link css-hover-animation" href="/approval" aria-expanded="false">
+                <span>
+                  <i class="ti ti-checklist"></i>
+                </span>
+                <span class="hide-menu">Approval RPP Pegawai</span>
+              </a>
+            </li>
+          @endcan
+
           {{-- LAPORAN --}}
           <li class="nav-small-cap mt-2">
             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>

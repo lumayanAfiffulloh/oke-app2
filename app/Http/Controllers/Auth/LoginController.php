@@ -1,15 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use App\Models\DataPegawai;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Validation\ValidationException;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -54,10 +52,10 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            'login' => 'required|string',
+            'login'    => 'required|string',
             'password' => 'required|string',
         ], [
-        'login.required' => 'Email/NIP/NPPU wajib diisi.'
+            'login.required' => 'Email/NIP/NPPU wajib diisi.',
         ]);
     }
 
@@ -74,16 +72,16 @@ class LoginController extends Controller
         if ($field === 'nppu') {
             $pegawai = \App\Models\DataPegawai::where('nppu', $login)->first();
 
-            if (!$pegawai) {
+            if (! $pegawai) {
                 return back()->withErrors([
                     'login' => 'NIP/NPPU tidak ditemukan.',
                 ]);
             }
 
-            // Ambil email atau username dari tabel users
+                                    // Ambil email atau username dari tabel users
             $user = $pegawai->user; // Mengambil data user terkait
-            // Cek apakah user terkait ada
-            if (!$user) {
+                                    // Cek apakah user terkait ada
+            if (! $user) {
                 return back()->withErrors([
                     'login' => 'User terkait dengan NIP/NPPU tidak ditemukan.',
                 ]);
@@ -93,13 +91,12 @@ class LoginController extends Controller
         } else {
             // Jika menggunakan email, langsung gunakan data dari request
             $credentials = ['email' => $request->input('login'), 'password' => $request->input('password')];
-        } 
+        }
 
         // Autentikasi pengguna
-    if (Auth::attempt($credentials)) {
-        // Gunakan sendLoginResponse() agar flash message muncul
-        return $this->sendLoginResponse($request);
-    }
+        if (Auth::attempt($credentials)) {
+            return $this->sendLoginResponse($request);
+        }
 
         return back()->withErrors([
             'login' => 'Login gagal. Silakan periksa NIP/Email dan password.',
@@ -112,21 +109,14 @@ class LoginController extends Controller
      * @return RedirectResponse
      */
 
-
     protected function sendLoginResponse(Request $request)
     {
         $this->validateLogin($request);
-        
         $request->session()->regenerate();
-
         $this->clearLoginAttempts($request);
 
-        // Set flash message
-        session()->flash('status', 'Selamat datang di aplikasi SANTI!');
-
-        // Redirect ke halaman /profil setelah login
-        return redirect()->intended('/profil');
+        return redirect()->intended('/profil')
+            ->with('status', 'Selamat datang di aplikasi SANTI!');
     }
 
-    
 }

@@ -65,9 +65,8 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-warning"
-                              id="editAlert{{ $user->id }}">Simpan</button>
+                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                           </div>
                         </form>
                       </div>
@@ -83,3 +82,29 @@
     </div>
   </div>
 @endsection
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    let saveButtons = document.querySelectorAll('.modal-footer .btn-primary');
+
+    saveButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        let form = button.closest('form');
+
+        Swal.fire({
+          title: "Konfirmasi Perubahan",
+          text: "Pastikan hak akses yang Anda berikan sudah benar!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Simpan",
+          cancelButtonText: "Batal"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            form.submit();
+          }
+        });
+      });
+    });
+  });
+</script>

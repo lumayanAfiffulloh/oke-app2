@@ -2,7 +2,6 @@
 @section('content')
   <div class="container-fluid px-3">
     <!-- Page Header dengan Informasi Penting -->
-    <!-- Page Header dengan Informasi Penting -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <div>
         <h2 class="mb-1">Verifikasi Rencana Pembelajaran</h2>
@@ -11,7 +10,7 @@
             <i class="ti ti-user me-1"></i> {{ $namaPegawai }}
           </span>
           <span class="badge bg-secondary bg-opacity-10 text-secondary">
-            <i class="ti ti-building me-1"></i> {{ $unitKerja->nama_unit }}
+            <i class="ti ti-building me-1"></i> {{ $unitKerja->unit_kerja }}
           </span>
         </div>
       </div>
@@ -27,7 +26,7 @@
               Tenggat Belum Ditetapkan
             </div>
             <div style="font-size: 0.8rem; color: #e65100;">
-              Admin belum menetapkan periode pengajuan
+              Admin belum menetapkan periode verifikasi
             </div>
           </div>
         </div>
@@ -38,7 +37,7 @@
           <i class="ti ti-clock me-2" style="color: #2196f3;"></i>
           <div>
             <div class="fw-semibold" style="font-size: 0.85rem; color: #2196f3;">
-              Periode Pengajuan Akan Dimulai
+              Periode Verifikasi Akan Dimulai
             </div>
             <div style="font-size: 0.8rem; color: #0d47a1;">
               Mulai: {{ $startDate->isoFormat('dddd, D MMMM YYYY [pukul] HH:mm') }}
@@ -57,7 +56,7 @@
           <i class="ti ti-calendar me-2" style="color: #4caf50;"></i>
           <div>
             <div class="fw-semibold" style="font-size: 0.85rem; color: #4caf50;">
-              Batas Pengajuan:
+              Batas Verifikasi:
             </div>
             <div style="font-size: 0.8rem; color: #2e7d32;">
               {{ $endDate->isoFormat('dddd, D MMMM YYYY [pukul] HH:mm') }}
@@ -71,7 +70,7 @@
           <i class="ti ti-alert-circle me-2" style="color: #f44336;"></i>
           <div>
             <div class="fw-semibold" style="font-size: 0.85rem; color: #f44336;">
-              Masa Pengajuan Telah Berakhir
+              Masa Verifikasi Telah Berakhir
             </div>
             <div style="font-size: 0.8rem; color: #c62828;">
               Batas akhir: {{ $endDate->isoFormat('dddd, D MMMM YYYY [pukul] HH:mm') }}
@@ -80,6 +79,7 @@
         </div>
       @endif
     </div>
+
     <!-- Statistik Ringkas -->
     <div class="row mb-3">
       <div class="col-md-4">
@@ -87,8 +87,10 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h6 class="text-muted mb-2">Total Rencana</h6>
-                <h3 class="mb-0"></h3>
+                <h5 class="text-muted mb-2">Total Rencana</h5>
+                <h3 class="mb-0">
+                  {{ $kelompoksData->sum(fn($k) => $k['rencanaDisetujui']->count() + $k['rencanaDirevisi']->count() + $k['rencanaBelumDiverifikasi']->count()) }}
+                </h3>
               </div>
               <div class="bg-primary bg-opacity-10 p-3 rounded">
                 <i class="ti ti-list text-primary" style="font-size: 1.5rem"></i>
@@ -102,8 +104,8 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h6 class="text-muted mb-2">Disetujui</h6>
-                <h3 class="mb-0"></h3>
+                <h5 class="text-muted mb-2">Disetujui</h5>
+                <h3 class="mb-0">{{ $kelompoksData->sum(fn($k) => $k['rencanaDisetujui']->count()) }}</h3>
               </div>
               <div class="bg-success bg-opacity-10 p-3 rounded">
                 <i class="ti ti-circle-check text-success" style="font-size: 1.5rem"></i>
@@ -117,8 +119,8 @@
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <h6 class="text-muted mb-2">Perlu Revisi</h6>
-                <h3 class="mb-0"></h3>
+                <h5 class="text-muted mb-2">Perlu Revisi</h5>
+                <h3 class="mb-0">{{ $kelompoksData->sum(fn($k) => $k['rencanaDirevisi']->count()) }}</h3>
               </div>
               <div class="bg-warning bg-opacity-10 p-3 rounded">
                 <i class="ti ti-alert-triangle text-warning" style="font-size: 1.5rem"></i>
@@ -130,7 +132,7 @@
     </div>
 
     {{-- Card Daftar --}}
-    <div class="card mb-4 pb-4 bg-white">
+    <div class="card mb-4 pb-2 bg-white">
       <div class="card-header p-3 fs-5 fw-bolder bg-white">
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="mb-0 fw-semibold">Daftar Rencana Unit Kerja</h5>
@@ -151,9 +153,9 @@
           </div>
         @else
           <div class="accordion" id="kelompokAccordion">
-            @foreach ($kelompoksData as $kelompokData)
+            @foreach ($kelompoksData as $idx => $kelompokData)
               <div class="accordion-item">
-                <h2 class="accordion-header" id="heading-{{ $kelompokData['kelompok']->id }}">
+                <div class="accordion-header" id="heading-{{ $kelompokData['kelompok']->id }}">
                   <button class="accordion-button bg-white shadow-none collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapse-{{ $kelompokData['kelompok']->id }}" aria-expanded="true"
                     aria-controls="collapse-{{ $kelompokData['kelompok']->id }}">
@@ -164,7 +166,7 @@
                       {{ $kelompokData['kelompok']->anggota->count() }} Anggota
                     </span>
                   </button>
-                </h2>
+                </div>
 
                 <div id="collapse-{{ $kelompokData['kelompok']->id }}" class="accordion-collapse collapse show"
                   data-bs-parent="#kelompokAccordion" aria-labelledby="heading-{{ $kelompokData['kelompok']->id }}">
@@ -176,7 +178,7 @@
                           $kelompokData['rencanaBelumDiverifikasi']->count();
                     @endphp
 
-                    <ul class="nav nav-tabs  px-3" role="tablist">
+                    <ul class="nav nav-tabs px-3" role="tablist">
                       <li class="nav-item" role="presentation">
                         <button class="nav-link active fw-semibold" data-bs-toggle="tab"
                           data-bs-target="#belumdiverifikasi-{{ $kelompokData['kelompok']->id }}" type="button"
@@ -206,13 +208,67 @@
                       </li>
                     </ul>
 
-                    <div class="tab-content p-2">
-                      <div class="tab-content p-2">
-                        @include('partials.tabel_belum_verifikasi', ['kelompokData' => $kelompokData])
-                        @include('partials.tabel_direvisi_verifikasi', ['kelompokData' => $kelompokData])
-                        @include('partials.tabel_disetujui_verifikasi', ['kelompokData' => $kelompokData])
+                    <div class="tab-content p-2 px-0">
+                      <div class="tab-pane fade show active" id="belumdiverifikasi-{{ $kelompokData['kelompok']->id }}"
+                        role="tabpanel">
+                        @if ($kelompokData['rencanaBelumDiverifikasi']->isEmpty())
+                          @if (
+                              $kelompokData['rencanaDisetujui']->isEmpty() &&
+                                  $kelompokData['rencanaDirevisi']->isEmpty() &&
+                                  $kelompokData['rencanaBelumDiverifikasi']->isEmpty())
+                            {{-- Kasus 1: Tidak ada rencana pembelajaran sama sekali --}}
+                            <div class="alert alert-warning m-2 mx-3">
+                              <i class="ti ti-info-circle me-2"></i>Belum ada data pembelajaran dari kelompok ini
+                            </div>
+                          @elseif ($kelompokData['rencanaDisetujui']->count() + $kelompokData['rencanaDirevisi']->count() > 0)
+                            {{-- Kasus 2: Ada rencana, tapi semuanya sudah diverifikasi (disetujui/direvisi) --}}
+                            <div class="alert alert-success m-2 mx-3">
+                              <i class="ti ti-circle-check me-2"></i>Semua rencana pembelajaran telah diverifikasi
+                            </div>
+                          @else
+                            {{-- Kasus lain yang tidak terduga --}}
+                            <div class="alert alert-info m-2 mx-3">
+                              <i class="ti ti-alert-circle me-2"></i>Tidak ada rencana yang belum diverifikasi
+                            </div>
+                          @endif
+                        @else
+                          {{-- Ada data yang belum diverifikasi --}}
+                          @include('partials.tabel_belum_verifikasi', [
+                              'kelompokData' => $kelompokData,
+                              'accordionKey' => $idx, // <-- kirim index unik per accordion
+                          ])
+                        @endif
+                      </div>
+
+                      <!-- Tab Disetujui -->
+                      <div class="tab-pane fade" id="disetujui-{{ $kelompokData['kelompok']->id }}" role="tabpanel">
+                        @if ($kelompokData['rencanaDisetujui']->isEmpty())
+                          <div class="alert alert-info m-2">
+                            <i class="ti ti-info-circle me-2"></i>Tidak ada rencana yang disetujui
+                          </div>
+                        @else
+                          @include('partials.tabel_disetujui_verifikasi', [
+                              'rencana' => $kelompokData['rencanaDisetujui'],
+                              'kelompok' => $kelompokData['kelompok'],
+                          ])
+                        @endif
+                      </div>
+
+                      <!-- Tab Ditolak / Perlu Revisi -->
+                      <div class="tab-pane fade" id="direvisi-{{ $kelompokData['kelompok']->id }}" role="tabpanel">
+                        @if ($kelompokData['rencanaDirevisi']->isEmpty())
+                          <div class="alert alert-info m-2 mx-3">
+                            <i class="ti ti-info-circle me-2"></i>Tidak ada rencana yang perlu revisi
+                          </div>
+                        @else
+                          @include('partials.tabel_direvisi_verifikasi', [
+                              'rencana' => $kelompokData['rencanaDirevisi'],
+                              'kelompok' => $kelompokData['kelompok'],
+                          ])
+                        @endif
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>

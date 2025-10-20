@@ -15,8 +15,8 @@
             <div class="form-group mt-1 mb-3">
               <label for="kode" class="fw-bolder">Kode</label>
               <div class="col">
-                <input type="text" class="form-control @error('kode') is-invalid @enderror" id="kode" name="kode"
-                  value="{{ old('kode') }}">
+                <input type="text" class="form-control @error('kode') is-invalid @enderror" id="kode"
+                  name="kode" value="{{ old('kode') }}">
               </div>
               <span class="text-danger">{{ $errors->first('kode') }}</span>
             </div>
@@ -26,8 +26,8 @@
             <div class="form-group mt-1 mb-3">
               <label for="rumpun" class="fw-bolder">Rumpun</label>
               <div class="col">
-                <input type="text" class="form-control @error('rumpun') is-invalid @enderror" id="rumpun" name="rumpun"
-                  value="{{ old('rumpun') }}">
+                <input type="text" class="form-control @error('rumpun') is-invalid @enderror" id="rumpun"
+                  name="rumpun" value="{{ old('rumpun') }}">
               </div>
               <span class="text-danger">{{ $errors->first('rumpun') }}</span>
             </div>
@@ -48,8 +48,8 @@
         <div class="form-group mt-1 mb-3">
           <label for="deskripsi" class="fw-bolder">Deskripsi Pelatihan</label>
           <div class="col">
-            <textarea type="text" class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
-              name="deskripsi" value="{{ old('deskripsi') }}"></textarea>
+            <textarea type="text" class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi"
+              value="{{ old('deskripsi') }}"></textarea>
           </div>
           <span class="text-danger">{{ $errors->first('deskripsi') }}</span>
         </div>
@@ -119,7 +119,8 @@
             <div class="form-group mt-1 mb-2">
               <input type="text" value="{{ old('nasional_non-klasikal_maks') }}"
                 class="form-control format-rupiah @error('nasional_non-klasikal_maks') is-invalid @enderror"
-                id="nasional_non-klasikal_maks" name="nasional_non-klasikal_maks_display" placeholder="Maks. Anggaran">
+                id="nasional_non-klasikal_maks" name="nasional_non-klasikal_maks_display"
+                placeholder="Maks. Anggaran">
               <input type="hidden" id="nasional_non-klasikal_maks" name="nasional_non-klasikal_maks">
               <span class="text-danger">{{ $errors->first('nasional_non-klasikal_maks') }}</span>
             </div>
@@ -136,7 +137,8 @@
             <div class="form-group mt-1 mb-2">
               <input type="text" value="{{ old('internasional_klasikal_min') }}"
                 class="form-control format-rupiah @error('internasional_klasikal_min') is-invalid @enderror"
-                id="internasional_klasikal_min" name="internasional_klasikal_min_display" placeholder="Min. Anggaran">
+                id="internasional_klasikal_min" name="internasional_klasikal_min_display"
+                placeholder="Min. Anggaran">
               <input type="hidden" id="internasional_klasikal_min" name="internasional_klasikal_min">
               <span class="text-danger">{{ $errors->first('internasional_klasikal_min') }}</span>
             </div>
@@ -183,8 +185,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-warning" id="createAlert">Simpan</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary" id="createAlert">Simpan</button>
       </div>
     </form>
   </div>

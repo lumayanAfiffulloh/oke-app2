@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\BentukJalur;
 use App\Http\Requests\StoreBentukJalurRequest;
 use App\Http\Requests\UpdateBentukJalurRequest;
+use App\Models\BentukJalur;
 use Illuminate\Http\Request;
 
 class BentukJalurController extends Controller
@@ -41,11 +40,8 @@ class BentukJalurController extends Controller
         // Simpan data ke dalam RencanaPembelajaran
         BentukJalur::create($requestData);
 
-        // Flash message sukses
-        flash('Bentuk jalur berhasil ditambah')->success();
-
-        // Redirect ke halaman index
-        return redirect()->route('bentuk_jalur.index');
+        return redirect()->route('bentuk_jalur.index')
+            ->with('success', 'Bentuk jalur berhasil ditambah');
     }
 
     /**
@@ -55,8 +51,8 @@ class BentukJalurController extends Controller
     {
         $validatedData = $request->validated();
         $bentukJalur->update($validatedData);
-        flash('Bentuk jalur berhasil diubah!')->success();
-        return redirect()->route('bentuk_jalur.index');
+        return redirect()->route('bentuk_jalur.index')
+            ->with('success', 'Bentuk jalur berhasil diubah!');
     }
 
     /**
@@ -65,7 +61,7 @@ class BentukJalurController extends Controller
     public function destroy(BentukJalur $bentukJalur)
     {
         $bentukJalur->delete();
-        flash('Data berhasil dihapus!')->error();
-        return redirect()->route('bentuk_jalur.index');
+        return redirect()->route('bentuk_jalur.index')
+            ->with('error', 'Data berhasil dihapus!');
     }
 }

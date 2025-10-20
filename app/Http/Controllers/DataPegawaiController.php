@@ -1,21 +1,19 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Excel;
-use App\Models\Role;
-use App\Models\User;
-use App\Models\DataPegawai;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Imports\DataPegawaiImport;
+use App\Models\DataPegawai;
 use App\Models\Jabatan;
-use App\Models\Jenjang;
-use App\Models\UnitKerja;
 use App\Models\JenjangTerakhir;
 use App\Models\PendidikanTerakhir;
+use App\Models\Role;
+use App\Models\UnitKerja;
+use App\Models\User;
+use Excel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Validators\ValidationException;
 
 class DataPegawaiController extends Controller
@@ -31,7 +29,7 @@ class DataPegawaiController extends Controller
     public function index()
     {
         $query = DataPegawai::query();
-        
+
         $data['data_pegawai'] = $query->latest()->get();
 
         return view('pegawai_index', $data);
@@ -42,9 +40,9 @@ class DataPegawaiController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles            = Role::all();
         $jenjang_terakhir = JenjangTerakhir::all();
-        return view ('pegawai_create', compact('roles', 'jenjang_terakhir'));
+        return view('pegawai_create', compact('roles', 'jenjang_terakhir'));
     }
 
     /**
@@ -53,18 +51,18 @@ class DataPegawaiController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->validate([
-            'nama' => 'required|min:3',
-            'nppu' => 'required|unique:data_pegawais,nppu',
-            'status' => 'required',
-            'unit_kerja' => 'required',
-            'jabatan' => 'required',
-            'pendidikan' => 'required',
+            'nama'               => 'required|min:3',
+            'nppu'               => 'required|unique:data_pegawais,nppu',
+            'status'             => 'required',
+            'unit_kerja'         => 'required',
+            'jabatan'            => 'required',
+            'pendidikan'         => 'required',
             'jurusan_pendidikan' => 'required',
-            'jenis_kelamin' => 'required',
-            'nomor_telepon' => 'nullable|integer',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
-            'email' => 'required|email|unique:users,email',
-            'roles' => 'required|array',
+            'jenis_kelamin'      => 'required',
+            'nomor_telepon'      => 'nullable|integer',
+            'foto'               => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
+            'email'              => 'required|email|unique:users,email',
+            'roles'              => 'required|array',
         ]);
 
         $unitKerja = UnitKerja::updateOrCreate([
@@ -80,29 +78,29 @@ class DataPegawaiController extends Controller
         ]);
 
         $pendidikan = PendidikanTerakhir::updateOrCreate([
-            'jenjang_terakhir_id' => $jenjang->id,  
-            'jurusan' => $requestData['jurusan_pendidikan'],
+            'jenjang_terakhir_id' => $jenjang->id,
+            'jurusan'             => $requestData['jurusan_pendidikan'],
         ]);
 
         $user = User::create([
-            'name' => $requestData['nama'],
-            'email' => $requestData['email'],
+            'name'     => $requestData['nama'],
+            'email'    => $requestData['email'],
             'password' => Hash::make('password'),
         ]);
 
         $roleIds = Role::whereIn('role', $requestData['roles'])->pluck('id');
         $user->roles()->attach($roleIds);
 
-        $data_pegawai = new DataPegawai;
-        $data_pegawai->user_id = $user->id;
-        $data_pegawai->unit_kerja_id = $unitKerja->id;
-        $data_pegawai->jabatan_id = $jabatan->id;
+        $data_pegawai                         = new DataPegawai;
+        $data_pegawai->user_id                = $user->id;
+        $data_pegawai->unit_kerja_id          = $unitKerja->id;
+        $data_pegawai->jabatan_id             = $jabatan->id;
         $data_pegawai->pendidikan_terakhir_id = $pendidikan->id;
-        $data_pegawai->nama = $requestData['nama'];
-        $data_pegawai->nppu = $requestData['nppu'];
-        $data_pegawai->status = $requestData['status'];
-        $data_pegawai->jenis_kelamin = $requestData['jenis_kelamin'];
-        $data_pegawai->nomor_telepon = $requestData['nomor_telepon'] ?? null;
+        $data_pegawai->nama                   = $requestData['nama'];
+        $data_pegawai->nppu                   = $requestData['nppu'];
+        $data_pegawai->status                 = $requestData['status'];
+        $data_pegawai->jenis_kelamin          = $requestData['jenis_kelamin'];
+        $data_pegawai->nomor_telepon          = $requestData['nomor_telepon'] ?? null;
 
         if ($request->hasFile('foto')) {
             $data_pegawai->foto = $request->file('foto')->store('public');
@@ -110,8 +108,9 @@ class DataPegawaiController extends Controller
 
         $data_pegawai->save();
 
-        flash('Data berhasil disimpan!')->success();
-        return redirect()->route('data_pegawai.index');
+        return redirect()->route('data_pegawai.index')
+            ->with('success', 'Data berhasil disimpan!');
+
     }
 
     /**
@@ -119,12 +118,12 @@ class DataPegawaiController extends Controller
      */
     public function edit(string $id)
     {
-        $data['data_pegawai'] = DataPegawai::findOrFail($id);
-        $data['user'] = $data['data_pegawai']->user;
-        $data['roles'] = Role::all();
-        $data['userRoles'] = $data['user']->roles->pluck('id')->toArray();
+        $data['data_pegawai']        = DataPegawai::findOrFail($id);
+        $data['user']                = $data['data_pegawai']->user;
+        $data['roles']               = Role::all();
+        $data['userRoles']           = $data['user']->roles->pluck('id')->toArray();
         $data['pendidikan_terakhir'] = $data['data_pegawai']->pendidikanTerakhir;
-        $data['jenjang_terakhir'] = JenjangTerakhir::all();
+        $data['jenjang_terakhir']    = JenjangTerakhir::all();
         return view('pegawai_edit', $data);
     }
 
@@ -134,33 +133,33 @@ class DataPegawaiController extends Controller
     public function update(Request $request, string $id)
     {
         $data_pegawai = DataPegawai::findOrFail($id);
-        $user = $data_pegawai->user;
-        $pendidikan = PendidikanTerakhir::findOrFail($data_pegawai->pendidikan_terakhir_id);
-        $jenjang = $data_pegawai->pendidikanTerakhir->jenjangTerakhir;
+        $user         = $data_pegawai->user;
+        $pendidikan   = PendidikanTerakhir::findOrFail($data_pegawai->pendidikan_terakhir_id);
+        $jenjang      = $data_pegawai->pendidikanTerakhir->jenjangTerakhir;
 
         $requestData = $request->validate([
-            'nama' => 'nullable|min:3',
-            'nppu' => [
+            'nama'               => 'nullable|min:3',
+            'nppu'               => [
                 'nullable', Rule::unique('data_pegawais', 'nppu')->ignore($data_pegawai->id),
             ],
-            'status' => 'nullable',
-            'jenis_kelamin' => 'nullable',
-            'nomor_telepon' => 'nullable',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
-            'email' => [
+            'status'             => 'nullable',
+            'jenis_kelamin'      => 'nullable',
+            'nomor_telepon'      => 'nullable',
+            'foto'               => 'nullable|image|mimes:jpeg,png,jpg|max:10000',
+            'email'              => [
                 'nullable',
                 'email',
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
-            'pendidikan' => 'nullable',
+            'pendidikan'         => 'nullable',
             'jurusan_pendidikan' => 'nullable',
         ]);
 
         // Update data_pegawais tanpa email
         $data_pegawai->update([
-            'nama' => $requestData['nama'],
-            'nppu' => $requestData['nppu'],
-            'status' => $requestData['status'],
+            'nama'          => $requestData['nama'],
+            'nppu'          => $requestData['nppu'],
+            'status'        => $requestData['status'],
             'jenis_kelamin' => $requestData['jenis_kelamin'],
             'nomor_telepon' => $requestData['nomor_telepon'],
         ]);
@@ -179,7 +178,7 @@ class DataPegawaiController extends Controller
         // Update pendidikan_terakhir
         $pendidikan->updateOrCreate([
             'jenjang_terakhir_id' => $jenjang->id,
-            'jurusan' => $requestData['jurusan_pendidikan'],
+            'jurusan'             => $requestData['jurusan_pendidikan'],
         ]);
 
         if ($request->has('roles')) {
@@ -187,8 +186,8 @@ class DataPegawaiController extends Controller
             $user->roles()->sync($roles);
         }
 
-        flash('Data berhasil diubah!')->success();
-        return redirect()->route('data_pegawai.index');
+        return redirect()->route('data_pegawai.index')
+            ->with('success', 'Data berhasil diubah!');
     }
 
     /**
@@ -215,8 +214,8 @@ class DataPegawaiController extends Controller
 
         $data_pegawai->delete();
 
-        flash('Data berhasil dihapus!')->error();
-        return redirect()->route('data_pegawai.index');
+        return redirect()->route('data_pegawai.index')
+            ->with('error', 'Data berhasil dihapus!');
     }
 
     public function importExcelData(Request $request)
@@ -225,29 +224,34 @@ class DataPegawaiController extends Controller
             'importDataPegawai' => [
                 'required',
                 'file',
-                'mimes:xlsx,xls,csv'
+                'mimes:xlsx,xls,csv',
             ],
         ], [
             'importDataPegawai.required' => 'File impor wajib diunggah.',
-            'importDataPegawai.file' => 'Berkas harus berupa file.',
-            'importDataPegawai.mimes' => 'Format file harus berupa xlsx, xls, atau csv.',
+            'importDataPegawai.file'     => 'Berkas harus berupa file.',
+            'importDataPegawai.mimes'    => 'Format file harus berupa xlsx, xls, atau csv.',
         ]);
 
         try {
             Excel::import(new DataPegawaiImport, $request->file('importDataPegawai'));
-            flash('Data berhasil diimport!')->success();
+
+            return redirect()->route('data_pegawai.index')
+                ->with('success', 'Data berhasil diimpor!');
+
         } catch (ValidationException $e) {
-            $failures = $e->failures();
+            $failures     = $e->failures();
             $errorMessage = "Gagal mengimpor data. Periksa file Anda.";
 
             foreach ($failures as $failure) {
                 $errorMessage .= " Baris: {$failure->row()}, Kolom: " . implode(', ', $failure->attribute());
             }
-            flash($errorMessage)->error();
-        } catch (\Exception $e) {
-            flash('Import File Gagal. Pastikan format file sesuai dengan template dan struktur data terkini!')->error();
-        }
 
-        return redirect()->route('data_pegawai.index');
+            return redirect()->route('data_pegawai.index')
+                ->with('error', $errorMessage);
+
+        } catch (\Exception $e) {
+            return redirect()->route('data_pegawai.index')
+                ->with('error', 'Impor file gagal. Pastikan format file sesuai dengan template dan struktur data terkini!');
+        }
     }
 }

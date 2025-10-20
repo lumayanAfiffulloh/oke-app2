@@ -140,7 +140,7 @@
       </div>
     </div>
 
-    <!-- Data Table -->
+    <!-- Tabel -->
     <div class="card mb-4 pb-4 bg-white">
       <div class="card-header p-3 bg-white">
         <div class="d-flex justify-content-between align-items-center">
@@ -176,15 +176,15 @@
                 <th class="align-middle" rowspan="2">Tahun <br> Kode</th>
                 <th class="align-middle" rowspan="2">Bentuk</th>
                 <th class="align-middle" rowspan="2">Kegiatan</th>
-                <th class="align-middle" colspan="3">validasi & Validasi</th>
+                <th class="align-middle text-center" colspan="3">Validasi & Verifikasi</th>
                 <th class="align-middle" rowspan="2">Rencana</th>
                 <th class="align-middle" rowspan="2">Keterangan</th>
                 <th class="align-middle" rowspan="2">AKSI</th>
               </tr>
               <tr>
-                <th>Ketua Kelompok</th>
-                <th>Pimpinan Unit Kerja</th>
-                <th>Universitas</th>
+                <th class="align-middle" style="font-size: 0.6rem">Ketua Kelompok</th>
+                <th class="align-middle" style="font-size: 0.6rem">Pimpinan Unit Kerja</th>
+                <th class="align-middle" style="font-size: 0.6rem">Universitas</th>
               </tr>
             </thead>
             <tbody>
@@ -252,36 +252,64 @@
                         @else
                           <div>-</div>
                         @endif
-                      @elseif(
-                          $rencana->kelompokCanValidating->status == 'direvisi' &&
-                              $rencana->kelompokCanValidating->status_revisi == 'belum_direvisi')
-                        <span class="badge text-bg-warning fs-1">Perlu Revisi</span>
-                      @endif
-                      @if ($rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi')
-                        <span class="badge text-bg-warning fs-1">Revisi Belum Dikirim</span>
-                      @elseif($rencana->kelompokCanValidating->status_revisi == 'sudah_direvisi')
-                        <span class="badge text-bg-secondary fs-1">Revisi Ditinjau</span>
+                      @elseif($rencana->kelompokCanValidating->status == 'direvisi')
+                        <span class="badge text-bg-warning fs-1">Direvisi</span>
+                        <span class="fw-semibold">Catatan:</span>
+                        @if ($rencana->kelompokCanValidating->catatanValidasiKelompok->count() > 0)
+                          <ul>
+                            @foreach ($rencana->kelompokCanValidating->catatanValidasiKelompok as $catatan)
+                              <li>{{ $catatan->catatan }}</li>
+                            @endforeach
+                          </ul>
+                        @else
+                          <div>-</div>
+                        @endif
                       @endif
                       <br>
-                      @if ($rencana->kelompokCanValidating->catatanValidasiKelompok->count() > 0)
-                        <span class="fw-semibold">Catatan:</span>
-                        <ul>
-                          @foreach ($rencana->kelompokCanValidating->catatanValidasiKelompok as $catatan)
-                            <li>{{ $catatan->catatan }}</li>
-                          @endforeach
-                        </ul>
-                      @endif
                     @elseif($rencana->status_pengajuan === 'diajukan')
-                      <span class="badge text-bg-primary bg-opacity-75 fs-1">Rencana Ditinjau</span>
+                      <span class="badge text-bg-primary bg-opacity-75 fs-1">Ditinjau</span>
                     @else
                       <span style="font-size: 0.7rem">-</span>
                     @endif
                   </td>
 
-                  {{-- validasi Satker --}}
-                  <td class="px-2">-</td>
+                  {{-- Verifikasi Unit Kerja --}}
+                  <td class="px-2">
+                    @if ($rencana->unitKerjaCanverifying)
+                      @if ($rencana->unitKerjaCanverifying->status == 'disetujui')
+                        <span class="badge text-bg-success fs-1">Disetujui</span><br>
+                        <span class="fw-semibold">Catatan:</span>
+                        @if ($rencana->unitKerjaCanverifying->catatanVerifikasi->count() > 0)
+                          <ul>
+                            @foreach ($rencana->unitKerjaCanverifying->catatanVerifikasi as $catatan)
+                              <li>{{ $catatan->catatan }}</li>
+                            @endforeach
+                          </ul>
+                        @else
+                          <div>-</div>
+                        @endif
+                      @elseif($rencana->unitKerjaCanverifying->status == 'direvisi')
+                        <span class="badge text-bg-warning fs-1">Direvisi</span>
+                        <span class="fw-semibold">Catatan:</span>
+                        @if ($rencana->unitKerjaCanverifying->catatanVerifikasi->count() > 0)
+                          <ul>
+                            @foreach ($rencana->unitKerjaCanverifying->catatanVerifikasi as $catatan)
+                              <li>{{ $catatan->catatan }}</li>
+                            @endforeach
+                          </ul>
+                        @else
+                          <div>-</div>
+                        @endif
+                      @endif
+                      <br>
+                    @elseif($rencana->kelompokCanValidating && $rencana->kelompokCanValidating->status == 'disetujui')
+                      <span class="badge text-bg-primary bg-opacity-75 fs-1">Ditinjau</span>
+                    @else
+                      <span style="font-size: 0.7rem">-</span>
+                    @endif
+                  </td>
 
-                  {{-- validasi Biro SDM --}}
+                  {{-- validasi Universitas --}}
                   <td class="px-2">-</td>
 
                   {{-- RENCANA --}}
@@ -304,7 +332,6 @@
                     @endif
                     <br><span class="fw-semibold">Status:</span>
                     {{ ucwords($rencana->status_pengajuan) }}
-
                   </td>
 
                   {{-- AKSI --}}
@@ -312,76 +339,49 @@
                     <td class="px-2">
                       @if ($rencana->kelompokCanValidating)
                         @if ($rencana->kelompokCanValidating->status == 'disetujui')
-                          <div class="fw-bold">*Rencana yang sudah disetujui tidak bisa dihapus atau diedit</div>
-                        @else
-                          @if ($rencana->kelompokCanValidating->status_revisi != 'sudah_direvisi')
-                            <div class="btn-group" role="group">
-                              {{-- Revisi --}}
-                              <a href="/rencana_pembelajaran/{{ $rencana->id }}/edit" class="btn btn-warning btn-sm"
-                                style="font-size: 0.8rem" title="Revisi"><span class="ti ti-scissors"></span></a>
-
-                              {{-- Kirim Revisi --}}
-                              <form action="{{ route('rencana_pembelajaran.kirim_revisi', $rencana->id) }}"
-                                method="POST" id="kirimRevisiForm-{{ $rencana->id }}">
-                                @csrf
-                                <button type="submit" class="btn btn-success btn-sm rounded-end-1 kirimRevisiAlert"
-                                  data-form-id="kirimRevisiForm-{{ $rencana->id }}"
-                                  style="font-size: 0.8rem; border-radius: 0" title="Kirim Revisi">
-                                  <span class="ti ti-script"></span>
-                                </button>
-                              </form>
-                            </div>
+                          {{-- Cek Unit Kerja --}}
+                          @if ($rencana->unitKerjaCanverifying)
+                            @include('partials.rencana_aksi.aksi_unit_kerja_verifikasi', [
+                                'rencana' => $rencana,
+                            ])
                           @else
-                            <span class="fw-bold">*Rencana yang revisinya sudah dikirim tidak bisa dihapus atau
-                              diedit.</span>
+                            <div class="fw-bold">*Rencana menunggu verifikasi Unit Kerja</div>
                           @endif
-                          @if ($rencana->kelompokCanValidating->status_revisi)
-                            <br>
-                            <span class="fw-semibold">Status Revisi:</span>
-                            <span
-                              class="badge {{ $rencana->kelompokCanValidating->status_revisi == 'belum_direvisi' ? 'text-bg-danger' : ($rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi' ? 'text-bg-warning' : 'text-bg-success') }} fs-1">
-                              {{ $rencana->kelompokCanValidating->status_revisi == 'sedang_direvisi'
-                                  ? 'Revisi perlu dikirim'
-                                  : ucwords(str_replace('_', ' ', $rencana->kelompokCanValidating->status_revisi)) }}
-                            </span>
-                          @endif
+                        @else
+                          @include('partials.rencana_aksi.aksi_kelompok_validating', [
+                              'rencana' => $rencana,
+                          ])
                         @endif
                       @elseif($rencana->status_pengajuan === 'draft')
                         <div class="btn-group" role="group">
-                          {{-- Tombol Edit --}}
                           <a href="/rencana_pembelajaran/{{ $rencana->id }}/edit" class="btn btn-warning btn-sm"
-                            style="font-size: 0.8rem" title="Edit"><span class="ti ti-pencil"></span></a>
-
-                          {{-- Tombol Hapus --}}
+                            style="font-size: 0.8rem" title="Edit">
+                            <span class="ti ti-pencil"></span>
+                          </a>
                           <form action="/rencana_pembelajaran/{{ $rencana->id }}" method="POST"
                             class="d-inline deleteForm">
-                            @csrf
-                            @method('delete')
+                            @csrf @method('delete')
                             <button type="submit" class="btn btn-danger btn-sm deleteAlert"
                               style="font-size: 0.8rem; border-radius: 0" title="Hapus">
                               <span class="ti ti-trash"></span>
                             </button>
                           </form>
-
-                          {{-- Tombol Ajukan --}}
                           <form action="{{ route('rencana.ajukan', $rencana->id) }}" method="POST"
                             id="ajukanForm-{{ $rencana->id }}">
                             @csrf
                             <button type="submit" class="btn btn-success btn-sm rounded-end-1 ajukanAlert"
-                              style="font-size: 0.8rem; border-radius: 0" title="Ajukan validasi"
+                              style="font-size: 0.8rem; border-radius: 0" title="Ajukan verifikasi"
                               data-form-id="ajukanForm-{{ $rencana->id }}">
                               <span class="ti ti-send"></span>
                             </button>
                           </form>
                         </div>
                       @else
-                        <div class="fw-bold">*Rencana tidak bisa dihapus atau diedit selama divalidasi.</div>
+                        <div class="fw-bold">*Rencana mengunggu validasi Ketua Kelompok.</div>
                       @endif
                     </td>
                   @else
-                    <td class="px-2">
-                      Tidak dapat melakukan edit atau hapus di luar tenggat waktu
-                    </td>
+                    <td class="px-2">Tidak dapat melakukan edit atau hapus di luar tenggat waktu</td>
                   @endif
                 </tr>
               @endforeach

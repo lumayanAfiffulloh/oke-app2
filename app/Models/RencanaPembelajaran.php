@@ -1,14 +1,13 @@
 <?php
-
 namespace App\Models;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class RencanaPembelajaran extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded = [];
 
     /**
      *
@@ -18,14 +17,14 @@ class RencanaPembelajaran extends Model
     {
         return $this->belongsTo(DataPegawai::class);
     }
-    
+
     public function dataPendidikan()
     {
         return $this->belongsTo(DataPendidikan::class)->withDefault();
     }
 
     public function dataPelatihan()
-{
+    {
         return $this->belongsTo(DataPelatihan::class)->withDefault();
     }
 
@@ -54,8 +53,13 @@ class RencanaPembelajaran extends Model
         return $this->hasOne(kelompokCanValidating::class, 'rencana_pembelajaran_id');
     }
 
-    public function pegawaiCanVerifying()
+    public function unitKerjaCanVerifying()
     {
-        return $this->hasOne(pegawaiCanVerifying::class, 'rencana_pembelajaran_id');
+        return $this->hasOne(unitKerjaCanVerifying::class, 'rencana_pembelajaran_id');
+    }
+
+    public function universitasCanApproving()
+    {
+        return $this->hasOne(universitasCanApproving::class, 'rencana_pembelajaran_id');
     }
 }

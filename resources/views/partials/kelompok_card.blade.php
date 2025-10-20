@@ -39,10 +39,10 @@
               <td>
                 <div class="btn-group btn-group-sm">
                   <button class="btn btn-success approve-btn" data-id="{{ $rencana->id }}">
-                    <i class="fas fa-check"></i>
+                    <i class="ti ti-check"></i>
                   </button>
                   <button class="btn btn-warning revisi-btn" data-id="{{ $rencana->id }}">
-                    <i class="fas fa-edit"></i>
+                    <i class="ti ti-edit"></i>
                   </button>
                 </div>
               </td>

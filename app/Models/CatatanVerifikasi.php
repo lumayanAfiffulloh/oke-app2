@@ -10,8 +10,8 @@ class CatatanVerifikasi extends Model
 
     protected $guarded = [];
 
-    public function pegawaiCanVerifying()
+    public function unitKerjaCanVerifying()
     {
-        return $this->belongsTo(pegawaiCanVerifying::class, 'pegawai_can_verifying_id');
+        return $this->belongsTo(unitKerjaCanVerifying::class, 'unit_kerja_can_verifying_id');
     }
 }

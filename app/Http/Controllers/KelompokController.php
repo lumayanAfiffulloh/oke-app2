@@ -1,15 +1,12 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Models\Kelompok;
-use App\Models\DataPegawai;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreKelompokRequest;
 use App\Http\Requests\UpdateKelompokRequest;
+use App\Models\DataPegawai;
+use App\Models\Kelompok;
+use App\Models\Role;
+use App\Models\User;
 
 class KelompokController extends Controller
 {
@@ -17,25 +14,16 @@ class KelompokController extends Controller
     {
         $this->middleware('can:admin');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $kelompok = Kelompok::latest()->get();
+        $kelompok    = Kelompok::latest()->get();
         $listPegawai = DataPegawai::where('kelompok_id', 0)->orderBy('nama', 'asc')->get();
 
         return view('kelompok_index', compact('kelompok', 'listPegawai'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $listPegawai = DataPegawai::where('kelompok_id', 0)->orderBy('nama', 'asc')->get();
-        return view('kelompok_create', compact('listPegawai'));
     }
 
     /**
@@ -44,29 +32,29 @@ class KelompokController extends Controller
     public function store(StoreKelompokRequest $request)
     {
         $request->validated();
-    
+
         $ketuaId = $request->id_ketua;
-    
+
         // Buat kelompok baru
         $kelompok = Kelompok::create([
             'id_ketua' => $ketuaId,
         ]);
-    
+
         // Update kelompok_id untuk ketua dan anggota
         DataPegawai::where('id', $ketuaId)->update(['kelompok_id' => $kelompok->id]);
         DataPegawai::whereIn('id', $request->anggota)->update(['kelompok_id' => $kelompok->id]);
-    
+
         // Tambahkan role 'ketua_kelompok' ke user ketua
         $dataPegawai = DataPegawai::find($ketuaId);
-        $user = User::find($dataPegawai->user_id);
-    
-        $roleKetua = Role::firstOrCreate(['role' => 'ketua_kelompok']);
-        if ($user && !$user->roles->contains($roleKetua->id)) {
+        $user        = User::find($dataPegawai->user_id);
+
+        $roleKetua = Role::where('role', 'ketua_kelompok')->first();
+        if ($user && $roleKetua && ! $user->roles->contains($roleKetua->id)) {
             $user->roles()->attach($roleKetua->id);
         }
-    
-        flash('Kelompok berhasil dibuat.')->success();
-        return redirect()->route('kelompok.index');
+
+        return redirect()->route('kelompok.index')
+            ->with('success', 'Kelompok berhasil dibuat!');
     }
 
     public function edit(Kelompok $kelompok)
@@ -75,7 +63,7 @@ class KelompokController extends Controller
             $query->where('kelompok_id', 0) // Pegawai yang belum memiliki kelompok
                 ->orWhere('id', $kelompok->ketua_id)
                 ->orWhere('kelompok_id', $kelompok->id);
-            })->orderBy('nama', 'asc')->get();
+        })->orderBy('nama', 'asc')->get();
         return view('kelompok_edit', compact('kelompok', 'listPegawai'));
     }
 
@@ -103,13 +91,13 @@ class KelompokController extends Controller
         $user = User::find($validatedData['id_ketua']);
         if ($user) {
             $roleKetua = Role::where('role', 'ketua_kelompok')->first();
-            if ($roleKetua && !$user->roles->contains($roleKetua->id)) {
+            if ($roleKetua && ! $user->roles->contains($roleKetua->id)) {
                 $user->roles()->attach($roleKetua->id);
             }
         }
 
-        flash('Kelompok berhasil diperbarui.')->success();
-        return redirect()->route('kelompok.index');
+        return redirect()->route('kelompok.index')
+            ->with('success', 'Kelompok berhasil diperbarui!');
     }
 
     /**
@@ -130,9 +118,8 @@ class KelompokController extends Controller
         }
 
         $kelompok->delete();
-
-        flash('Kelompok berhasil dihapus.')->error();
-        return redirect()->route('kelompok.index');
+        return redirect()->route('kelompok.index')
+            ->with('error', 'Kelompok berhasil dihapus!');
     }
 
     public function reset()
@@ -151,7 +138,7 @@ class KelompokController extends Controller
 
         Kelompok::truncate();
 
-        flash('Kelompok berhasil direset!')->error();
-        return redirect()->route('kelompok.index');
+        return redirect()->route('kelompok.index')
+            ->with('error', 'Kelompok berhasil direset!');
     }
 }

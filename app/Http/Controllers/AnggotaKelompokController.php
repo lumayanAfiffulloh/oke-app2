@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\DataPegawai;
@@ -17,55 +16,53 @@ class AnggotaKelompokController extends Controller
         $pegawai = DataPegawai::where('user_id', Auth::id())->first();
 
         // Inisialisasi variabel dengan nilai default
-        $belumKelompok = (!$pegawai || $pegawai->kelompok_id == 0);
-        $hasKelompok = !$belumKelompok;
-        $isKetua = false;
+        $belumKelompok = (! $pegawai || $pegawai->kelompok_id == 0);
+        $hasKelompok   = ! $belumKelompok;
+        $isKetua       = false;
         $ketuaKelompok = null;
-        $kelompok = null; // Inisialisasi variabel kelompok
+        $kelompok      = null; // Inisialisasi variabel kelompok
 
         if ($hasKelompok) {
             $kelompok = Kelompok::with('ketua')->find($pegawai->kelompok_id);
-            $isKetua = ($kelompok && $kelompok->id_ketua == $pegawai->id);
-            
-            if (!$isKetua && $kelompok) {
+            $isKetua  = ($kelompok && $kelompok->id_ketua == $pegawai->id);
+
+            if (! $isKetua && $kelompok) {
                 $ketuaKelompok = $kelompok->ketua;
             }
         }
 
         $dataPegawai = $hasKelompok && $kelompok
-            ? DataPegawai::with('unitKerja')
-                ->where('kelompok_id', $pegawai->kelompok_id)
-                ->where('id', '!=', $kelompok->id_ketua)
-                ->get()
-            : collect();
+        ? DataPegawai::with('unitKerja')
+            ->where('kelompok_id', $pegawai->kelompok_id)
+            ->where('id', '!=', $kelompok->id_ketua)
+            ->get()
+        : collect();
 
         return view('anggota_kelompok_index', [
-            'dataPegawai' => $dataPegawai,
+            'dataPegawai'   => $dataPegawai,
             'belumKelompok' => $belumKelompok,
-            'isKetua' => $isKetua,
-            'hasKelompok' => $hasKelompok,
+            'isKetua'       => $isKetua,
+            'hasKelompok'   => $hasKelompok,
             'ketuaKelompok' => $ketuaKelompok,
-            'kelompok' => $kelompok // Kirim variabel kelompok ke view
+            'kelompok'      => $kelompok, // Kirim variabel kelompok ke view
         ]);
     }
 
     public function updateWhatsAppLink(Request $request)
     {
         $request->validate([
-            'whatsapp_link' => 'required|url|starts_with:https://chat.whatsapp.com/'
+            'whatsapp_link' => 'required|url|starts_with:https://chat.whatsapp.com/',
         ]);
 
         $kelompok = Kelompok::where('id_ketua', Auth::user()->dataPegawai->id)->firstOrFail();
-        
+
         $kelompok->update([
             'link_grup_whatsapp' => $request->whatsapp_link,
         ]);
 
-        flash('Link grup berhasil diperbarui!')->success();
-        return back();
+        return back()
+            ->with('success', 'Link grup berhasil diperbarui!');
     }
-
-    
 
     /**
      * Show the form for creating a new resource.
